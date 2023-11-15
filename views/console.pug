@@ -1,0 +1,17 @@
+extends base
+
+mixin listEntry(_id, fontSize, text, opacity)
+    p(id= _id, style=`font-size: ${fontSize}px ; \n opacity: ${opacity}`)=text 
+
+
+
+block content
+    main.main
+        span
+            -for (let i = 19; i >= 0; --i)
+                +listEntry(`rc${i}`,50*Math.pow(0.8,i),'loading...',1)
+        form#formx
+            input#attempt(value='' fdprocessedid='7km6ij' style='border-radius: 15px;')
+        span#web
+            -for (let i = 0; i<=3; ++i)
+                +listEntry(`te${i}`,50*Math.pow(0.8,-i),'loading...',1 / Math.pow(1.7, i))

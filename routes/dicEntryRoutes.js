@@ -1,11 +1,12 @@
 const express = require('express');
 const dicEntryController = require('../controllers/dicEntryController');
+const authController = require('../controllers/authController');
 
 const router = express.Router();
 
 router
   .route('/')
-  .get(dicEntryController.getAll)
+  .get(authController.protect, dicEntryController.getAll)
   .post(dicEntryController.createOne);
 
 router
@@ -15,5 +16,3 @@ router
   .delete(dicEntryController.deleteOne);
 
 module.exports = router;
-
-console.log('console');

@@ -16,6 +16,7 @@
     "object-shorthand": "off",
     "no-process-exit": "off",
     "no-param-reassign": "off",
+    "allowForLoopAfterthoughts": true,
     "no-return-await": "off",
     "no-underscore-dangle": "off",
     "class-methods-use-this": "off",

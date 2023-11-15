@@ -8,6 +8,11 @@ const dicEntrySchema = new mongoose.Schema({
       'A dictionary entry must have a target',
     ],
     unique: true,
+    trim: true,
+    maxLength: [
+      39,
+      'A target must have less than 40 characters',
+    ],
   },
   solutions: {
     type: Array,
@@ -32,12 +37,19 @@ const dicEntrySchema = new mongoose.Schema({
     type: Number,
     default: 0,
   },
+  dictionaryName: {
+    type: String,
+    required: [
+      true,
+      'A dictionary entry must belong to a dictionary',
+    ],
+  },
 });
 
 const DicEntry = mongoose.model(
   'DicEntry',
   dicEntrySchema,
-  'PT-EN Dictionary'
+  'Dictionary',
 );
 
 module.exports = DicEntry;
