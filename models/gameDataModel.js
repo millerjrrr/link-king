@@ -11,6 +11,14 @@ const gameDataSchema = new mongoose.Schema({
       'A user can only have one game data document',
     ],
   },
+  rating: {
+    type: Number,
+    default: 1200,
+  },
+  kfactor: {
+    type: Number,
+    default: 20,
+  },
   dueToday: {
     type: Array,
     default: [],
@@ -23,6 +31,9 @@ const gameDataSchema = new mongoose.Schema({
     type: Number,
     default: 0,
   },
+  tail: { type: Array, default: [] },
+  dicPlay: { type: Boolean, default: false },
+  dicWord: { type: Object },
   lastPlayed: {
     type: Number,
     default: dateToNumberStyleDate(Date.now()) - 1,

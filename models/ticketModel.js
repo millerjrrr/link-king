@@ -17,10 +17,7 @@ const ticketSchema = new mongoose.Schema({
   },
   level: {
     type: Number,
-    required: [
-      true,
-      'A dictionary entry must have solution(s)',
-    ],
+    default: 1,
   },
   dueDate: {
     type: Number,
