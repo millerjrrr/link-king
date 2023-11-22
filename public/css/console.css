@@ -1,0 +1,40 @@
+#racetrack {
+  margin-bottom: 0%;
+}
+
+#tail {
+  margin-top: 0%;
+}
+
+#formx {
+  margin: 10px auto;
+  position: relative;
+}
+
+#border {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+#attempt {
+  font-size: 50px;
+  background-color: #000000;
+  color: hsl(0, 0%, 100%);
+  text-align: center;
+  width: 430px;
+  border: none;
+  outline: none;
+  margin: 0 0;
+  border-radius: 15px;
+}
+@media only screen and (max-width: 430px) {
+  #attempt {
+    width: 100%;
+  }
+}
+
+.point {
+  background-color: hsl(0, 0%, 100%);
+  position: absolute;
+}

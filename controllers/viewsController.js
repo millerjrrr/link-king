@@ -6,11 +6,29 @@ exports.homePage = (req, res) => {
 };
 
 exports.statistics = (req, res) => {
-  res.status(200).render('statistics');
+  res.status(200).render('statistics', {
+    title: 'Statistics',
+  });
 };
 exports.console = (req, res) => {
-  res.status(200).render('console');
+  res.status(200).render('console', {
+    title: 'Console',
+  });
 };
 exports.contact = (req, res) => {
-  res.status(200).render('contact');
+  res.status(200).render('contact', {
+    title: 'Contact',
+  });
+};
+
+exports.getLoginForm = (req, res) => {
+  res.status(200).render('login', {
+    title: 'Log In',
+  });
+};
+
+exports.getSignUpForm = (req, res) => {
+  res.status(200).render('signup', {
+    title: 'Sign Up',
+  });
 };

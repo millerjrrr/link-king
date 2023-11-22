@@ -32,11 +32,27 @@ const gameDataSchema = new mongoose.Schema({
     default: 0,
   },
   tail: { type: Array, default: [] },
-  dicPlay: { type: Boolean, default: false },
-  dicWord: { type: Object },
+  dicPlay: { type: Boolean, default: true },
+  dicWord: {
+    type: Object,
+    default: {
+      id: '655cb33efc432b6a6fac86f4',
+      target: 'queda',
+      solutions: ['fall'],
+      rating: 1200,
+    },
+  },
   lastPlayed: {
     type: Number,
-    default: dateToNumberStyleDate(Date.now()) - 1,
+    default: dateToNumberStyleDate(Date.now()),
+  },
+  dictionary: {
+    type: String,
+    default: 'personal',
+  },
+  footsteprank: {
+    type: Number,
+    default: 2,
   },
 });
 

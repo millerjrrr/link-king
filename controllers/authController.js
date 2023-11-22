@@ -1,6 +1,7 @@
 const { promisify } = require('util');
 const jwt = require('jsonwebtoken');
 const User = require('../models/userModel');
+const GameData = require('../models/gameDataModel');
 const catchAsync = require('../utils/catchAsync');
 const AppError = require('../utils/appError');
 
@@ -53,6 +54,13 @@ exports.signup = catchAsync(async (req, res, next) => {
     passwordConfirm: req.body.passwordConfirm,
   });
 
+  GameData.create({
+    user: user._id,
+    dueToday: [],
+    repeats: [],
+    index: 0,
+  });
+
   createSendToken(user, 201, res);
 });
 
@@ -79,6 +87,14 @@ exports.login = catchAsync(async (req, res, next) => {
   createSendToken(user, 201, res);
 });
 
+exports.logout = (req, res) => {
+  res.cookie('jwt', 'loggedout', {
+    expires: new Date(Date.now() + 5 * 1000),
+    httpOnly: true,
+  });
+  res.status(200).json({ status: 'success' });
+};
+
 exports.protect = catchAsync(async (req, res, next) => {
   let token;
   if (
@@ -86,6 +102,8 @@ exports.protect = catchAsync(async (req, res, next) => {
     req.headers.authorization.startsWith('Bearer')
   ) {
     token = req.headers.authorization.split(' ')[1];
+  } else if (req.cookies.jwt) {
+    token = req.cookies.jwt;
   }
 
   if (!token) {
@@ -125,3 +143,30 @@ exports.protect = catchAsync(async (req, res, next) => {
   req.user = freshUser;
   next();
 });
+
+// Important not to use CatchAsync here
+exports.isLoggedIn = async (req, res, next) => {
+  if (req.cookies.jwt) {
+    try {
+      const decoded = await promisify(jwt.verify)(
+        req.cookies.jwt,
+        process.env.JWT_SECRET,
+      );
+
+      const currentUser = await User.findById(decoded.id);
+      if (!currentUser) {
+        return next();
+      }
+
+      if (currentUser.changedPasswordAfter(decoded.iat))
+        return next();
+
+      // There is a logged in user
+      res.locals.user = currentUser; // passes the user to the pug templates
+      return next();
+    } catch (err) {
+      return next();
+    }
+  }
+  next();
+};

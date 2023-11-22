@@ -36,25 +36,26 @@ array.forEach((row) => {
   });
 });
 
-console.log(JSON.stringify(list.slice(1)));
+// console.log(JSON.stringify(list.slice(1)));
 
 const importData = async () => {
   try {
     await DicEntry.create(list.slice(1));
+    console.log('Data successfully created!');
   } catch (err) {
     console.log(err);
   }
 };
 
-// //  DELETE ALL DATA FROM DB
-// const deleteData = async () => {
-//   try {
-//     await DicEntry.deleteMany();
-//     console.log('Data successfully deleted!');
-//   } catch (err) {
-//     console.log(err);
-//   }
-// };
+//  DELETE ALL DATA FROM DB
+const deleteData = async () => {
+  try {
+    await DicEntry.deleteMany();
+    console.log('Data successfully deleted!');
+  } catch (err) {
+    console.log(err);
+  }
+};
 
 // deleteData();
 importData();

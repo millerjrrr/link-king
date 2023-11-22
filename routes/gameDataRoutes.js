@@ -6,19 +6,13 @@ const sendGameState = require('../consoleGamePlayFunctions/sendGameState');
 const router = express.Router();
 
 router.post(
-  '/create',
-  authController.protect,
-  gameDataController.createOne,
-);
-
-router.post(
-  '/newDayUpdate',
-  authController.protect,
-  gameDataController.newDayUpdate,
-);
-
-router.post(
   '/sendGameState',
+  authController.protect,
+  sendGameState,
+);
+
+router.post(
+  '/submitAttempt',
   authController.protect,
   gameDataController.attemptHandler,
   sendGameState,

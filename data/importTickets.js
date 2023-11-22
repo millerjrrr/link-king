@@ -57,3 +57,15 @@ createList()
   .catch((err) => {
     console.error(err);
   });
+
+// //  DELETE ALL DATA FROM DB
+// const deleteData = async () => {
+//   try {
+//     await Ticket.deleteMany();
+//     console.log('Data successfully deleted!');
+//   } catch (err) {
+//     console.log(err);
+//   }
+// };
+
+// deleteData();

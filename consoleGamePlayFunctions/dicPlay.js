@@ -7,18 +7,17 @@ const dateToNumberStyleDate = require('../utils/dateToNumberStyleDate');
 
 exports.wrongAnswer = async (userId, gd) => {
   // Find new dictionary word
+  // if (Math.random() > 0.5)
+  //   dicWord = await getDicWordByRating(gd);
+  // else {
   const dicWord = await DicEntry.findOne({
-    // rating: {
-    //   $gte:
-    //     gd.rating + Math.random() * 50 - 100,
-    //   $lte:
-    //     gd.rating + 50 + Math.random() * 150,
-    // },
-    // An alternative way to get random result based on rank
-    rank: Math.round(Math.random() * 200),
+    rank: gd.footsteprank,
+    dictionaryName: gd.dictionary,
   });
+  gd.footsteprank += 1;
+  // }
+  console.log(dicWord);
 
-  console.log('made it this far');
   const newDicWord = {
     id: dicWord._id,
     target: dicWord.target,
@@ -65,6 +64,7 @@ exports.wrongAnswer = async (userId, gd) => {
       dicPlay: false,
       dicWord: newDicWord,
       tail: [gd.dicWord.solutions[0]],
+      footsteprank: gd.footsteprank,
       // rating: newUserRating,
     },
     {
@@ -75,16 +75,17 @@ exports.wrongAnswer = async (userId, gd) => {
 
 exports.correctAnswer = async (userId, gd) => {
   // Find new dictionary word
+  // if (Math.random() > 0.5)
+  //   dicWord = await getDicWordByRating(gd);
+  // else {
   const dicWord = await DicEntry.findOne({
-    // rating: {
-    //   $gte:
-    //     gd.rating + Math.random() * 50 - 100,
-    //   $lte:
-    //     gd.rating + 50 + Math.random() * 150,
-    // },
-    // An alternative way to get random result based on rank
-    rank: Math.round(Math.random() * 200),
+    dictionaryName: gd.dictionary,
+    rank: gd.footsteprank,
   });
+  gd.footsteprank += 1;
+  // }
+
+  console.log(dicWord);
 
   const modifiedResult = {
     id: dicWord._id,
@@ -98,16 +99,41 @@ exports.correctAnswer = async (userId, gd) => {
 
   gd.tail.unshift(gd.dicWord.target);
   // Update GameData with new DicWord and DicPlay
-  const doc = await GameData.findOneAndUpdate(
+  await GameData.findOneAndUpdate(
     { user: userId },
     {
       dicPlay: true,
       dicWord: modifiedResult,
       tail: gd.tail.slice(0, 4),
+      footsteprank: gd.footsteprank,
       // rating: newUserRating,
     },
     {
       runValidators: true,
     },
   );
+};
+
+const getDicWordByRating = async (gd) => {
+  const intervalCenter =
+    gd.rating - 50 + Math.random() * 100;
+
+  const doc = await DicEntry.findOne({
+    rating: {
+      $gte: intervalCenter,
+    },
+    dictionaryName: gd.dictionary,
+  });
+
+  if (doc) return doc;
+  else {
+    const result = await DicEntry.findOne({
+      rating: {
+        $lte: intervalCenter,
+      },
+      dictionaryName: gd.dictionary,
+    });
+
+    return result;
+  }
 };

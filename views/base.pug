@@ -5,8 +5,12 @@ html
             meta(charset='utf-8')
             meta(name='viewport' content='width=device-width')
             //- link(rel='shortcut icon' type='image/png' href='/img/favicon.png')
-            link(rel='stylesheet' href='css/style.css')
-            title Link-King
+            link(rel='stylesheet' href='css/base.css')
+            link(rel='stylesheet' href='css/console.css')
+            if(title)
+                title Link-King | #{title}
+            else 
+                title Link-King
     body 
         // HEADER
         include _header
@@ -19,4 +23,12 @@ html
         include _footer
 
 
-//- script(src='scripts/main.js')
+        //- script(src='/js/bundle.js')
+        script(src='https://cdnjs.cloudflare.com/ajax/libs/axios/1.6.2/axios.min.js')
+        //- script(src='/js/index.mjs')
+        //- script(src='/js/login.mjs')
+        script(src='/js/bundle.js')
+        
+
+        //In the end use rollup which you already installed to manage
+        // and bundle scripts before sending

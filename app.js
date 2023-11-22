@@ -8,6 +8,7 @@ const helmet = require('helmet');
 const mongoSanitize = require('express-mongo-sanitize');
 // const DOMPurify = require('dompurify');
 const hpp = require('hpp');
+const cookieParser = require('cookie-parser');
 // ------------------------------------------------------
 
 const globalErrorHandler = require('./controllers/errorController');
@@ -27,8 +28,19 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // GLOBAL MIDDLEWARES
 
-// Set security HTTP requests
-app.use(helmet());
+// Set security HTTP headers
+app.use(
+  helmet.contentSecurityPolicy({
+    directives: {
+      defaultSrc: ["'self'", 'https://js.stripe.com/'],
+      scriptSrc: [
+        "'self'",
+        'https://cdnjs.cloudflare.com/ajax/libs/axios/1.6.2/axios.min.js',
+        'https://js.stripe.com/',
+      ],
+    },
+  }),
+);
 
 if (process.env.NODE_ENV === 'development')
   app.use(morgan('dev'));
@@ -46,6 +58,7 @@ app.use('/api', limiter);
 
 // Body parser: reads data from the body into req.body
 app.use(express.json({ limit: '10kb' }));
+app.use(cookieParser());
 
 // Data sanitization against noSQL query injection
 app.use(mongoSanitize());
@@ -55,6 +68,11 @@ app.use(mongoSanitize());
 
 // Prevent parameter pollution
 app.use(hpp());
+
+app.use((req, res, next) => {
+  req.requestTime = new Date().toISOString();
+  next();
+});
 
 // ROUTES
 app.use('/', viewRouter);
