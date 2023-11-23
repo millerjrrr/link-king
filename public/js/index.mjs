@@ -126,6 +126,12 @@ const updateColor = () => {
   updateBorderColor();
 };
 
+function speakText(text) {
+  const utterance = new SpeechSynthesisUtterance(text);
+  utterance.lang = 'pt-BR';
+  speechSynthesis.speak(utterance);
+}
+
 const sendResultAndUpdate = async (correct) => {
   try {
     const res = await axios.post(
@@ -138,6 +144,7 @@ const sendResultAndUpdate = async (correct) => {
       solutions = res.data.data.attempt.solutions;
       tries = res.data.data.tries;
       updateColor();
+      speakText(res.data.data.attempt.target);
     }
   } catch (err) {
     console.log(err);
@@ -169,9 +176,10 @@ const updatePageValues = async () => {
     );
 
     if (res.data.status === 'success') {
-      await updateRaceTrack(res.data);
+      updateRaceTrack(res.data);
       solutions = res.data.data.attempt.solutions;
       tries = res.data.data.tries;
+      updateColor();
     }
   } catch (err) {
     console.log(err);
@@ -186,241 +194,6 @@ const updateRaceTrack = (res) => {
   for (i = 0; i < 4; ++i)
     tail[i].innerText = res.data.tail[i] || '';
 };
-
-function oldDrawFormBorder() {
-  //draw the border inside the forLoop
-  for (i = 1; i <= perimeter; ++i) {
-    if (i < a / 2 - radius) {
-      border.appendChild(
-        elt('div', {
-          class: 'point',
-          id: `point${i}`,
-          style: `width:${pointR}px; height:${pointR}px;
-    left:${rect.left + a / 2 + i - pointR / 2}px ; 
-    top:${rect.top - pointR / 2}px;
-    `,
-        }),
-      );
-    } else if (
-      i <
-      a / 2 - radius + (Math.PI * radius) / 2
-    ) {
-      angle = Math.PI / 2 - (i - a / 2 + radius) / radius;
-      border.appendChild(
-        elt('div', {
-          class: 'point',
-          id: `point${i}`,
-          style: `width:${pointR}px; height:${pointR}px;
-      left:${
-        rect.left +
-        a -
-        radius +
-        radius * Math.cos(angle) -
-        pointR / 2
-      }px ; 
-      top:${
-        rect.top +
-        radius -
-        radius * Math.sin(angle) -
-        pointR / 2
-      }px;
-      `,
-        }),
-      );
-    } else if (
-      i <
-      a / 2 - 3 * radius + (Math.PI * radius) / 2 + b
-    ) {
-      border.appendChild(
-        elt('div', {
-          class: 'point',
-          id: `point${i}`,
-          style: `width:${pointR}px; height:${pointR}px;
-      left:${rect.left + a - pointR / 2}px ; 
-      top:${
-        rect.top +
-        radius +
-        i -
-        (a / 2 - radius + (Math.PI * radius) / 2) -
-        pointR / 2
-      }px;
-      `,
-        }),
-      );
-    } else if (
-      i <
-      a / 2 - 3 * radius + Math.PI * radius + b
-    ) {
-      border.appendChild(
-        elt('div', {
-          class: 'point',
-          id: `point${i}`,
-          style: `width:${pointR}px; height:${pointR}px;
-      left:${
-        rect.left +
-        a -
-        radius +
-        radius *
-          Math.cos(
-            (i -
-              (a / 2 -
-                3 * radius +
-                (Math.PI * radius) / 2 +
-                b)) /
-              radius,
-          ) -
-        pointR / 2
-      }px ; 
-      top:${
-        rect.top +
-        b -
-        radius +
-        radius *
-          Math.sin(
-            (i -
-              (a / 2 -
-                3 * radius +
-                (Math.PI * radius) / 2 +
-                b)) /
-              radius,
-          ) -
-        pointR / 2
-      }px;
-      `,
-        }),
-      );
-    } else if (
-      i <
-      (3 * a) / 2 - 5 * radius + Math.PI * radius + b
-    ) {
-      border.appendChild(
-        elt('div', {
-          class: 'point',
-          id: `point${i}`,
-          style: `width:${pointR}px; height:${pointR}px;
-      left:${
-        rect.left +
-        a -
-        radius -
-        i +
-        a / 2 -
-        3 * radius +
-        Math.PI * radius +
-        b -
-        pointR / 2
-      }px ; 
-      top:${rect.top + b - pointR / 2}px;
-      `,
-        }),
-      );
-    } else if (
-      i <
-      (3 * a) / 2 -
-        5 * radius +
-        (3 * Math.PI * radius) / 2 +
-        b
-    ) {
-      rel =
-        i -
-        ((3 * a) / 2 - 5 * radius + Math.PI * radius + b); // rel is i -(section start)
-      angle = Math.PI / 2 + rel / radius;
-      border.appendChild(
-        elt('div', {
-          class: 'point',
-          id: `point${i}`,
-          style: `width:${pointR}px; height:${pointR}px;
-      left:${
-        rect.left +
-        radius +
-        radius * Math.cos(-angle) -
-        pointR / 2
-      }px ; 
-      top:${
-        rect.top +
-        b -
-        radius -
-        radius * Math.sin(-angle) -
-        pointR / 2
-      }px;
-      `,
-        }),
-      );
-    } else if (
-      i <
-      (3 * a) / 2 -
-        7 * radius +
-        (3 * Math.PI * radius) / 2 +
-        2 * b
-    ) {
-      rel =
-        i -
-        ((3 * a) / 2 -
-          5 * radius +
-          (3 * Math.PI * radius) / 2 +
-          b); // rel is i -(section start)
-      border.appendChild(
-        elt('div', {
-          class: 'point',
-          id: `point${i}`,
-          style: `width:${pointR}px; height:${pointR}px;
-      left:${rect.left - pointR / 2}px ; 
-      top:${rect.top + b - radius - rel - pointR / 2}px;
-      `,
-        }),
-      );
-    } else if (
-      i <
-      (3 * a) / 2 -
-        7 * radius +
-        2 * Math.PI * radius +
-        2 * b
-    ) {
-      rel =
-        i -
-        ((3 * a) / 2 -
-          7 * radius +
-          (3 * Math.PI * radius) / 2 +
-          2 * b); // rel is i -(section start)
-      border.appendChild(
-        elt('div', {
-          class: 'point',
-          id: `point${i}`,
-          style: `width:${pointR}px; height:${pointR}px;
-      left:${
-        rect.left +
-        radius -
-        radius * Math.cos(rel / radius) -
-        pointR / 2
-      }px ; 
-      top:${
-        rect.top +
-        radius -
-        radius * Math.sin(rel / radius) -
-        pointR / 2
-      }px;
-      `,
-        }),
-      );
-    } else {
-      rel =
-        i -
-        ((3 * a) / 2 -
-          7 * radius +
-          2 * Math.PI * radius +
-          2 * b); // rel is i -(section start)
-      border.appendChild(
-        elt('div', {
-          class: 'point',
-          id: `point${i}`,
-          style: `width:${pointR}px; height:${pointR}px;
-      left:${rect.left + radius + rel - pointR / 2}px ; 
-      top:${rect.top - pointR / 2}px;
-      `,
-        }),
-      );
-    }
-  }
-}
 
 function drawFormBorder() {
   //draw the border inside the forLoop
@@ -679,9 +452,13 @@ if (form)
         sendResultAndUpdate(true);
         startTheFormTimer();
         form.value = '';
+        speakText();
 
         // If the answer is wrong
-      } else wrongAnswerReturned();
+      } else {
+        wrongAnswerReturned();
+        speakText();
+      }
     }
   });
 
@@ -720,6 +497,7 @@ if (logoutBtn)
   logoutBtn.addEventListener('click', (e) => {
     logout();
   });
+
 // Form Timer Management
 
 // function padTo2Digits(num) {

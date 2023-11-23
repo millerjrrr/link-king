@@ -1,0 +1,31 @@
+.loginform {
+  display: block;
+  font-size: 40px;
+  color: #ffffff;
+  width: auto;
+  justify-content: right;
+}
+
+.form__group {
+  text-align: right;
+  margin: 10 0;
+}
+
+.form__input {
+  background-color: #000000;
+  color: hsl(0, 0%, 100%);
+  border: none;
+  outline: none;
+  margin: 10px 0px;
+  font-size: 1em;
+  text-align: center;
+  border-radius: 10px;
+}
+
+.submitentries {
+  margin-top: 10px;
+}
+
+.login_font {
+  font-size: 1em;
+}

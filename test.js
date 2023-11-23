@@ -1,39 +1,45 @@
-function normalize(inputString) {
-  const accentsMap = {
-    á: 'a',
-    é: 'e',
-    í: 'i',
-    ó: 'o',
-    ú: 'u',
-    à: 'a',
-    è: 'e',
-    ì: 'i',
-    ò: 'o',
-    ù: 'u',
-    â: 'a',
-    ê: 'e',
-    î: 'i',
-    ô: 'o',
-    û: 'u',
-    ã: 'a',
-    õ: 'o',
-    ñ: 'n',
-    ç: 'c',
-  };
+const mongoose = require('mongoose');
+const dotenv = require('dotenv');
+const Ticket = require('./models/ticketModel');
 
-  inputString = inputString.toLowerCase();
+dotenv.config({ path: './config.env' });
+// It is important that this^^comes before requiring the app
+const app = require('./app');
 
-  return inputString
-    .replace(/[áéíóúàèìòùâêîôûãõñç]/gi, function (matched) {
-      return accentsMap[matched];
-    })
-    .replace(
-      /['"!@#$%¨&*\[\]\(\)_\-`´\{\}^~<,>.:;?/\+\-\=]/g,
-      '',
-    );
-}
+// Handling uncaught exceptions/errors
+process.on('uncaughtException', (err) => {
+  console.log('UNCAUGHT EXCEPTION! 💥 Shutting down...');
+  console.log(err);
+  process.exit(1);
+});
 
-// =`´\{\}^~<,>.:;?/
+//CONNECTING TO MONGOOSE
+const DB = process.env.DATABASE.replace(
+  '<PASSWORD>',
+  process.env.DATABASE_PASSWORD,
+);
 
-let test = 'test["!@#$%¨&*()_-+=`´{}^~<,>.:;?/';
-console.log(normalize(test));
+mongoose
+  .connect(DB)
+  .then(() => console.log('DB connection successful!'));
+
+const update = async () => {
+  let increase = Math.round(Math.random() * 7);
+  return await Ticket.findOneAndUpdate(
+    { dueDate: { $lte: 45253 } },
+    [
+      {
+        $set: {
+          dueDate: {
+            $add: ['$dueDate', increase],
+          },
+        },
+      },
+    ],
+    {
+      runValidators: true,
+    },
+  );
+};
+
+for (i = 1; i <= 145; ++i) update();

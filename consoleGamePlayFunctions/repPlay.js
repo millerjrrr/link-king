@@ -35,7 +35,7 @@ exports.correctAnswer = async (userId, gd) => {
     // Update the tail
     gd.tail.unshift(gd.dueToday[0].target);
     // Update the ticket database
-    Ticket.findOneAndUpdate(
+    await Ticket.findOneAndUpdate(
       { _id: gd.dueToday[0].id },
       [
         {
@@ -106,7 +106,7 @@ exports.wrongAnswer = async (userId, gd) => {
     // Update the tail
     gd.tail = gd.dueToday[0].solutions[0];
     // Update the ticket database
-    Ticket.findOneAndUpdate(
+    await Ticket.findOneAndUpdate(
       { _id: gd.dueToday[0].id },
       {
         level: 1,

@@ -2,15 +2,11 @@ extends base
 
 block content
     main.main
-        div.positioner 
-            div.loginform.centered
-                h2 Log into your account
-                form#loginform.form
-                    .form__group
-                        label.form__label(for='email') Email:
-                        input#email.form__input(type='email', placeholder='you@example.com', required)
-                    .form__group
-                        label.form__label(for='password') Password:
-                        input#password.form__input(type='password', placeholder='••••••••', required, minlength='8')
-                    .form__group
-                        button#loginbtn.btn.btn--green Login
+        div.loginform
+            form#loginform
+                .form__group
+                    input#email.form__input(type='email', placeholder='you@example.com', required)
+                .form__group
+                    input#password.form__input(type='password', placeholder='••••••••', required, minlength='8')
+                .submitentries
+                    button#loginbtn.nav__el.login_font Log In

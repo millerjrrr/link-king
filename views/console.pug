@@ -1,7 +1,7 @@
 extends base
 
 mixin listEntry(_id, fontSize, text, opacity)
-    p(id= _id, style=`font-size: ${fontSize}px ; \n opacity: ${opacity}`)=text 
+    p(id= _id, translate = "no", style=`font-size: ${fontSize}px ; \n opacity: ${opacity}`)=text 
 
 block content
     main.main

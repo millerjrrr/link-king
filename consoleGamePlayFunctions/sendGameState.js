@@ -71,6 +71,8 @@ const newDayUpdate = async (user) => {
       repeats: [],
       index: 0,
       lastPlayed: dateToNumberStyleDate(Date.now()),
+      tail: [],
+      dicPlay: false,
     },
     {
       runValidators: true,
