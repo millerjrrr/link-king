@@ -1,7 +1,11 @@
 // import axios from 'axios';
 import { login, logout, signup } from './login.mjs';
-import { answerAccepted } from './consoleFunctions.mjs';
+import {
+  elt,
+  answerAccepted,
+} from './consoleFunctions.mjs';
 import { showAlert } from './alerts.mjs';
+import { searchAndUpdate } from './dictionary.mjs';
 
 ////////////////////////////////////////////////////////////////////
 // Console elements
@@ -37,17 +41,6 @@ if (form) {
   perimeter =
     b * 2 + a * 2 - radius * 8 + 2 * Math.PI * radius;
 }
-
-const elt = (name, attrs, ...children) => {
-  let dom = document.createElement(name);
-  for (let attr of Object.keys(attrs)) {
-    dom.setAttribute(attr, attrs[attr]);
-  }
-  for (let child of children) {
-    dom.appendChild(child);
-  }
-  return dom;
-};
 
 let border = document.getElementById('border');
 let rel, angle;
@@ -497,6 +490,23 @@ if (logoutBtn)
   logoutBtn.addEventListener('click', (e) => {
     logout();
   });
+
+///////////////////////////////////////////////////////////////////
+///// DICTIONARY SEARCH ELEMENTS
+
+const searchform = document.getElementById(
+  'searchdictionary',
+);
+
+const searchAndUpdateValue = () =>
+  searchAndUpdate(searchform.value);
+
+if (searchform) {
+  searchform.addEventListener('keydown', async (e) => {
+    clearTimeout(responseTimer);
+    responseTimer = setTimeout(searchAndUpdateValue, 500);
+  });
+}
 
 // Form Timer Management
 

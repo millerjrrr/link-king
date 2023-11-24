@@ -35,6 +35,9 @@ exports.correctAnswer = async (userId, gd) => {
     // Update the tail
     gd.tail.unshift(gd.dueToday[0].target);
     // Update the ticket database
+    const todayNumberStyle = dateToNumberStyleDate(
+      Date.now(),
+    );
     await Ticket.findOneAndUpdate(
       { _id: gd.dueToday[0].id },
       [
@@ -42,7 +45,7 @@ exports.correctAnswer = async (userId, gd) => {
           $set: {
             dueDate: {
               $add: [
-                '$dueDate',
+                todayNumberStyle,
                 {
                   $pow: [2, '$level'],
                   // If we get it right in these circumstances

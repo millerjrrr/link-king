@@ -15,9 +15,19 @@ class APIFeatures {
     ];
     excludedFields.forEach((el) => delete queryObj[el]);
 
+    if (this.queryString.pattern) {
+      const regex = new RegExp(this.queryString.pattern);
+
+      this.query = this.query.find({
+        target: { $regex: regex },
+      });
+      return this;
+    }
+
     let queryStr = JSON.stringify(queryObj);
+    console.log(queryStr);
     queryStr = queryStr.replace(
-      /\b(gte|gt|lte|lt)\b/g,
+      /\b(gte|gt|lte|lt|regex)\b/g,
       (match) => `$${match}`,
     );
 
@@ -32,7 +42,7 @@ class APIFeatures {
         .join(' ');
       this.query = this.query.sort(sortBy);
     } else {
-      this.query = this.query.sort('-rank');
+      this.query = this.query.sort('target');
     }
     return this;
   }

@@ -3,7 +3,6 @@ const DicEntry = require('../models/dicEntryModel');
 const Ticket = require('../models/ticketModel');
 const AppError = require('../utils/appError');
 const catchAsync = require('../utils/catchAsync');
-const dateToNumberStyleDate = require('../utils/dateToNumberStyleDate');
 const dicPlay = require('../consoleGamePlayFunctions/dicPlay');
 const repPlay = require('../consoleGamePlayFunctions/repPlay');
 const sendGameState = require('../consoleGamePlayFunctions/sendGameState');

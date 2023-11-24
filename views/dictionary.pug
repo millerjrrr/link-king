@@ -1,0 +1,15 @@
+extends base
+
+block content
+    main.topmain
+        div#dictionarynotification(style="visibility: hidden") add word to learning queue
+        div.searchform
+            input#searchdictionary.searchform__input(placeholder='Lookup a word...')
+        div.searchresults
+            table#dictionarytable.dictionarytable
+                tbody
+                    each result in results
+                        tr.nav__el 
+                            td.leftcolumn(translate="no")= result.target
+                            td.rightcolumn(translate="no")= result.solutions.toString().split(',').join(' // ')
+                            td.addfield +

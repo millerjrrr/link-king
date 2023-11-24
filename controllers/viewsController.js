@@ -1,5 +1,6 @@
-// const catchAsync = require('../utils/catchAsync');
-// const AppError = require('../utils/appError');
+const DicEntry = require('../models/dicEntryModel');
+const catchAsync = require('../utils/catchAsync');
+const APIFeatures = require('../utils/apiFeatures');
 
 exports.homePage = (req, res) => {
   res.status(200).render('homepage');
@@ -15,11 +16,24 @@ exports.console = (req, res) => {
     title: 'Console',
   });
 };
-exports.contact = (req, res) => {
-  res.status(200).render('contact', {
-    title: 'Contact',
+exports.dictionary = catchAsync(async (req, res) => {
+  // const results = await DicEntry.find();
+  const features = new APIFeatures(
+    DicEntry.find(),
+    req.query,
+  )
+    .filter()
+    .sort()
+    .limitFields()
+    .paginate();
+
+  const results = await features.query;
+
+  res.status(200).render('dictionary', {
+    title: 'Dictionary',
+    results,
   });
-};
+});
 
 exports.getLoginForm = (req, res) => {
   res.status(200).render('login', {

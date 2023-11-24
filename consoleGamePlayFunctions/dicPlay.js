@@ -16,7 +16,6 @@ exports.wrongAnswer = async (userId, gd) => {
   });
   gd.footsteprank += 1;
   // }
-  console.log(dicWord);
 
   const newDicWord = {
     id: dicWord._id,
@@ -35,7 +34,7 @@ exports.wrongAnswer = async (userId, gd) => {
     },
     {
       level: 1,
-      dueData: dateToNumberStyleDate(Date.now()),
+      dueDate: dateToNumberStyleDate(Date.now()) + 1,
     },
     {
       upsert: true,
@@ -84,8 +83,6 @@ exports.correctAnswer = async (userId, gd) => {
   });
   gd.footsteprank += 1;
   // }
-
-  console.log(dicWord);
 
   const modifiedResult = {
     id: dicWord._id,

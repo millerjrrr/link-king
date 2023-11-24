@@ -17,7 +17,7 @@ router.get(
   viewsController.console,
 );
 
-router.get('/contact', viewsController.contact);
+router.get('/dictionary', viewsController.dictionary);
 
 router.get('/login', viewsController.getLoginForm);
 router.get('/signUp', viewsController.getSignUpForm);
