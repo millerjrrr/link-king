@@ -1,0 +1,29 @@
+.cont {
+  display: grid;
+  grid-template-columns: repeat(
+    3,
+    1fr
+  ); /* Adjust the number of columns */
+  gap: 5%; /* Add some gap between boxes */
+  height: 70vh;
+  width: 70%;
+}
+
+.statsholder {
+  font-size: auto;
+  color: #ffffff;
+  background-color: hsl(0, 0%, 21%);
+  width: auto;
+  height: 100%;
+  border: none;
+  outline: none;
+  border-radius: 10px;
+}
+
+#statsholderTable {
+  text-align: center;
+  vertical-align: middle;
+  position: relative;
+  top: 50%;
+  left: 50%;
+}

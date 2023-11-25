@@ -6,26 +6,39 @@ const dateToNumberStyleDate = require('../utils/dateToNumberStyleDate');
 
 // const calculateEloRating = require('./consoleGamePlayFunctions/calculateEloRating');
 
-exports.correctAnswer = async (userId, gd) => {
+exports.correctAnswer = async (req, gd) => {
   // Update if attempt is inside repeats
   if (gd.index < gd.repeats.length) {
     // Update the tail
     if (gd.index === 0) gd.tail = [gd.repeats[0].target];
     else gd.tail.unshift(gd.repeats[gd.index].target);
-    // Update the index
-    gd.index += 1;
     // Update dictionary play variable
     const dicPlay =
       gd.dueToday.length === 0 &&
-      gd.index === gd.repeats.length;
+      gd.index + 1 === gd.repeats.length;
+
+    const streakTodayPlus =
+      gd.streakCurrent >= gd.streakToday ? 1 : 0;
+
+    const streakRecordPlus =
+      gd.streakCurrent >= gd.streakRecord ? 1 : 0;
 
     // Update game data
     const doc = await GameData.findOneAndUpdate(
-      { user: userId },
+      { user: req.user.id },
       {
-        index: gd.index,
         dicPlay,
         tail: gd.tail,
+        $inc: {
+          streakCurrent: 1,
+          streakToday: streakTodayPlus,
+          streakRecord: streakRecordPlus,
+          index: 1,
+          stepsTakenToday: 1,
+          stepsTakenLifetime: 1,
+          timePlayingToday: req.body.time,
+          timePlayingLifetime: req.body.time,
+        },
       },
       {
         runValidators: true,
@@ -67,11 +80,18 @@ exports.correctAnswer = async (userId, gd) => {
     const dicPlay = gd.dueToday.length === 0;
     // Update game data
     await GameData.findOneAndUpdate(
-      { user: userId },
+      { user: req.user.id },
       {
         dicPlay,
         dueToday: gd.dueToday,
         tail: gd.tail,
+        $inc: {
+          streakCurrent: 1,
+          stepsTakenToday: 1,
+          stepsTakenLifetime: 1,
+          timePlayingToday: req.body.time,
+          timePlayingLifetime: req.body.time,
+        },
       },
       {
         runValidators: true,
@@ -80,7 +100,7 @@ exports.correctAnswer = async (userId, gd) => {
   }
 };
 
-exports.wrongAnswer = async (userId, gd) => {
+exports.wrongAnswer = async (req, gd) => {
   // Update if attempt is inside repeats
   if (gd.index < gd.repeats.length) {
     if (gd.index > 0) {
@@ -95,11 +115,18 @@ exports.wrongAnswer = async (userId, gd) => {
     }
     // Update game data
     const doc = await GameData.findOneAndUpdate(
-      { user: userId },
+      { user: req.user.id },
       {
         index: 0,
+        streakCurrent: 0,
         tail: gd.tail,
         repeats: gd.repeats.slice(0, 5),
+        $inc: {
+          stepsTakenToday: 1,
+          stepsTakenLifetime: 1,
+          timePlayingToday: req.body.time,
+          timePlayingLifetime: req.body.time,
+        },
       },
       {
         runValidators: true,
@@ -126,12 +153,19 @@ exports.wrongAnswer = async (userId, gd) => {
     gd.dueToday.shift();
     // Update game data
     await GameData.findOneAndUpdate(
-      { user: userId },
+      { user: req.user.id },
       {
         index: 0,
+        streakCurrent: 0,
         dueToday: gd.dueToday,
         repeats: gd.repeats.slice(0, 5),
         tail: gd.tail,
+        $inc: {
+          stepsTakenToday: 1,
+          stepsTakenLifetime: 1,
+          timePlayingToday: req.body.time,
+          timePlayingLifetime: req.body.time,
+        },
       },
       {
         runValidators: true,

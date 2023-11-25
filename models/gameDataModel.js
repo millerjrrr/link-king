@@ -15,6 +15,14 @@ const gameDataSchema = new mongoose.Schema({
     type: Number,
     default: 1200,
   },
+  ratingPeak: {
+    type: Number,
+    default: 1200,
+  },
+  ratingPlays: {
+    type: Number,
+    default: 0,
+  },
   kfactor: {
     type: Number,
     default: 20,
@@ -53,6 +61,38 @@ const gameDataSchema = new mongoose.Schema({
   footsteprank: {
     type: Number,
     default: 2,
+  },
+  timePlayingLifetime: {
+    type: Number,
+    default: 0,
+  },
+  timePlayingToday: {
+    type: Number,
+    default: 0,
+  },
+  stepsTakenLifetime: {
+    type: Number,
+    default: 0,
+  },
+  stepsTakenToday: {
+    type: Number,
+    default: 0,
+  },
+  collectedWordsDayStart: {
+    type: Number,
+    default: 0,
+  },
+  streakRecord: {
+    type: Number,
+    default: 0,
+  },
+  streakToday: {
+    type: Number,
+    default: 0,
+  },
+  streakCurrent: {
+    type: Number,
+    default: 0,
   },
 });
 

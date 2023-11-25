@@ -48,6 +48,9 @@ const newDayUpdate = async (user) => {
   };
   console.log(filter);
 
+  const collectedWordsDayStart =
+    await Ticket.countDocuments({ user });
+
   const dueToday = await Ticket.find(filter)
     .populate({
       path: 'dicEntry',
@@ -70,9 +73,15 @@ const newDayUpdate = async (user) => {
       dueToday: modifiedResults,
       repeats: [],
       index: 0,
+      timePlayingToday: 0,
+      stepsTakenToday: 0,
+      paceToday: 0,
+      streakToday: 0,
+      streakCurrent: 0,
       lastPlayed: dateToNumberStyleDate(Date.now()),
       tail: [],
       dicPlay: false,
+      collectedWordsDayStart,
     },
     {
       runValidators: true,

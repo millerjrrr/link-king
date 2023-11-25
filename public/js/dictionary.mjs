@@ -81,5 +81,20 @@ const visible = () => {
 };
 
 const addWordToQueue = async (e) => {
-  console.log(e.target.parentNode.firstChild.innerText);
+  const target = e.target.parentNode.firstChild.innerText;
+  const res = await axios.post('/api/v1/tickets', {
+    target,
+  });
+
+  if (res.data.status === 'success') {
+    showAlert(
+      'success',
+      'This word has been added to your queue',
+    );
+  } else {
+    showAlert(
+      'error',
+      'This word is already in your queue',
+    );
+  }
 };

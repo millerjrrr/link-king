@@ -15,16 +15,16 @@ exports.attemptHandler = catchAsync(
 
     // Correct answer + Dictionary Play
     if (req.body.correct && gd.dicPlay)
-      await dicPlay.correctAnswer(req.user.id, gd);
+      await dicPlay.correctAnswer(req, gd);
     // Wrong Answer + Dictionary Play
     if (!req.body.correct && gd.dicPlay)
-      await dicPlay.wrongAnswer(req.user.id, gd);
+      await dicPlay.wrongAnswer(req, gd);
     // Correct answer + repPlay
     if (req.body.correct && !gd.dicPlay)
-      await repPlay.correctAnswer(req.user.id, gd);
+      await repPlay.correctAnswer(req, gd);
     // Wrong answer + repPlay
     if (!req.body.correct && !gd.dicPlay)
-      await repPlay.wrongAnswer(req.user.id, gd);
+      await repPlay.wrongAnswer(req, gd);
     next();
   },
 );

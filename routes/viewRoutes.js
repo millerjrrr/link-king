@@ -10,7 +10,11 @@ router.use(authController.isLoggedIn);
 
 router.get('/', viewsController.homePage);
 
-router.get('/statistics', viewsController.statistics);
+router.get(
+  '/statistics',
+  authController.protect,
+  viewsController.statistics,
+);
 router.get(
   '/console',
   authController.protect,

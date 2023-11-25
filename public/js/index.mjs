@@ -20,7 +20,7 @@ let form = document.getElementById('attempt'),
   formColor,
   responseTimer, //countdown timer for how long left to respond
   intervalTimer, //time management
-  // let timePlaying; //time management
+  time = 0, //time management
   solutions,
   tries,
   rect,
@@ -77,7 +77,7 @@ const hideTheBorderInSeconds = (delay = 2, timer = 8) => {
       i = i + 1;
     }
     j = j + 1;
-    // timePlaying += step;
+    time += step; // time management
   }
   intervalTimer = setInterval(
     hideBorderPointWithDelay,
@@ -129,9 +129,9 @@ const sendResultAndUpdate = async (correct) => {
   try {
     const res = await axios.post(
       '/api/v1/gameData/submitAttempt',
-      { correct },
+      { correct, time },
     );
-
+    time = 0;
     if (res.data.status === 'success') {
       updateRaceTrack(res.data);
       solutions = res.data.data.attempt.solutions;
@@ -502,6 +502,7 @@ const searchAndUpdateValue = () =>
   searchAndUpdate(searchform.value);
 
 if (searchform) {
+  searchAndUpdateValue();
   searchform.addEventListener('keydown', async (e) => {
     clearTimeout(responseTimer);
     responseTimer = setTimeout(searchAndUpdateValue, 500);

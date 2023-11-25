@@ -1,16 +1,57 @@
+const mongoose = require('mongoose');
 const DicEntry = require('../models/dicEntryModel');
 const catchAsync = require('../utils/catchAsync');
 const APIFeatures = require('../utils/apiFeatures');
+const GameData = require('../models/gameDataModel');
+const Ticket = require('../models/ticketModel');
 
 exports.homePage = (req, res) => {
   res.status(200).render('homepage');
 };
 
-exports.statistics = (req, res) => {
+exports.statistics = catchAsync(async (req, res) => {
+  const user = new mongoose.Types.ObjectId(req.user.id);
+
+  const usergamedata = await GameData.findOne({
+    user,
+  });
+
+  const levelbreakdown = await Ticket.aggregate([
+    {
+      $match: {
+        user,
+      },
+    },
+    {
+      $group: {
+        _id: '$level',
+        frequency: { $sum: 1 },
+      },
+    },
+    {
+      $project: {
+        _id: 0,
+        level: '$_id',
+        frequency: 1,
+      },
+    },
+    {
+      $sort: { level: 1 },
+    },
+  ]);
+  const wordscollected = await Ticket.countDocuments({
+    user,
+  });
+
+  console.log(usergamedata, levelbreakdown, wordscollected);
   res.status(200).render('statistics', {
     title: 'Statistics',
+    usergamedata,
+    levelbreakdown,
+    wordscollected,
   });
-};
+});
+
 exports.console = (req, res) => {
   res.status(200).render('console', {
     title: 'Console',

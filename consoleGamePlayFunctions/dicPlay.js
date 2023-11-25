@@ -5,7 +5,7 @@ const dateToNumberStyleDate = require('../utils/dateToNumberStyleDate');
 
 // const calculateEloRating = require('./consoleGamePlayFunctions/calculateEloRating');
 
-exports.wrongAnswer = async (userId, gd) => {
+exports.wrongAnswer = async (req, gd) => {
   // Find new dictionary word
   // if (Math.random() > 0.5)
   //   dicWord = await getDicWordByRating(gd);
@@ -14,7 +14,6 @@ exports.wrongAnswer = async (userId, gd) => {
     rank: gd.footsteprank,
     dictionaryName: gd.dictionary,
   });
-  gd.footsteprank += 1;
   // }
 
   const newDicWord = {
@@ -29,7 +28,7 @@ exports.wrongAnswer = async (userId, gd) => {
 
   const ticket = await Ticket.findOneAndUpdate(
     {
-      user: userId,
+      user: req.user.id,
       dicEntry: gd.dicWord.id,
     },
     {
@@ -56,14 +55,21 @@ exports.wrongAnswer = async (userId, gd) => {
   gd.repeats.unshift(newRepeat);
   // Update GameData with new DicWord and DicPlay
   const doc = await GameData.findOneAndUpdate(
-    { user: userId },
+    { user: req.user.id },
     {
       index: 0,
       repeats: gd.repeats.slice(0, 5),
       dicPlay: false,
       dicWord: newDicWord,
       tail: [gd.dicWord.solutions[0]],
-      footsteprank: gd.footsteprank,
+      $inc: {
+        footsteprank: 1,
+        stepsTakenToday: 1,
+        stepsTakenLifetime: 1,
+        timePlayingToday: req.body.time,
+        timePlayingLifetime: req.body.time,
+      },
+      streakCurrent: 0,
       // rating: newUserRating,
     },
     {
@@ -72,7 +78,7 @@ exports.wrongAnswer = async (userId, gd) => {
   );
 };
 
-exports.correctAnswer = async (userId, gd) => {
+exports.correctAnswer = async (req, gd) => {
   // Find new dictionary word
   // if (Math.random() > 0.5)
   //   dicWord = await getDicWordByRating(gd);
@@ -81,7 +87,6 @@ exports.correctAnswer = async (userId, gd) => {
     dictionaryName: gd.dictionary,
     rank: gd.footsteprank,
   });
-  gd.footsteprank += 1;
   // }
 
   const modifiedResult = {
@@ -94,15 +99,30 @@ exports.correctAnswer = async (userId, gd) => {
   // Updating the userrating will be implemented later
   // const newUserRating = calculateEloRating.winner(gd.rating, gd.dicWord.rating, gd.kfactor);
 
+  const streakTodayPlus =
+    gd.streakCurrent >= gd.streakToday ? 1 : 0;
+
+  const streakRecordPlus =
+    gd.streakCurrent >= gd.streakRecord ? 1 : 0;
+
   gd.tail.unshift(gd.dicWord.target);
   // Update GameData with new DicWord and DicPlay
   await GameData.findOneAndUpdate(
-    { user: userId },
+    { user: req.user.id },
     {
       dicPlay: true,
       dicWord: modifiedResult,
       tail: gd.tail.slice(0, 4),
-      footsteprank: gd.footsteprank,
+      $inc: {
+        footsteprank: 1,
+        streakCurrent: 1,
+        streakToday: streakTodayPlus,
+        streakRecord: streakRecordPlus,
+        stepsTakenToday: 1,
+        stepsTakenLifetime: 1,
+        timePlayingToday: req.body.time,
+        timePlayingLifetime: req.body.time,
+      },
       // rating: newUserRating,
     },
     {

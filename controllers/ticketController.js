@@ -1,3 +1,4 @@
+const mongoose = require('mongoose');
 const GameData = require('../models/gameDataModel');
 const DicEntry = require('../models/dicEntryModel');
 const Ticket = require('../models/ticketModel');
@@ -39,20 +40,53 @@ exports.createOne = catchAsync(async (req, res, next) => {
     level: ticket.level,
   };
 
-  // Update GameData with new DicWord and DicPlay
   await GameData.findOneAndUpdate(
     { user: userId },
+    { $addToSet: { dueToday: dueTodayPush } },
+    { new: true, upsert: true },
+  )
+    .then(() => {
+      res.status(200).json({
+        status: 'success',
+      });
+    })
+    .catch((error) => {
+      res.status(200).json({
+        status: 'error',
+      });
+    });
+  // next();
+});
+
+exports.levelTotals = catchAsync(async (req, res, next) => {
+  const userId = new mongoose.Types.ObjectId(req.user.id);
+
+  const results = await Ticket.aggregate([
     {
-      $push: { dueToday: dueTodayPush },
+      $match: {
+        user: userId,
+      }, // Filter the documents based on the criteria
     },
     {
-      runValidators: true,
+      $group: {
+        _id: '$level',
+        frequency: { $sum: 1 },
+      },
     },
-  );
+    {
+      $project: {
+        _id: 0,
+        level: '$_id',
+        frequency: 1,
+      },
+    },
+    {
+      $sort: { level: 1 },
+    },
+  ]);
 
   res.status(200).json({
     status: 'success',
+    results,
   });
-
-  // next();
 });
