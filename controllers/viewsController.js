@@ -14,7 +14,9 @@ exports.statistics = catchAsync(async (req, res) => {
 
   const usergamedata = await GameData.findOne({
     user,
-  });
+  }).select(
+    '-_id -user -kfactor -repeats -index -tail -dicPlay -dicWord -lastPlayed -dictionary -footsteprank -__v',
+  );
 
   const levelbreakdown = await Ticket.aggregate([
     {
@@ -43,13 +45,18 @@ exports.statistics = catchAsync(async (req, res) => {
     user,
   });
 
-  console.log(usergamedata, levelbreakdown, wordscollected);
   res.status(200).render('statistics', {
     title: 'Statistics',
     usergamedata,
     levelbreakdown,
     wordscollected,
   });
+  // res.status(200).json({
+  //   title: 'Statistics',
+  //   usergamedata,
+  //   levelbreakdown,
+  //   wordscollected,
+  // });
 });
 
 exports.console = (req, res) => {

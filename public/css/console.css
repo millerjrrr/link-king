@@ -4,6 +4,7 @@
 
 #tail {
   margin-top: 0%;
+  overflow: hidden;
 }
 
 #formx {
@@ -39,53 +40,12 @@
   position: absolute;
 }
 
-/* ############################################################ */
-
-#totalStats {
-  display: block;
-  font-size: auto;
-  color: #ffffff;
-  background-color: hsl(0, 0%, 21%);
-  width: 200px;
-  height: 280px;
-  border: none;
-  outline: none;
+#stats {
+  border: 1px solid hsl(0, 0%, 100%);
+  border-radius: 10;
   position: absolute;
-  left: 15%;
-  border-radius: 10px;
-  top: 50%;
-  transform: translate(-100%, -50%);
-}
-
-#totalStatsTable {
-  text-align: center;
-  vertical-align: middle;
-  position: relative;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-}
-
-#sessionStats {
-  font-size: auto;
-  color: #ffffff;
-  background-color: hsl(0, 0%, 21%);
-  width: 200px;
-  height: 280px;
-  border: none;
-  outline: none;
-  position: absolute;
-  right: 15%;
-  border-radius: 10px;
-  top: 50%;
-  transform: translate(0, -50%);
-}
-
-#sessionStatsTable {
-  text-align: center;
-  vertical-align: middle;
-  position: relative;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  top: 0;
+  right: 0;
+  /* margin: 5%; */
+  text-align: right;
 }

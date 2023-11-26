@@ -5,11 +5,24 @@ mixin listEntry(_id, fontSize, text, opacity)
 
 block content
     main.main
+        table#stats
+            tr 
+                td.leftcolumn due
+                td#due.rightcolumn
+            tr 
+                td.leftcolumn steps
+                td#steps.rightcolumn 
+            tr 
+                td.leftcolumn time
+                td#timeplaying.rightcolumn
+        div#soundonoff
+        div#hidefirstword
+        div#timer102030
         span#racetrack
             -for (let i = 19; i >= 0; --i)
                 +listEntry(`rc${i}`,50*Math.pow(0.8,i),'????????',1)
         form#formx
-            input#attempt(value='')
+            input#attempt(autocomplete="off", value='')
             div#border
         span#tail
             -for (let i = 0; i<=3; ++i)

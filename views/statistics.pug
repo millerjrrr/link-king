@@ -1,12 +1,111 @@
+
+
+
 extends base
 
 block content
+    -
+        const timeInStyle = (t) =>{
+            const days = Math.floor(t/(1000*60*60*24));
+            const hours = Math.floor(t/(1000*60*60)) - days*24;
+            const mins = Math.floor(t/(1000*60)) - hours*60 - days*24*60;
+            let tps = `${mins}m`;
+            if(hours>0) tps=`${hours}h ${mins}m`;
+            if(days>0) tps=`${days}d ${hours}h ${mins}m`;
+
+            return tps;
+        }
+        const tpt = usergamedata.timePlayingLifetime;
+        const tpd = usergamedata.timePlayingToday;
+        const timeplayingtotal = timeInStyle(tpt);
+        const timeplayingtoday = timeInStyle(tpd);
+        const lifetimepace =`${Math.round(usergamedata.stepsTakenLifetime/(tpt/(1000*60)),0)} steps/min`;
+        const todaypace =`${Math.round(usergamedata.stepsTakenToday/(tpd/(1000*60)),0)} steps/min`;
+        
+
+
     main.main
         div.cont
             div#totalstats.statsholder
+                div.tabletitle Stats Total
                 table.statsholderTable
+                    tr 
+                        td.leftcolumn Rating:
+                        td.rightcolumn= usergamedata.rating
+                    tr 
+                        td.leftcolumn Highest Rating:
+                        td.rightcolumn= usergamedata.ratingPeak
+                    tr 
+                        td.leftcolumn Rated Plays:
+                        td.rightcolumn= usergamedata.ratingPlays
+                    tr 
+                        td.leftcolumn    
+                        td.rightcolumn    
+                    tr 
+                        td.leftcolumn Time Playing:
+                        td.rightcolumn= timeplayingtotal
+                    tr 
+                        td.leftcolumn Steps Taken:
+                        td.rightcolumn= usergamedata.stepsTakenLifetime
+                    tr 
+                        td.leftcolumn Lifetime Pace:
+                        td.rightcolumn= lifetimepace
+                    tr 
+                        td.leftcolumn
+                        td.rightcolumn
+                    tr 
+                        td.leftcolumn Collected Words:
+                        td.rightcolumn= wordscollected
+                    tr 
+                        td.leftcolumn
+                        td.rightcolumn
+                    tr 
+                        td.leftcolumn Longest Streak:
+                        td.rightcolumn= usergamedata.streakRecord
+
             div#sessionstats.statsholder
+                div.tabletitle Stats Today
                 table.statsholderTable
+                    tr 
+                        td
+                        td
+                    tr 
+                        td
+                        td
+                    tr 
+                        td
+                        td
+                    tr 
+                        td
+                        td
+                    tr 
+                        td.leftcolumn Time Playing:
+                        td.rightcolumn= timeplayingtoday
+                    tr 
+                        td.leftcolumn Steps Taken:
+                        td.rightcolumn= usergamedata.stepsTakenToday
+                    tr 
+                        td.leftcolumn Today's Pace:
+                        td.rightcolumn= todaypace
+                    tr 
+                        td.leftcolumn
+                        td.rightcolumn
+                    tr 
+                        td.leftcolumn Collected Words:
+                        td.rightcolumn= (wordscollected - usergamedata.collectedWordsDayStart)
+                    tr 
+                        td.leftcolumn
+                        td.rightcolumn
+                    tr 
+                        td.leftcolumn Today's Streak:
+                        td.rightcolumn= usergamedata.streakToday
             div#levelbreakdown.statsholder
                 table.statsholderTable
+                    div.tabletitle Levels Breakdown
+                    each result in levelbreakdown 
+                        tr 
+                            td.leftcolumn= `Level ${result.level}: `
+                            td.rightcolum= result.frequency
+
+
             

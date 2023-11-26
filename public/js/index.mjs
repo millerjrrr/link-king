@@ -17,10 +17,15 @@ for (i = 0; i < 4; ++i)
   tail.push(document.getElementById(`te${i}`));
 
 let form = document.getElementById('attempt'),
+  due = document.getElementById('due'),
+  steps = document.getElementById('steps'),
+  timeplaying = document.getElementById('timeplaying'),
   formColor,
   responseTimer, //countdown timer for how long left to respond
   intervalTimer, //time management
+  sessionTimer,
   time = 0, //time management
+  timeplayingval, //time management
   solutions,
   tries,
   rect,
@@ -97,6 +102,7 @@ const wrongAnswerReturned = () => {
     clearInterval(intervalTimer);
     clearTimeout(responseTimer);
     sendResultAndUpdate(false);
+    clearInterval(sessionTimer);
     form.value = '';
   }
 };
@@ -133,7 +139,7 @@ const sendResultAndUpdate = async (correct) => {
     );
     time = 0;
     if (res.data.status === 'success') {
-      updateRaceTrack(res.data);
+      updateRaceTrackAndStats(res.data);
       solutions = res.data.data.attempt.solutions;
       tries = res.data.data.tries;
       updateColor();
@@ -169,7 +175,7 @@ const updatePageValues = async () => {
     );
 
     if (res.data.status === 'success') {
-      updateRaceTrack(res.data);
+      updateRaceTrackAndStats(res.data);
       solutions = res.data.data.attempt.solutions;
       tries = res.data.data.tries;
       updateColor();
@@ -180,12 +186,24 @@ const updatePageValues = async () => {
   }
 };
 
-const updateRaceTrack = (res) => {
+const updateRaceTrackAndStats = (res) => {
   for (i = 0; i < 9; ++i)
     raceTrack[i + 1].innerText = res.data.raceTrack[i];
   raceTrack[0].innerText = res.data.attempt.target;
   for (i = 0; i < 4; ++i)
     tail[i].innerText = res.data.tail[i] || '';
+  //updatestats
+  due.innerText = res.data.stats.due;
+  steps.innerText = res.data.stats.steps;
+  timeplaying.innerText = `${Math.floor(
+    res.data.stats.time / (1000 * 60),
+  )}:${(
+    Math.floor(res.data.stats.time / 1000) -
+    60 * Math.floor(res.data.stats.time / (1000 * 60))
+  )
+    .toString()
+    .padStart(2, '0')}`;
+  timeplayingval = res.data.stats.time;
 };
 
 function drawFormBorder() {
@@ -444,6 +462,11 @@ if (form)
       if (answerAccepted(solutions, form.value)) {
         sendResultAndUpdate(true);
         startTheFormTimer();
+        clearInterval(sessionTimer);
+        sessionTimer = setInterval(
+          updateSessionTimerDisplay,
+          1000,
+        );
         form.value = '';
         speakText();
 
@@ -454,6 +477,32 @@ if (form)
       }
     }
   });
+
+// d) time manangement
+
+function padTo2Digits(num) {
+  return num.toString().padStart(2, '0');
+}
+
+function convertMsToTime(milliseconds) {
+  let seconds = Math.floor(milliseconds / 1000);
+  let minutes = Math.floor(seconds / 60);
+  let hours = Math.floor(minutes / 60);
+
+  seconds = seconds % 60;
+  minutes = minutes % 60;
+  if (hours > 0)
+    return `${hours}:${padTo2Digits(
+      minutes,
+    )}:${padTo2Digits(seconds)}`;
+  else return `${minutes}:${padTo2Digits(seconds)}`;
+}
+
+function updateSessionTimerDisplay() {
+  timeplayingval += 1000;
+  document.getElementById('timeplaying').innerText =
+    convertMsToTime(timeplayingval);
+}
 
 ////////////////////////////////////////////////////////////////////
 // Login page elements
@@ -508,43 +557,3 @@ if (searchform) {
     responseTimer = setTimeout(searchAndUpdateValue, 500);
   });
 }
-
-// Form Timer Management
-
-// function padTo2Digits(num) {
-//   return num.toString().padStart(2, "0");
-// }
-
-// function convertMsToTime(milliseconds) {
-//   let seconds = Math.floor(milliseconds / 1000);
-//   let minutes = Math.floor(seconds / 60);
-//   let hours = Math.floor(minutes / 60);
-
-//   seconds = seconds % 60;
-//   minutes = minutes % 60;
-//   if (hours > 0)
-//     return `${hours}:${padTo2Digits(minutes)}:${padTo2Digits(seconds)}`;
-//   else return `${minutes}:${padTo2Digits(seconds)}`;
-// }
-
-// let sessionTimer = setInterval(updateSessionTimerDisplay, 1000);
-
-// function updateSessionTimerDisplay() {
-//   sessionStats.Time = convertMsToTime(timePlaying);
-//   document.getElementById("sessionStats-Time-value").innerText =
-//     sessionStats.Time;
-// }
-
-// function timeToMS(timeIn) {
-//   if (timeIn == 0) return 0;
-//   let arr = timeIn.split(":");
-//   if (arr.length == 3)
-//     return (
-//       arr[0] * 60 * 60 * 1000 +
-//       Number(arr[1]) * 60 * 1000 +
-//       Number(arr[2]) * 1000
-//     );
-//   else return arr[0] * 60 * 1000 + Number(arr[1]) * 1000;
-// }
-
-//set colours of points using strikes and .class color

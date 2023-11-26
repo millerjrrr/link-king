@@ -7,6 +7,12 @@ const dateToNumberStyleDate = require('../utils/dateToNumberStyleDate');
 // const calculateEloRating = require('./consoleGamePlayFunctions/calculateEloRating');
 
 exports.correctAnswer = async (req, gd) => {
+  const streakTodayPlus =
+    gd.streakCurrent >= gd.streakToday ? 1 : 0;
+
+  const streakRecordPlus =
+    gd.streakCurrent >= gd.streakRecord ? 1 : 0;
+
   // Update if attempt is inside repeats
   if (gd.index < gd.repeats.length) {
     // Update the tail
@@ -16,12 +22,6 @@ exports.correctAnswer = async (req, gd) => {
     const dicPlay =
       gd.dueToday.length === 0 &&
       gd.index + 1 === gd.repeats.length;
-
-    const streakTodayPlus =
-      gd.streakCurrent >= gd.streakToday ? 1 : 0;
-
-    const streakRecordPlus =
-      gd.streakCurrent >= gd.streakRecord ? 1 : 0;
 
     // Update game data
     const doc = await GameData.findOneAndUpdate(
@@ -87,6 +87,8 @@ exports.correctAnswer = async (req, gd) => {
         tail: gd.tail,
         $inc: {
           streakCurrent: 1,
+          streakToday: streakTodayPlus,
+          streakRecord: streakRecordPlus,
           stepsTakenToday: 1,
           stepsTakenLifetime: 1,
           timePlayingToday: req.body.time,

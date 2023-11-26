@@ -35,6 +35,11 @@ module.exports = catchAsync(async (req, res, next) => {
       raceTrack,
       tail: gd.tail,
       tries,
+      stats: {
+        due: gd.dueToday.length,
+        steps: gd.stepsTakenToday,
+        time: gd.timePlayingToday,
+      },
     },
   });
 });
