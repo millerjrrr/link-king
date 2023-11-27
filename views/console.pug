@@ -5,19 +5,33 @@ mixin listEntry(_id, fontSize, text, opacity)
 
 block content
     main.main
-        table#stats
-            tr 
-                td.leftcolumn due
-                td#due.rightcolumn
-            tr 
-                td.leftcolumn steps
-                td#steps.rightcolumn 
-            tr 
-                td.leftcolumn time
-                td#timeplaying.rightcolumn
-        div#soundonoff
-        div#hidefirstword
-        div#timer102030
+        div.blocks
+            div.column
+                table#stats.block
+                    tr 
+                        td.leftcolumn due
+                        td#due.rightcolumn
+                    tr 
+                        td.leftcolumn steps
+                        td#steps.rightcolumn 
+                    tr 
+                        td.leftcolumn time
+                        td#timeplaying.rightcolumn
+                div#soundBox.block
+                    if(data.sound)
+                        img#sound(src=`/img/soundOn.png`)
+                    else
+                        img#sound(src=`/img/soundOff.png`)
+                div#blurredBox.block
+                    if(data.blurredonfirst)
+                        img#blurred(src=`/img/blurredOn.png`)
+                    else
+                        img#blurred(src=`/img/blurredOff.png`)
+                div#timer1020Box.block
+                    if(data.timer)
+                        div#timer1020.bigAndBold 10s
+                    else
+                        div#timer1020.bigAndBold 20s
         span#racetrack
             -for (let i = 19; i >= 0; --i)
                 +listEntry(`rc${i}`,50*Math.pow(0.8,i),'????????',1)

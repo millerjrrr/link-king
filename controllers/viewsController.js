@@ -59,11 +59,23 @@ exports.statistics = catchAsync(async (req, res) => {
   // });
 });
 
-exports.console = (req, res) => {
+exports.console = catchAsync(async (req, res) => {
+  let gd = await GameData.findOne({
+    user: req.user.id,
+  });
+
+  console.log(gd.timer);
+
   res.status(200).render('console', {
     title: 'Console',
+    data: {
+      sound: gd.sound,
+      timer: gd.timer,
+      firstwordblurred: gd.firstwordblurred,
+    },
   });
-};
+});
+
 exports.dictionary = catchAsync(async (req, res) => {
   // const results = await DicEntry.find();
   const features = new APIFeatures(

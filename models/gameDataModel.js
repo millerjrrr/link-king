@@ -94,6 +94,18 @@ const gameDataSchema = new mongoose.Schema({
     type: Number,
     default: 0,
   },
+  sound: {
+    type: Boolean,
+    default: true,
+  },
+  timer: {
+    type: Boolean,
+    default: true,
+  },
+  blurred: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const GameData = mongoose.model(

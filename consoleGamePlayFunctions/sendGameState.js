@@ -35,6 +35,9 @@ module.exports = catchAsync(async (req, res, next) => {
       raceTrack,
       tail: gd.tail,
       tries,
+      sound: gd.sound,
+      timer: gd.timer,
+      blurred: gd.blurred,
       stats: {
         due: gd.dueToday.length,
         steps: gd.stepsTakenToday,

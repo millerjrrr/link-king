@@ -26,6 +26,7 @@ let form = document.getElementById('attempt'),
   sessionTimer,
   time = 0, //time management
   timeplayingval, //time management
+  timeUp = 10, //time management
   solutions,
   tries,
   rect,
@@ -34,6 +35,7 @@ let form = document.getElementById('attempt'),
   b,
   radius,
   perimeter;
+// settings variables
 
 if (form) {
   form.style.borderRadius = '15px';
@@ -55,7 +57,7 @@ let rel, angle;
 const startTheFormTimer = (timer = 10) => {
   clearTimeout(responseTimer);
   showBorder();
-  hideTheBorderInSeconds();
+  hideTheBorderInSeconds(2, timer - 2);
   responseTimer = setTimeout(
     wrongAnswerReturned,
     timer * 1000,
@@ -95,7 +97,7 @@ const wrongAnswerReturned = () => {
     wrongWiggle();
     tries -= 1;
     updateColor();
-    startTheFormTimer();
+    startTheFormTimer(timeUp);
   } else {
     wrongWiggle();
     showBorder();
@@ -126,9 +128,11 @@ const updateColor = () => {
 };
 
 function speakText(text) {
-  const utterance = new SpeechSynthesisUtterance(text);
-  utterance.lang = 'pt-BR';
-  speechSynthesis.speak(utterance);
+  if (soundControl.src.match(`/img/soundOn.png`)) {
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.lang = 'pt-BR';
+    speechSynthesis.speak(utterance);
+  }
 }
 
 const sendResultAndUpdate = async (correct) => {
@@ -204,6 +208,14 @@ const updateRaceTrackAndStats = (res) => {
     .toString()
     .padStart(2, '0')}`;
   timeplayingval = res.data.stats.time;
+  // update timeUp
+  if (res.data.timer) timeUp = 10;
+  else timeUp = 20;
+  //update settings block
+  if (res.data.blurred)
+    document.getElementById('racetrack').style =
+      'visibility:hidden';
+  // raceTrack[0].style = 'color: #1b1b1b; font-size: 50px;';
 };
 
 function drawFormBorder() {
@@ -461,7 +473,7 @@ if (form)
       // If the answer is right
       if (answerAccepted(solutions, form.value)) {
         sendResultAndUpdate(true);
-        startTheFormTimer();
+        startTheFormTimer(timeUp);
         clearInterval(sessionTimer);
         sessionTimer = setInterval(
           updateSessionTimerDisplay,
@@ -503,6 +515,84 @@ function updateSessionTimerDisplay() {
   document.getElementById('timeplaying').innerText =
     convertMsToTime(timeplayingval);
 }
+
+// c) settings management
+const soundControl = document.getElementById('sound');
+const blurredControl = document.getElementById('blurred');
+const soundControlBox = document.getElementById('soundBox');
+const blurredControlBox =
+  document.getElementById('blurredBox');
+const timerControl = document.getElementById('timer1020');
+const timerControlBox =
+  document.getElementById('timer1020Box');
+
+const soundStatus = async (onORoff) => {
+  sound = onORoff === 'On';
+  soundControl.src = `/img/sound${onORoff}.png`;
+  await axios.post('/api/v1/gameData/updateGameSettings', {
+    sound,
+  });
+};
+
+const blurredStatus = async (onORoff) => {
+  blurred = onORoff === 'On';
+  blurredControl.src = `/img/blurred${onORoff}.png`;
+  await axios.post('/api/v1/gameData/updateGameSettings', {
+    blurred,
+  });
+};
+
+if (soundControl)
+  soundControlBox.addEventListener('click', async (e) => {
+    if (soundControl.src.match(`/img/soundOff.png`)) {
+      soundStatus('On');
+    } else {
+      soundStatus('Off');
+      blurredStatus('Off');
+      document.getElementById('racetrack').style =
+        'visibility:visible';
+    }
+  });
+
+if (blurredControl)
+  blurredControlBox.addEventListener('click', async (e) => {
+    if (blurredControl.src.match(`/img/blurredOff.png`)) {
+      blurredStatus('On');
+      soundStatus('On');
+      // raceTrack[0].style =
+      //   'color: #1b1b1b; font-size: 50px;';
+      document.getElementById('racetrack').style =
+        'visibility:hidden';
+    } else {
+      blurredStatus('Off');
+      // raceTrack[0].style = 'color: white; font-size: 50px;';
+      document.getElementById('racetrack').style =
+        'visibility:visible';
+    }
+  });
+
+// if (timerControl)
+//   timerControlBox.addEventListener('click', async (e) => {
+//     if (timerControl.innerText === '10s') {
+//       timerControl.innerText === '20s';
+//       timeUp = 20;
+//       await axios.post(
+//         '/api/v1/gameData/updateGameSettings',
+//         {
+//           timer: 20,
+//         },
+//       );
+//     } else {
+//       timerControl.innerText === '10s';
+//       timeUp = 10;
+//       await axios.post(
+//         '/api/v1/gameData/updateGameSettings',
+//         {
+//           timer: 10,
+//         },
+//       );
+//     }
+//   });
 
 ////////////////////////////////////////////////////////////////////
 // Login page elements

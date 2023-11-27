@@ -18,4 +18,10 @@ router.post(
   sendGameState,
 );
 
+router.post(
+  '/updateGameSettings',
+  authController.protect,
+  gameDataController.updateGameSettings,
+);
+
 module.exports = router;

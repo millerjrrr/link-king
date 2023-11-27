@@ -28,3 +28,25 @@ exports.attemptHandler = catchAsync(
     next();
   },
 );
+
+exports.updateGameSettings = catchAsync(
+  async (req, res, next) => {
+    await GameData.findOneAndUpdate(
+      {
+        user: req.user.id,
+      },
+      {
+        sound: req.body.sound,
+        blurred: req.body.blurred,
+        timer: req.body.timer,
+      },
+      {
+        new: true,
+      },
+    );
+
+    res.status(200).json({
+      status: 'success',
+    });
+  },
+);

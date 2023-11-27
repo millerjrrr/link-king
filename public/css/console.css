@@ -1,5 +1,6 @@
 #racetrack {
   margin-bottom: 0%;
+  /* visibility: hidden; */
 }
 
 #tail {
@@ -40,12 +41,32 @@
   position: absolute;
 }
 
-#stats {
-  border: 1px solid hsl(0, 0%, 100%);
-  border-radius: 10;
+.blocks {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-start;
+}
+
+.column {
   position: absolute;
-  top: 0;
-  right: 0;
-  /* margin: 5%; */
-  text-align: right;
+  top: 10%; /* Adjust as needed */
+  right: 20px; /* Adjust as needed */
+}
+
+.block {
+  border: 1px solid hsl(0, 0%, 100%);
+  border-radius: 15px;
+  /* text-align: right; */
+  width: 90px;
+  height: 90px;
+  margin-bottom: 10px; /* Adjust spacing between squares */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.bigAndBold {
+  font-size: 2.5em;
+  font-weight: bold;
 }
