@@ -11,7 +11,7 @@ import { searchAndUpdate } from './dictionary.mjs';
 // Console elements
 const raceTrack = [],
   tail = [];
-for (i = 0; i < 10; ++i)
+for (i = 0; i < 20; ++i)
   raceTrack.push(document.getElementById(`rc${i}`));
 for (i = 0; i < 4; ++i)
   tail.push(document.getElementById(`te${i}`));
@@ -25,10 +25,12 @@ let form = document.getElementById('attempt'),
   intervalTimer, //time management
   sessionTimer,
   time = 0, //time management
-  timeplayingval, //time management
+  timeplayingval = timeplaying.innerHTML * 1, //time management
   timeUp = 10, //time management
-  solutions,
-  tries,
+  solutions = JSON.parse(
+    document.getElementById('solutions').innerHTML,
+  ),
+  tries = document.getElementById('tries').innerText,
   rect,
   pointR,
   a,
@@ -98,6 +100,11 @@ const wrongAnswerReturned = () => {
     tries -= 1;
     updateColor();
     startTheFormTimer(timeUp);
+    clearInterval(sessionTimer);
+    sessionTimer = setInterval(
+      updateSessionTimerDisplay,
+      100,
+    );
   } else {
     wrongWiggle();
     showBorder();
@@ -172,28 +179,27 @@ function wrongWiggle() {
   requestAnimationFrame(animate);
 }
 
-const updatePageValues = async () => {
-  try {
-    const res = await axios.post(
-      '/api/v1/gameData/sendGameState',
-    );
+// const updatePageValues = async () => {
+//   try {
+//     const res = await axios.post(
+//       '/api/v1/gameData/sendGameState',
+//     );
 
-    if (res.data.status === 'success') {
-      updateRaceTrackAndStats(res.data);
-      solutions = res.data.data.attempt.solutions;
-      tries = res.data.data.tries;
-      updateColor();
-    }
-  } catch (err) {
-    console.log(err);
-    // showAlert('error', err.response.msg);
-  }
-};
+//     if (res.data.status === 'success') {
+//       updateRaceTrackAndStats(res.data);
+//       solutions = res.data.data.attempt.solutions;
+//       tries = res.data.data.tries;
+//       updateColor();
+//     }
+//   } catch (err) {
+//     console.log(err);
+//     // showAlert('error', err.response.msg);
+//   }
+// };
 
 const updateRaceTrackAndStats = (res) => {
-  for (i = 0; i < 9; ++i)
-    raceTrack[i + 1].innerText = res.data.raceTrack[i];
-  raceTrack[0].innerText = res.data.attempt.target;
+  for (i = 0; i < 20; ++i)
+    raceTrack[i].innerText = res.data.raceTrack[i];
   for (i = 0; i < 4; ++i)
     tail[i].innerText = res.data.tail[i] || '';
   //updatestats
@@ -457,14 +463,6 @@ function drawFormBorder() {
 // Console Functionality
 // 1) Loading the page and drawing the console
 
-//  a) Draw the border
-if (form) {
-  drawFormBorder();
-
-  //  b) Update page values
-  updatePageValues();
-}
-
 //  c) Add the EnterKey functionality
 if (form)
   form.addEventListener('keydown', async (e) => {
@@ -477,7 +475,7 @@ if (form)
         clearInterval(sessionTimer);
         sessionTimer = setInterval(
           updateSessionTimerDisplay,
-          1000,
+          100,
         );
         form.value = '';
         speakText();
@@ -511,7 +509,7 @@ function convertMsToTime(milliseconds) {
 }
 
 function updateSessionTimerDisplay() {
-  timeplayingval += 1000;
+  timeplayingval += 100;
   document.getElementById('timeplaying').innerText =
     convertMsToTime(timeplayingval);
 }
@@ -571,28 +569,37 @@ if (blurredControl)
     }
   });
 
-// if (timerControl)
-//   timerControlBox.addEventListener('click', async (e) => {
-//     if (timerControl.innerText === '10s') {
-//       timerControl.innerText === '20s';
-//       timeUp = 20;
-//       await axios.post(
-//         '/api/v1/gameData/updateGameSettings',
-//         {
-//           timer: 20,
-//         },
-//       );
-//     } else {
-//       timerControl.innerText === '10s';
-//       timeUp = 10;
-//       await axios.post(
-//         '/api/v1/gameData/updateGameSettings',
-//         {
-//           timer: 10,
-//         },
-//       );
-//     }
-//   });
+if (timerControl)
+  timerControlBox.addEventListener('click', async (e) => {
+    if (timerControl.innerText === '10s') {
+      timerControl.innerText = '20s';
+      timeUp = 20;
+      await axios.post(
+        '/api/v1/gameData/updateGameSettings',
+        {
+          timer: false,
+        },
+      );
+    } else {
+      timerControl.innerText = '10s';
+      timeUp = 10;
+      await axios.post(
+        '/api/v1/gameData/updateGameSettings',
+        {
+          timer: true,
+        },
+      );
+    }
+  });
+
+////////////////////////////////////////////////////
+///////////// Draw the border and SpeakText
+if (form) {
+  drawFormBorder();
+  updateColor();
+  updateSessionTimerDisplay();
+  speakText(raceTrack[0].innerText);
+}
 
 ////////////////////////////////////////////////////////////////////
 // Login page elements

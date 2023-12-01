@@ -51,29 +51,10 @@ exports.statistics = catchAsync(async (req, res) => {
     levelbreakdown,
     wordscollected,
   });
-  // res.status(200).json({
-  //   title: 'Statistics',
-  //   usergamedata,
-  //   levelbreakdown,
-  //   wordscollected,
-  // });
 });
 
 exports.console = catchAsync(async (req, res) => {
-  let gd = await GameData.findOne({
-    user: req.user.id,
-  });
-
-  console.log(gd.timer);
-
-  res.status(200).render('console', {
-    title: 'Console',
-    data: {
-      sound: gd.sound,
-      timer: gd.timer,
-      firstwordblurred: gd.firstwordblurred,
-    },
-  });
+  res.status(200).render('homepage');
 });
 
 exports.dictionary = catchAsync(async (req, res) => {

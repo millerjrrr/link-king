@@ -1,20 +1,37 @@
+const jStat = require('jstat');
 const GameData = require('../models/gameDataModel');
 const DicEntry = require('../models/dicEntryModel');
 const Ticket = require('../models/ticketModel');
 const dateToNumberStyleDate = require('../utils/dateToNumberStyleDate');
-
-// const calculateEloRating = require('./consoleGamePlayFunctions/calculateEloRating');
+const calculateEloRating = require('./calculateEloRating');
 
 exports.wrongAnswer = async (req, gd) => {
-  // Find new dictionary word
-  // if (Math.random() > 0.5)
-  //   dicWord = await getDicWordByRating(gd);
-  // else {
+  // const newUserRating = calculateEloRating.loser(
+  //   gd.dicWord.rating,
+  //   gd.rating,
+  //   gd.kfactor,
+  // ); //rating management
+  // const kfactor = gd.kfactor === 20 ? 20 : gd.kfactor - 1; //rating management
+
+  // // New DicWord by Rating
+  // const dictionarySize = 3173; //NEEDS TO BE MAINTAINED
+  // const lookUpRank = Math.floor(
+  //   jStat.normal(newUserRating, 1200, 400) *
+  //     dictionarySize -
+  //     50 +
+  //     Math.random() * 100,
+  // );
+  // lookUpRank = lookUpRank < 0 ? 0 : lookUpRank;
+  // lookUpRank =
+  //   lookUpRank > dictionarySize
+  //     ? dictionarySize
+  //     : lookUpRank;
+
+  // console.log(lookUpRank);
+
   const dicWord = await DicEntry.findOne({
     rank: gd.footsteprank,
-    dictionaryName: gd.dictionary,
   });
-  // }
 
   const newDicWord = {
     id: dicWord._id,
@@ -22,9 +39,6 @@ exports.wrongAnswer = async (req, gd) => {
     solutions: dicWord.solutions,
     rating: dicWord.rating,
   };
-
-  // Updating the userrating will be implemented later
-  // const newUserRating = calculateEloRating.winner(gd.rating, gd.dicWord.rating, gd.kfactor);
 
   const ticket = await Ticket.findOneAndUpdate(
     {
@@ -70,7 +84,8 @@ exports.wrongAnswer = async (req, gd) => {
         timePlayingLifetime: req.body.time,
       },
       streakCurrent: 0,
-      // rating: newUserRating,
+      // rating: newUserRating, //rating management
+      // kfactor, //rating management
     },
     {
       runValidators: true,
@@ -79,15 +94,32 @@ exports.wrongAnswer = async (req, gd) => {
 };
 
 exports.correctAnswer = async (req, gd) => {
-  // Find new dictionary word
-  // if (Math.random() > 0.5)
-  //   dicWord = await getDicWordByRating(gd);
-  // else {
+  // const newUserRating = calculateEloRating.winner(
+  //   gd.rating,
+  //   gd.dicWord.rating,
+  //   gd.kfactor,
+  // ); //rating management
+  // const kfactor = gd.kfactor === 20 ? 20 : gd.kfactor - 1; //rating management
+
+  // // New DicWord by Rating
+  // const dictionarySize = 3173; //NEEDS TO BE MAINTAINED
+  // const lookUpRank = Math.floor(
+  //   jStat.normal(newUserRating, 1200, 400) *
+  //     dictionarySize -
+  //     50 +
+  //     Math.random() * 100,
+  // );
+  // lookUpRank = lookUpRank < 0 ? 0 : lookUpRank;
+  // lookUpRank =
+  //   lookUpRank > dictionarySize
+  //     ? dictionarySize
+  //     : lookUpRank;
+
+  // console.log(lookUpRank);
+
   const dicWord = await DicEntry.findOne({
-    dictionaryName: gd.dictionary,
     rank: gd.footsteprank,
   });
-  // }
 
   const modifiedResult = {
     id: dicWord._id,
@@ -95,9 +127,6 @@ exports.correctAnswer = async (req, gd) => {
     solutions: dicWord.solutions,
     rating: dicWord.rating,
   };
-
-  // Updating the userrating will be implemented later
-  // const newUserRating = calculateEloRating.winner(gd.rating, gd.dicWord.rating, gd.kfactor);
 
   const streakTodayPlus =
     gd.streakCurrent >= gd.streakToday ? 1 : 0;
@@ -123,7 +152,8 @@ exports.correctAnswer = async (req, gd) => {
         timePlayingToday: req.body.time,
         timePlayingLifetime: req.body.time,
       },
-      // rating: newUserRating,
+      // rating: newUserRating, //rating management
+      // kfactor, //rating management
     },
     {
       runValidators: true,
@@ -139,7 +169,6 @@ const getDicWordByRating = async (gd) => {
     rating: {
       $gte: intervalCenter,
     },
-    dictionaryName: gd.dictionary,
   });
 
   if (doc) return doc;
@@ -148,7 +177,6 @@ const getDicWordByRating = async (gd) => {
       rating: {
         $lte: intervalCenter,
       },
-      dictionaryName: gd.dictionary,
     });
 
     return result;

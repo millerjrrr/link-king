@@ -10,20 +10,20 @@ block content
                 table#stats.block
                     tr 
                         td.leftcolumn due
-                        td#due.rightcolumn
+                        td#due.rightcolumn=data.stats.due
                     tr 
                         td.leftcolumn steps
-                        td#steps.rightcolumn 
+                        td#steps.rightcolumn=data.stats.steps
                     tr 
                         td.leftcolumn time
-                        td#timeplaying.rightcolumn
+                        td#timeplaying.rightcolumn=data.stats.time
                 div#soundBox.block
                     if(data.sound)
                         img#sound(src=`/img/soundOn.png`)
                     else
                         img#sound(src=`/img/soundOff.png`)
                 div#blurredBox.block
-                    if(data.blurredonfirst)
+                    if(data.blurred)
                         img#blurred(src=`/img/blurredOn.png`)
                     else
                         img#blurred(src=`/img/blurredOff.png`)
@@ -34,10 +34,14 @@ block content
                         div#timer1020.bigAndBold 20s
         span#racetrack
             -for (let i = 19; i >= 0; --i)
-                +listEntry(`rc${i}`,50*Math.pow(0.8,i),'????????',1)
+                +listEntry(`rc${i}`,50*Math.pow(0.8,i),data.raceTrack[i],1)
         form#formx
             input#attempt(autocomplete="off", value='')
             div#border
         span#tail
             -for (let i = 0; i<=3; ++i)
-                +listEntry(`te${i}`,50*Math.pow(0.8,-i-1),'',1 / Math.pow(1.7, i))
+                +listEntry(`te${i}`,50*Math.pow(0.8,-i-1),data.tail[i],1 / Math.pow(1.7, i))
+        span
+            p(style='visibility: hidden', id='solutions')= JSON.stringify(data.attempt.solutions)
+            p(style='visibility: hidden', id='tries')= data.tries
+            

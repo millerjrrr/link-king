@@ -16,11 +16,15 @@ mongoose
   .then(() => console.log('DB connection successful!'));
 
 //READ CSV FILE AND CONVERT TO JSON
-const string = fs.readFileSync(process.argv[2], 'utf8');
+const string = fs.readFileSync(
+  'data/newWords(withRating).csv',
+  'utf8',
+);
 const array = string
   .split('\n')
   .map((row) => row.split(','));
 const list = [];
+let rank = 10000;
 array.forEach((row) => {
   if (row[1].includes(';', 0) && !row[1].includes('; ', 0))
     throw new Error(
@@ -30,32 +34,19 @@ array.forEach((row) => {
   list.push({
     target: row[0],
     solutions: row[1].split('; '),
-    rank: row[2],
-    rating: row[3],
-    dictionaryName: row[4],
+    rating: row[2],
+    rank,
   });
+  rank += 1;
 });
-
-// console.log(JSON.stringify(list.slice(1)));
 
 const importData = async () => {
   try {
-    await DicEntry.create(list.slice(1));
+    await DicEntry.create(list);
     console.log('Data successfully created!');
   } catch (err) {
     console.log(err);
   }
 };
 
-//  DELETE ALL DATA FROM DB
-const deleteData = async () => {
-  try {
-    await DicEntry.deleteMany();
-    console.log('Data successfully deleted!');
-  } catch (err) {
-    console.log(err);
-  }
-};
-
-// deleteData();
 importData();

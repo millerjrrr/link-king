@@ -2,6 +2,7 @@ const express = require('express');
 // const authController = require('../controllers/authController');
 const viewsController = require('../controllers/viewsController');
 const authController = require('../controllers/authController');
+const updateConsole = require('../consoleGamePlayFunctions/updateConsole.js');
 
 const router = express.Router();
 
@@ -18,7 +19,7 @@ router.get(
 router.get(
   '/console',
   authController.protect,
-  viewsController.console,
+  updateConsole.loadConsolePage,
 );
 
 router.get('/dictionary', viewsController.dictionary);

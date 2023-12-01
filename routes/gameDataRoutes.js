@@ -1,21 +1,21 @@
 const express = require('express');
 const gameDataController = require('../controllers/gameDataController');
 const authController = require('../controllers/authController');
-const sendGameState = require('../consoleGamePlayFunctions/sendGameState');
+const updateConsole = require('../consoleGamePlayFunctions/updateConsole');
 
 const router = express.Router();
 
 router.post(
   '/sendGameState',
   authController.protect,
-  sendGameState,
+  updateConsole.sendGameState,
 );
 
 router.post(
   '/submitAttempt',
   authController.protect,
   gameDataController.attemptHandler,
-  sendGameState,
+  updateConsole.sendGameState,
 );
 
 router.post(

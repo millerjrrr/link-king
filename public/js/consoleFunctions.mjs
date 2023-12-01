@@ -28,7 +28,7 @@ export const normalize = (inputString) => {
       return accentsMap[matched];
     })
     .replace(
-      /['"!@#$%¨&*\[\]\(\)_\-`´\{\}^~<,>.:;?/\+\-\=]/g,
+      /['"! @#$%¨&*\[\]\(\)_\-`´\{\}^~<,>.:;?/\+\-\=]/g,
       '',
     );
 };
