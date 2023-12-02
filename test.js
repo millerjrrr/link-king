@@ -1,45 +1,29 @@
-const mongoose = require('mongoose');
-const dotenv = require('dotenv');
-const Ticket = require('./models/ticketModel');
+const jStat = require('jstat');
+const calculateEloRating = require('./consoleGamePlayFunctions/calculateEloRating');
 
-dotenv.config({ path: './config.env' });
-// It is important that this^^comes before requiring the app
-const app = require('./app');
+let rating = 1200,
+  dicWord = 600,
+  kfactor = 50;
+const newUserRating = calculateEloRating.winner(
+  rating,
+  dicWord,
+  kfactor,
+); //rating management
+const kfactord = kfactor === 20 ? 20 : kfactor - 1; //rating management
 
-// Handling uncaught exceptions/errors
-process.on('uncaughtException', (err) => {
-  console.log('UNCAUGHT EXCEPTION! 💥 Shutting down...');
-  console.log(err);
-  process.exit(1);
-});
-
-//CONNECTING TO MONGOOSE
-const DB = process.env.DATABASE.replace(
-  '<PASSWORD>',
-  process.env.DATABASE_PASSWORD,
+// New DicWord by Rating
+const dictionarySize = 3173; //NEEDS TO BE MAINTAINED
+let lookUpRank = Math.floor(
+  jStat.normal.cdf(newUserRating, 1200, 400) *
+    dictionarySize -
+    50 +
+    Math.random() * 100,
 );
 
-mongoose
-  .connect(DB)
-  .then(() => console.log('DB connection successful!'));
+console.log(newUserRating);
 
-const update = async () => {
-  let increase = Math.round(Math.random() * 7);
-  return await Ticket.findOneAndUpdate(
-    { dueDate: { $lte: 45253 } },
-    [
-      {
-        $set: {
-          dueDate: {
-            $add: ['$dueDate', increase],
-          },
-        },
-      },
-    ],
-    {
-      runValidators: true,
-    },
-  );
-};
+lookUpRank = lookUpRank < 0 ? 0 : lookUpRank;
+lookUpRank =
+  lookUpRank > dictionarySize ? dictionarySize : lookUpRank;
 
-for (i = 1; i <= 145; ++i) update();
+console.log(lookUpRank);

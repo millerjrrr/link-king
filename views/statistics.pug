@@ -28,10 +28,10 @@ block content
                 table.statsholderTable
                     tr 
                         td.leftcolumn Rating:
-                        td.rightcolumn= usergamedata.rating
+                        td.rightcolumn= Math.round(usergamedata.rating)
                     tr 
                         td.leftcolumn Highest Rating:
-                        td.rightcolumn= usergamedata.ratingPeak
+                        td.rightcolumn= Math.round(usergamedata.ratingPeak)
                     tr 
                         td.leftcolumn Rated Plays:
                         td.rightcolumn= usergamedata.ratingPlays

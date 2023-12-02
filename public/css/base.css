@@ -46,6 +46,14 @@ p {
   height: 100%; /* Ensure the container takes full height of the viewport */
 }
 
+.currentTab {
+  text-decoration: overline;
+}
+
+.noU {
+  text-decoration: none; /* already clicked links get uderlined */
+}
+
 /*########################################################*/
 /* HEADER AND FOOTER CSS */
 
@@ -161,14 +169,6 @@ p {
 .nav__el:link,
 .nav__el:visited {
   color: #f7f7f7;
-  /* font-size: 2rem; */
-  text-decoration: none;
-  /* display: -webkit-inline-box; */
-  /* display: -ms-inline-flexbox; */
-  /* display: inline-flex; */
-  /* -webkit-box-align: center; */
-  /* -ms-flex-align: center; */
-  /* align-items: center; */
   -webkit-transition: all 0.2s;
   transition: all 0.2s;
   font-weight: 400;
@@ -196,6 +196,20 @@ p {
   outline: none;
 }
 
+.nav__shadow {
+  color: #8b8b8b;
+  -webkit-transition: all 0.2s;
+  transition: all 0.2s;
+  font-weight: 400;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+}
+.nav__shadow:not(:last-child) {
+  margin-right: 3rem;
+}
+
 /*###############################################*/
 /* ALERTS */
 .alert {
@@ -220,4 +234,8 @@ p {
 }
 .alert--error {
   background-color: #ffdded;
+}
+
+.outlined {
+  position: absolute;
 }

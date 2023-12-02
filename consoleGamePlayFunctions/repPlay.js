@@ -1,10 +1,6 @@
 const GameData = require('../models/gameDataModel');
-const DicEntry = require('../models/dicEntryModel');
 const Ticket = require('../models/ticketModel');
-const catchAsync = require('../utils/catchAsync');
 const dateToNumberStyleDate = require('../utils/dateToNumberStyleDate');
-
-// const calculateEloRating = require('./consoleGamePlayFunctions/calculateEloRating');
 
 exports.correctAnswer = async (req, gd) => {
   const streakTodayPlus =

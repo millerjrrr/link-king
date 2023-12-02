@@ -1,16 +1,30 @@
+mixin tabHeading(tabname, link)
+    if(title===tabname)
+        a.currentTab.nav__el(href=link)= tabname
+    else
+        a.noU.nav__el(href=link)= tabname
+
 header.header
     nav.nav.nav--user
         if user
-            a.nav__el(href='/statistics')
-                span= user.username
+            p
+                span(style = "user-select: none")= user.username
         else
-            a.nav__el(href='/login') Log In
-            a.nav__el(href='/signUp') Sign Up
+            a.noU.nav__el(href='/login') Log In
+            a.noU.nav__el(href='/signUp') Sign Up
+           
     nav.nav
-        a.nav__el(href='/') Home
-        a.nav__el(href='/statistics') Statistics
-        a.nav__el(href='/console') Race Track
-        a.nav__el(href='/dictionary') Dictionary
-        if user
+        if(title)
+            a.noU.nav__el(href='/') Home
+        else
+            a.currentTab.nav__el(href='/') Home
+        if user 
+            +tabHeading('Statistics','/statistics')
+            +tabHeading('Console','/console' )
+            +tabHeading('Dictionary','/dictionary' )
             a#logoutBtn.nav__el Logout
-
+        else 
+            +tabHeading('Free Test','#')
+            p.nav__shadow Statistics
+            p.nav__shadow Console
+            p.nav__shadow Dictionary

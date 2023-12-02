@@ -45,11 +45,6 @@ const userSchema = new mongoose.Schema({
     default: true,
     select: false,
   },
-  userRating: {
-    type: String,
-    default: 1200,
-  },
-  userGameData: Object,
 });
 
 // This middleware encrypts the password and is very important!

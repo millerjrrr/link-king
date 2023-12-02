@@ -25,19 +25,24 @@ let form = document.getElementById('attempt'),
   intervalTimer, //time management
   sessionTimer,
   time = 0, //time management
-  timeplayingval = timeplaying.innerHTML * 1, //time management
   timeUp = 10, //time management
-  solutions = JSON.parse(
-    document.getElementById('solutions').innerHTML,
-  ),
-  tries = document.getElementById('tries').innerText,
   rect,
   pointR,
   a,
   b,
   radius,
-  perimeter;
+  perimeter,
+  timeplayingval,
+  solutions,
+  tries;
 // settings variables
+if (timeplaying) timeplayingval = timeplaying.innerHTML * 1; //time management
+if (document.getElementById('solutions'))
+  solutions = JSON.parse(
+    document.getElementById('solutions').innerHTML,
+  );
+if (document.getElementById('tries'))
+  tries = document.getElementById('tries').innerText;
 
 if (form) {
   form.style.borderRadius = '15px';

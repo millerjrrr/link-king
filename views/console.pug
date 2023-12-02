@@ -41,7 +41,7 @@ block content
         span#tail
             -for (let i = 0; i<=3; ++i)
                 +listEntry(`te${i}`,50*Math.pow(0.8,-i-1),data.tail[i],1 / Math.pow(1.7, i))
-        span
+        span.outlined
             p(style='visibility: hidden', id='solutions')= JSON.stringify(data.attempt.solutions)
             p(style='visibility: hidden', id='tries')= data.tries
             

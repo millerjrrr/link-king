@@ -27,11 +27,11 @@ const dicEntrySchema = new mongoose.Schema({
   },
   rank: {
     type: Number,
-    // required: [
-    //   true,
-    //   'A dictionary entry must have a unique rank',
-    // ],
-    // unique: true,
+    required: [
+      true,
+      'A dictionary entry must have a unique rank',
+    ],
+    unique: true,
   },
   visits: {
     type: Number,

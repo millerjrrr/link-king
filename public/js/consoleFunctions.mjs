@@ -28,14 +28,20 @@ export const normalize = (inputString) => {
       return accentsMap[matched];
     })
     .replace(
-      /['"! @#$%¨&*\[\]\(\)_\-`´\{\}^~<,>.:;?/\+\-\=]/g,
+      /['"!@#$%¨&*\[\]\(\)_\-`´\{\}^~<,>.:;?/\+\-\=]/g,
       '',
     );
 };
 
+export const normAndRemoveSpace = (inputString) => {
+  return normalize(inputString).replace(/ /g, '');
+};
+
 export const answerAccepted = (solutions, answer) => {
-  const normalized = solutions.map((sol) => normalize(sol));
-  return normalized.includes(normalize(answer));
+  const normalized = solutions.map((sol) =>
+    normAndRemoveSpace(sol),
+  );
+  return normalized.includes(normAndRemoveSpace(answer));
 };
 
 export const elt = (name, attrs, ...children) => {

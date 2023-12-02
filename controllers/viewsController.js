@@ -41,6 +41,7 @@ exports.statistics = catchAsync(async (req, res) => {
       $sort: { level: 1 },
     },
   ]);
+
   const wordscollected = await Ticket.countDocuments({
     user,
   });

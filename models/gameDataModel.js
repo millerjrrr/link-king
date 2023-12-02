@@ -25,7 +25,7 @@ const gameDataSchema = new mongoose.Schema({
   },
   kfactor: {
     type: Number,
-    default: 20,
+    default: 100,
   },
   dueToday: {
     type: Array,
