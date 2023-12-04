@@ -1,6 +1,7 @@
 const express = require('express');
 // const authController = require('../controllers/authController');
 const viewsController = require('../controllers/viewsController');
+const freeTestController = require('../controllers/freeTestController');
 const authController = require('../controllers/authController');
 const updateConsole = require('../consoleGamePlayFunctions/updateConsole.js');
 
@@ -23,6 +24,8 @@ router.get(
 );
 
 router.get('/dictionary', viewsController.dictionary);
+
+router.get('/freeTest', freeTestController.startTest);
 
 router.get('/login', viewsController.getLoginForm);
 router.get('/signUp', viewsController.getSignUpForm);

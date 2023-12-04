@@ -1,0 +1,25 @@
+extends base
+
+mixin listEntry(_id, fontSize, text, opacity)
+    p(id= _id, translate = "no", style=`font-size: ${fontSize}px ; \n opacity: ${opacity}`)=text 
+
+block content
+    main.main.top
+        div.consoleBlock
+            div.column
+                div#soundBox.block
+                        img#sound(src=`/img/soundOn.png`)
+                div#blurredBox.block
+                        img#blurred(src=`/img/blurredOff.png`)
+                div#timer1020Box.block
+                        div#timer1020.bigAndBold 10s
+        span.wordRating
+        span.testword
+                +listEntry("rc1",50,data.target,1)
+        form#formy
+            input#attempt(autocomplete="off", value='')
+            div#border
+        span#wordsCollected
+            span.collected 0
+            
+            

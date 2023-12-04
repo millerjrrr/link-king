@@ -1,6 +1,35 @@
 extends base
 
+mixin aboutBlockL(heading, image, text)
+    div.aboutBlockL
+        div.aboutBlockTitle.fadeLeft 
+            span= heading
+        div.aboutBlockIMG
+            img(src=`/img/screenShots/${image}.png`)
+        div.aboutBlockText.fadeRight
+            span= text 
+
+mixin aboutBlockR(heading, image, text)
+    div.aboutBlockR
+        div.aboutBlockText.fadeLeft
+            span= text 
+        div.aboutBlockIMG
+            img(src=`/img/screenShots/${image}.png`)
+        div.aboutBlockTitle.fadeRight
+            span= heading
+
 block content
-    main.main
-        div.placeholder
-            h1 Soon this will be a beautiful homepage, full of information about this wonderful site
+    main.main__home
+        +aboutBlockL("Teaching with Intelligence",'tailored',"Designed for language learners of all levels! The app finds your vocabulary rating, measures your ability, monitors your progression and provides you with a unique learning experience that’s right for you!")
+        +aboutBlockR("More Vocabulary Less Grammar", 'vocabulary', "Focus on expanding vocabulary as quickly as possible! Grammer should be learned through imersion in the language, through conversation, movies, reading and other media" )
+        +aboutBlockL("Structured Spaced Repetition",'SSR',"Applying a learning model to learning! The app monitors your learning tendencies and presents words to you at regular intervals for optimized repetition.")
+        +aboutBlockR("Customizable", 'customizable', "Look up words in our dictionary and easily add them to your learning queue. Simple variations of the same word are omitted to help you avoid unnecessary work" )
+        +aboutBlockL("Exciting",'exciting',"The clock is running! With PRs on the line this learning game is as exciting as you make it")
+        +aboutBlockR("Sound", 'sounds', "Customize sound, vision and timer settings. Familiarize yourself with the sounds of the language and go at your own pace" )
+        
+        //- div.upcomingFeatures
+        //-     p.featuresTitle Upcoming features:
+        //-         div.gridThreeCols
+        //-             p feature
+        //-             p feature
+        //-             p feature

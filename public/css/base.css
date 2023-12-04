@@ -1,16 +1,32 @@
 html {
   /* -webkit-box-sizing: border-box;
   box-sizing: border-box; */
-  background-color: #1b1b1b;
+  background: linear-gradient(
+      to left,
+      #000000,
+      #1b1b1b,
+      transparent 50%
+    ),
+    linear-gradient(
+      to right,
+      #000000,
+      #1b1b1b,
+      transparent 50%
+    );
+
+  background-size: 50% 100%;
+  background-position: left, right;
   width: 100%;
 }
 
 body {
+  background-color: #1b1b1b;
   color: #ffffff;
   margin: auto;
   text-align: center;
-  padding: 0 0 0 0;
+  padding: 0 10px 0px 10px;
   width: 70%;
+  min-width: 1390px;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -19,6 +35,11 @@ body {
   -ms-flex-direction: column;
   flex-direction: column;
   min-height: 100vh;
+}
+@media screen and (max-width: 1390px) {
+  body {
+    min-width: 100%;
+  }
 }
 @media only screen and (max-width: 62.5em) {
   body {
@@ -41,13 +62,18 @@ p {
   flex: 1;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: top;
   align-items: center;
-  height: 100%; /* Ensure the container takes full height of the viewport */
+  height: 100%;
+  max-height: 100vh;
 }
 
 .currentTab {
   text-decoration: overline;
+}
+
+.currentTabIcon {
+  border-top: 3px solid hsl(0, 0%, 100%);
 }
 
 .noU {
@@ -56,13 +82,31 @@ p {
 
 /*########################################################*/
 /* HEADER AND FOOTER CSS */
+.headerPlaceholder {
+  height: 10rem;
+  position: relative;
+  display: block;
+}
+
+.twofont {
+  font-size: 2em;
+}
+.iconHolder {
+  height: 10rem;
+  width: 10rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
 .header {
-  padding: 0 0;
-  height: 5rem;
-  position: relative;
-  z-index: 100;
-  font-size: 2rem;
+  color: #ffffff;
+  height: 10rem;
+  width: 70%;
+  min-width: 1390px;
+  position: fixed;
+  z-index: 1000;
+  font-size: 1rem;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -85,7 +129,7 @@ p {
 }
 
 .footer {
-  padding: 0 0 0 0;
+  padding: 20px 0 0 0;
   font-size: 1rem;
   display: grid;
   grid-template-columns: auto auto;
@@ -168,6 +212,7 @@ p {
 .nav__el,
 .nav__el:link,
 .nav__el:visited {
+  flex-direction: row;
   color: #f7f7f7;
   -webkit-transition: all 0.2s;
   transition: all 0.2s;
@@ -181,10 +226,11 @@ p {
 .nav__el:active {
   -webkit-transform: translateY(-3px);
   transform: translateY(-3px);
-  text-shadow: 0 0.7rem 1rem rgb(255, 255, 255);
+  filter: drop-shadow(0px 0px 20px rgba(255, 255, 255));
+  z-index: 100;
 }
 .nav__el:not(:last-child) {
-  margin-right: 3rem;
+  margin-right: 2rem;
 }
 @media only screen and (max-width: 37.5em) {
   .nav__el:not(:last-child) {
@@ -207,7 +253,26 @@ p {
   font-family: inherit;
 }
 .nav__shadow:not(:last-child) {
+  margin-right: 1rem;
+}
+
+.icon__el {
+  color: #f7f7f7;
+  -webkit-transition: all 0.2s;
+  transition: all 0.2s;
+  font-weight: 400;
+  background: none;
+  border: none;
+  user-select: none;
+  font-family: inherit;
   margin-right: 3rem;
+}
+
+.shadow {
+  position: fixed;
+  width: 70px;
+  height: 70px;
+  background-color: rgba(27, 27, 27, 0.5);
 }
 
 /*###############################################*/

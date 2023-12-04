@@ -3,28 +3,65 @@ mixin tabHeading(tabname, link)
         a.currentTab.nav__el(href=link)= tabname
     else
         a.noU.nav__el(href=link)= tabname
+        
+mixin tabHeadingIcon(tabname, link, image)
+    if(title===tabname)
+        a.noU.nav__el(href=link)
+            img.currentTabIcon(src=`/img/icons/${image}.png`)
+            p= tabname
+    else
+        a.noU.nav__el(href=link)
+            img(src=`/img/icons/${image}.png`)
+            p= tabname
 
 header.header
     nav.nav.nav--user
+        span.iconHolder
+            img.icon__el(src='/img/linkKing.png', alt = 'logo')
         if user
             p
-                span(style = "user-select: none")= user.username
+                span.twofont(style = "user-select: none")= user.username
         else
-            a.noU.nav__el(href='/login') Log In
-            a.noU.nav__el(href='/signUp') Sign Up
-           
+            a.noU.nav__el.twofont(href='/login') Log In
+            a.noU.nav__el.twofont(href='/signUp') Sign Up
+        
     nav.nav
         if(title)
-            a.noU.nav__el(href='/') Home
+            a.noU.nav__el(href='/') 
+                img(src='img/icons/home.png')
+                p Home
         else
-            a.currentTab.nav__el(href='/') Home
+            a.noU.nav__el(href='/')
+                img.currentTabIcon(src='img/icons/home.png')
+                p Home
         if user 
-            +tabHeading('Statistics','/statistics')
-            +tabHeading('Console','/console' )
-            +tabHeading('Dictionary','/dictionary' )
-            a#logoutBtn.nav__el Logout
+            +tabHeadingIcon('Statistics','/statistics','stats')
+            +tabHeadingIcon('Console','/console','console')
+            +tabHeadingIcon('Dictionary','/dictionary', 'dictionary')
+            a#logoutBtn.nav__el
+                img(src='/img/icons/logout.png')
+                p Logout
         else 
-            +tabHeading('Free Test','#')
-            p.nav__shadow Statistics
-            p.nav__shadow Console
-            p.nav__shadow Dictionary
+            +tabHeadingIcon('Free Test','/freeTest','test')
+            span.nav__shadow
+                div.shadow
+                img(src=`/img/icons/stats.png`)
+                p Statistics
+            span.nav__shadow
+                div.shadow
+                img(src=`/img/icons/console.png`)
+                p Console
+            span.nav__shadow
+                div.shadow
+                img(src=`/img/icons/dictionary.png`)
+                p Dictionary
+
+div.homeFixed
+    div.bigTitle(translate ="no")
+        p.reverseText Knil
+        img.titleIcon(src='/img/bigLinkKing.png', alt = 'logo')
+        p.angleUp King
+    p Take Your English to the Next Level
+
+if(title!=='Console')
+    div.headerPlaceholder

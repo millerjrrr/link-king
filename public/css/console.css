@@ -41,7 +41,8 @@
   position: absolute;
 }
 
-.blocks {
+.consoleBlock {
+  margin-top: 4em;
   width: 100%;
   display: flex;
   justify-content: flex-end;
@@ -49,6 +50,7 @@
 }
 
 .column {
+  margin-top: 100px;
   position: absolute;
   top: 10%; /* Adjust as needed */
   right: 20px; /* Adjust as needed */
@@ -57,7 +59,6 @@
 .block {
   border: 1px solid hsl(0, 0%, 100%);
   border-radius: 15px;
-  /* text-align: right; */
   width: 90px;
   height: 90px;
   margin-bottom: 10px; /* Adjust spacing between squares */

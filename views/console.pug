@@ -4,8 +4,8 @@ mixin listEntry(_id, fontSize, text, opacity)
     p(id= _id, translate = "no", style=`font-size: ${fontSize}px ; \n opacity: ${opacity}`)=text 
 
 block content
-    main.main
-        div.blocks
+    main.main.top
+        div.consoleBlock
             div.column
                 table#stats.block
                     tr 
