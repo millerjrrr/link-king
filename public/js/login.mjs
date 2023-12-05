@@ -14,6 +14,13 @@ export const login = async (email, password) => {
     }, 1500);
   } catch (err) {
     showAlert('error', err.response.data.msg);
+    const forgotP = document.createElement('button');
+    forgotP.id = 'forgotP';
+    forgotP.innerHTML = 'Forgot Password?';
+    forgotP.className = 'nav__el';
+    document
+      .getElementById('formholder')
+      .appendChild(forgotP);
   }
 };
 
@@ -44,8 +51,10 @@ export const signup = async (
       password,
       passwordConfirm,
     });
+
     if (res.data.status === 'success')
       showAlert('success', 'New account created! Log in!');
+
     window.setTimeout(() => {
       location.assign('/login');
     }, 1500);

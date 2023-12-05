@@ -3,8 +3,9 @@ import { login, logout, signup } from './login.mjs';
 import {
   elt,
   answerAccepted,
+  convertMsToTime,
 } from './consoleFunctions.mjs';
-import { showAlert } from './alerts.mjs';
+// import { showAlert } from './alerts.mjs';
 import { searchAndUpdate } from './dictionary.mjs';
 
 ////////////////////////////////////////////////////////////////////
@@ -183,24 +184,6 @@ function wrongWiggle() {
   }
   requestAnimationFrame(animate);
 }
-
-// const updatePageValues = async () => {
-//   try {
-//     const res = await axios.post(
-//       '/api/v1/gameData/sendGameState',
-//     );
-
-//     if (res.data.status === 'success') {
-//       updateRaceTrackAndStats(res.data);
-//       solutions = res.data.data.attempt.solutions;
-//       tries = res.data.data.tries;
-//       updateColor();
-//     }
-//   } catch (err) {
-//     console.log(err);
-//     // showAlert('error', err.response.msg);
-//   }
-// };
 
 const updateRaceTrackAndStats = (res) => {
   for (i = 0; i < 20; ++i)
@@ -494,24 +477,6 @@ if (form)
   });
 
 // d) time manangement
-
-function padTo2Digits(num) {
-  return num.toString().padStart(2, '0');
-}
-
-function convertMsToTime(milliseconds) {
-  let seconds = Math.floor(milliseconds / 1000);
-  let minutes = Math.floor(seconds / 60);
-  let hours = Math.floor(minutes / 60);
-
-  seconds = seconds % 60;
-  minutes = minutes % 60;
-  if (hours > 0)
-    return `${hours}:${padTo2Digits(
-      minutes,
-    )}:${padTo2Digits(seconds)}`;
-  else return `${minutes}:${padTo2Digits(seconds)}`;
-}
 
 function updateSessionTimerDisplay() {
   timeplayingval += 100;

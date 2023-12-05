@@ -9,6 +9,8 @@ export default {
     file: './public/js/bundle.js',
     format: 'es', // You can change the output format if needed
     sourcemap: true,
+    // entryFileNames: 'bundle.js',
+    // inlineDynamicImports: true,
   },
   plugins: [
     nodeResolve(), // Resolve node_modules

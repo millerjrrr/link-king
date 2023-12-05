@@ -1,8 +1,8 @@
 mixin tabHeading(tabname, link)
     if(title===tabname)
-        a.currentTab.nav__el(href=link)= tabname
+        a.currentTab.nav__el.twofont(href=link)= tabname
     else
-        a.noU.nav__el(href=link)= tabname
+        a.noU.nav__el.twofont(href=link)= tabname
         
 mixin tabHeadingIcon(tabname, link, image)
     if(title===tabname)
@@ -17,13 +17,13 @@ mixin tabHeadingIcon(tabname, link, image)
 header.header
     nav.nav.nav--user
         span.iconHolder
-            img.icon__el(src='/img/linkKing.png', alt = 'logo')
+            img.icon__el(src='/img/icons/user.png', alt = 'logo')
         if user
             p
-                span.twofont(style = "user-select: none")= user.username
+                span.username.twofont(style = "user-select: none")= user.username
         else
-            a.noU.nav__el.twofont(href='/login') Log In
-            a.noU.nav__el.twofont(href='/signUp') Sign Up
+            +tabHeading("Log In", '/login')
+            +tabHeading("Sign Up", '/signUp')
         
     nav.nav
         if(title)
@@ -42,7 +42,7 @@ header.header
                 img(src='/img/icons/logout.png')
                 p Logout
         else 
-            +tabHeadingIcon('Free Test','/freeTest','test')
+            //- +tabHeadingIcon('Free Test','/freeTest','test')
             span.nav__shadow
                 div.shadow
                 img(src=`/img/icons/stats.png`)

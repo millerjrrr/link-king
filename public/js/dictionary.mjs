@@ -6,7 +6,7 @@ export const searchAndUpdate = async (pattern) => {
 
   try {
     const res = await axios.get(
-      `/api/v1/pt-en-dictionary?pattern=^${normpattern}`,
+      `/api/v1/dictionary?pattern=^${normpattern}`,
     );
     const table = document.getElementById(
       'dictionarytable',

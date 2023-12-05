@@ -6,13 +6,6 @@ const router = express.Router();
 
 router
   .route('/')
-  .get(authController.protect, dicEntryController.getAll)
-  .post(dicEntryController.createOne);
-
-router
-  .route('/:id')
-  .get(dicEntryController.getOne)
-  .patch(dicEntryController.updateOne)
-  .delete(dicEntryController.deleteOne);
+  .get(authController.protect, dicEntryController.getAll);
 
 module.exports = router;

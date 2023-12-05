@@ -59,7 +59,6 @@ exports.console = catchAsync(async (req, res) => {
 });
 
 exports.dictionary = catchAsync(async (req, res) => {
-  // const results = await DicEntry.find();
   const features = new APIFeatures(
     DicEntry.find(),
     req.query,

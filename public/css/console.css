@@ -1,9 +1,11 @@
 #racetrack {
+  user-select: none;
   margin-bottom: 0%;
   /* visibility: hidden; */
 }
 
 #tail {
+  user-select: none;
   margin-top: 0%;
   overflow: hidden;
 }
@@ -43,6 +45,7 @@
 
 .consoleBlock {
   margin-top: 4em;
+  cursor: pointer;
   width: 100%;
   display: flex;
   justify-content: flex-end;

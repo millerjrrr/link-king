@@ -1,7 +1,6 @@
 const express = require('express');
 // const authController = require('../controllers/authController');
 const viewsController = require('../controllers/viewsController');
-const freeTestController = require('../controllers/freeTestController');
 const authController = require('../controllers/authController');
 const updateConsole = require('../consoleGamePlayFunctions/updateConsole.js');
 
@@ -22,10 +21,11 @@ router.get(
   authController.protect,
   updateConsole.loadConsolePage,
 );
-
-router.get('/dictionary', viewsController.dictionary);
-
-router.get('/freeTest', freeTestController.startTest);
+router.get(
+  '/dictionary',
+  authController.protect,
+  viewsController.dictionary,
+);
 
 router.get('/login', viewsController.getLoginForm);
 router.get('/signUp', viewsController.getSignUpForm);

@@ -8,7 +8,6 @@ router.use(authController.isLoggedIn);
 
 router
   .route('/')
-  // .get(authController.protect, dicEntryController.getAll)
   .post(authController.protect, ticketController.createOne);
 
 router
@@ -17,7 +16,5 @@ router
     authController.protect,
     ticketController.levelTotals,
   );
-//   .patch(ticketController.updateOne)
-//   .delete(ticketController.deleteOne);
 
 module.exports = router;

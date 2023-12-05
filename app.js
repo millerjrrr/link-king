@@ -17,7 +17,6 @@ const dicRouter = require('./routes/dicEntryRoutes');
 const userRouter = require('./routes/userRoutes');
 const viewRouter = require('./routes/viewRoutes');
 const gameDataRouter = require('./routes/gameDataRoutes');
-const freeTestRouter = require('./routes/freeTestRoutes');
 const ticketRouter = require('./routes/ticketRoutes');
 
 const app = express();
@@ -79,9 +78,8 @@ app.use((req, res, next) => {
 // ROUTES
 app.use('/', viewRouter);
 
-app.use('/api/v1/freePlay', freeTestRouter);
 app.use('/api/v1/gameData', gameDataRouter);
-app.use('/api/v1/pt-en-dictionary', dicRouter);
+app.use('/api/v1/dictionary', dicRouter);
 app.use('/api/v1/users', userRouter);
 app.use('/api/v1/tickets', ticketRouter);
 

@@ -91,12 +91,22 @@ p {
 .twofont {
   font-size: 2em;
 }
-.iconHolder {
-  height: 10rem;
-  width: 10rem;
+.username {
   display: flex;
   justify-content: center;
+  align-items: left;
+}
+
+.iconHolder {
+  height: 10rem;
+  display: flex;
+  justify-content: right;
   align-items: center;
+  margin: 2rem;
+}
+
+.icon__el {
+  height: 48px;
 }
 
 .header {
@@ -136,7 +146,8 @@ p {
   grid-row-gap: 0.75rem;
   -webkit-box-pack: justify;
   -ms-flex-pack: justify;
-  justify-content: space-between;
+  /* justify-content: space-between; */
+  justify-content: right;
   flex-shrink: 0;
 }
 @media only screen and (max-width: 50em) {
@@ -221,6 +232,7 @@ p {
   border: none;
   cursor: pointer;
   font-family: inherit;
+  margin-right: 1rem;
 }
 .nav__el:hover,
 .nav__el:active {
@@ -254,18 +266,6 @@ p {
 }
 .nav__shadow:not(:last-child) {
   margin-right: 1rem;
-}
-
-.icon__el {
-  color: #f7f7f7;
-  -webkit-transition: all 0.2s;
-  transition: all 0.2s;
-  font-weight: 400;
-  background: none;
-  border: none;
-  user-select: none;
-  font-family: inherit;
-  margin-right: 3rem;
 }
 
 .shadow {
