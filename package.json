@@ -23,10 +23,12 @@
     "express-rate-limit": "^7.1.4",
     "helmet": "^7.1.0",
     "hpp": "^0.2.3",
+    "html-to-text": "^9.0.5",
     "jsonwebtoken": "^9.0.2",
     "jstat": "^1.9.6",
     "mongoose": "^8.0.0",
     "morgan": "^1.10.0",
+    "nodemailer": "^6.9.7",
     "promise-polyfill": "^8.3.0",
     "pug": "^3.0.2"
   },

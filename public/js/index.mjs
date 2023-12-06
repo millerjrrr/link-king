@@ -1,5 +1,11 @@
 // import axios from 'axios';
-import { login, logout, signup } from './login.mjs';
+import {
+  login,
+  logout,
+  signup,
+  forgotPasswordSendCode,
+  resetPasswordUsingCode,
+} from './forms.mjs';
 import {
   elt,
   answerAccepted,
@@ -572,10 +578,16 @@ if (form) {
 }
 
 ////////////////////////////////////////////////////////////////////
-// Login page elements
+// Form page elements
 const loginForm = document.getElementById('loginform');
 const signupForm = document.getElementById('signupform');
 const logoutBtn = document.getElementById('logoutBtn');
+const sendCodeForm = document.getElementById(
+  'forgotpasswordform',
+);
+const resetPasswordBtn = document.getElementById(
+  'resetpasswordform',
+);
 
 //////////
 
@@ -605,6 +617,29 @@ if (signupForm)
 if (logoutBtn)
   logoutBtn.addEventListener('click', (e) => {
     logout();
+  });
+
+if (sendCodeForm)
+  sendCodeForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const email = document.getElementById('email').value;
+    forgotPasswordSendCode(email);
+  });
+
+if (resetPasswordBtn)
+  resetPasswordBtn.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const token = document.getElementById('token').value;
+    const password =
+      document.getElementById('password').value;
+    const passwordConfirm = document.getElementById(
+      'passwordConfirm',
+    ).value;
+    resetPasswordUsingCode(
+      token,
+      password,
+      passwordConfirm,
+    );
   });
 
 ///////////////////////////////////////////////////////////////////

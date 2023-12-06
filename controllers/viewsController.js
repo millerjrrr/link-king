@@ -87,3 +87,16 @@ exports.getSignUpForm = (req, res) => {
     title: 'Sign Up',
   });
 };
+
+exports.getPasswordResetPage = (req, res) => {
+  res.status(200).render('resetpass', {
+    title: 'Reset Password',
+    email: req.query.email,
+  });
+};
+
+exports.getForgotPasswordPage = (req, res) => {
+  res.status(200).render('forgotpass', {
+    title: 'Forgot Password',
+  });
+};

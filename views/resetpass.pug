@@ -1,0 +1,18 @@
+extends base
+
+block content
+    main.main
+        div.loginform
+            form#resetpasswordform
+                .form__group
+                    span#emailfixed.emailattop= email
+                .form__group
+                    span#resetmessage We sent a code to your email!
+                .form__group
+                    input#token.form__input(type='text', placeholder='paste your reset code here', required, minlength='32')
+                .form__group
+                    input#password.form__input(type='password', placeholder='••••••••', required, minlength='8')
+                .form__group
+                    input#passwordConfirm.form__input(type='password', placeholder='••••••••', required, minlength='8')
+                .submitentries
+                    button#resetbtn.nav__el.login_font Update Password

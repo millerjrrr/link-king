@@ -7,8 +7,8 @@
 }
 
 .form__group {
-  text-align: right;
-  margin: 10 0;
+  text-align: center;
+  margin: 10px 0;
 }
 
 .form__input {
@@ -29,3 +29,18 @@
 .login_font {
   font-size: 1em;
 }
+
+#forgotP {
+  font-size: 0.5em;
+  text-decoration: none;
+}
+
+#resetmessage {
+  font-size: 0.5em;
+  margin: 0px;
+  padding: 0px;
+}
+
+/* .emailattop {
+  font-size: 3em;
+} */
