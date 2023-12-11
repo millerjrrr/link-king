@@ -1,0 +1,126 @@
+style(type='text/css').
+
+    header,
+    .logo_container{
+    height: 10rem;
+    width: 70%;
+    min-width: 87rem;
+    position: fixed;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: justify;
+    -ms-flex-pack: justify;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    }
+    header{
+    z-index: 1000;
+    justify-content: space-between;
+    }
+     .logo_container {
+    z-index: 999;
+    -webkit-box-flex: 1;
+    -ms-flex: 1;
+    flex: 1;
+    background-color: rgba(27, 27, 27, 0.9);
+    align-items: center;
+    flex-direction: column;
+    }
+
+    .navigation_icons{
+        max-width:70%:
+    }
+ 
+
+    .user_detals,
+    nav {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    }
+
+    .user_details {
+    height:100%;
+    font-size: 2em;
+    padding: 0 0 0 1em;
+    }
+
+
+    .neutral_el,
+    .nav__el,
+    .nav__el:link
+    .nav__el:visited {
+    flex-direction: row;
+    color: #ffffff;
+    -webkit-transition: all 0.2s;
+    transition: all 0.2s;
+    font-weight: 400;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-family: inherit;
+    margin-right: 2rem;
+    }
+    .nav__el:hover,
+    .nav__el:active {
+    -webkit-transform: translateY(-3px);
+    transform: translateY(-3px);
+    filter: drop-shadow(0px 0px 20px rgba(255, 255, 255));
+    z-index: 100;
+    }
+
+    .nav__el:focus {
+    outline: none;
+    }
+
+    .nav__shadow {
+    color: #8b8b8b;
+    -webkit-transition: all 0.2s;
+    transition: all 0.2s;
+    font-weight: 400;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-family: inherit;
+    margin-right: 2rem;
+    }
+
+    .shadow {
+    position: fixed;
+    width: 70px;
+    height: 70px;
+    background-color: rgba(27, 27, 27, 0.5);
+    }
+
+
+   
+
+    .logo {
+    width: 28rem;
+    height: auto;
+    }
+
+
+    @media screen and (max-width: 87rem) {
+    header, .logo_container{
+        width: 100% !important;
+        min-width: 20rem !important;
+    }
+    
+    .logo{
+        width: 7rem;
+        padding: 5px;
+    }
+    
+    }
+
+    @media screen and (max-width: 37.5rem) {
+    .user_details{
+        flex-direction: column!important;
+        font-size: 1rem!important;
+    }
+    }

@@ -1,21 +1,18 @@
 doctype html
 html
     head
+        meta(charset='utf-8')
+        meta(name='viewport' content='width=device-width')
+        link(rel='shortcut icon' type='image/png' href='/img/linkKing.png')
+        link(rel='stylesheet' href='css/base.css')
+        if(title)
+            title Link-King | #{title}
+        else 
+            title Link-King
         block head
-            meta(charset='utf-8')
-            meta(name='viewport' content='width=device-width')
-            link(rel='shortcut icon' type='image/png' href='/img/linkKing.png')
-            //- link(rel='stylesheet' href='css/bundle.css')
-            link(rel='stylesheet' href='css/base.css')
-            link(rel='stylesheet' href='css/console.css')
-            link(rel='stylesheet' href='css/forms.css')
-            link(rel='stylesheet' href='css/dictionary.css')
-            link(rel='stylesheet' href='css/statistics.css')
-            link(rel='stylesheet' href='css/home.css')
-            if(title)
-                title Link-King | #{title}
-            else 
-                title Link-King
+        include style/_header_style
+        include style/_footer_style
+
     body 
         // HEADER
         include _header
@@ -23,17 +20,9 @@ html
         // CONTENT
         block content   
         
-        
         // FOOTER
         include _footer
 
-
-        //- script(src='/js/bundle.js')
+        // SCRIPTS
         script(src='https://cdnjs.cloudflare.com/ajax/libs/axios/1.6.2/axios.min.js')
-        //- script(src='/js/index.mjs')
-        //- script(src='/js/login.mjs')
         script(src='/js/bundle.js')
-        
-
-        //In the end use rollup which you already installed to manage
-        // and bundle scripts before sending

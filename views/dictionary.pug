@@ -1,5 +1,63 @@
 extends base
 
+block head
+    style(type='text/css').
+        .top {
+        position: relative;
+        justify-content: top;
+        align-items: top;
+        }
+
+        .searchform {
+        display: block;
+        font-size: 40px;
+        color: #ffffff;
+        width: auto;
+        }
+
+        .searchform__input {
+        background-color: #000000;
+        color: hsl(0, 0%, 100%);
+        border: none;
+        outline: none;
+        margin: 10px 0px;
+        font-size: 1em;
+        text-align: center;
+        border-radius: 10px;
+        }
+
+        .dictionarytable {
+        font-size: 30px;
+        border-collapse: separate; /* Prevents borders from collapsing */
+        border-spacing: 15px;
+        }
+
+        .searchresults {
+        font-size: 1em;
+        }
+
+        .leftcolumn {
+        text-align: right;
+        width: 50%;
+        }
+
+        .rightcolumn {
+        text-align: left;
+        width: 45%;
+        }
+
+        .addfield {
+        text-align: right;
+        width: 5%;
+        font-size: 1em;
+        font-weight: bold;
+        }
+
+        #dictionarynotification {
+        font-size: 2rem;
+        /* visibility: hidden; */
+        }
+
 block content
     main.main.top
         div#dictionarynotification(style="visibility: hidden") add word to learning queue
