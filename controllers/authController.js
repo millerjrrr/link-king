@@ -63,7 +63,7 @@ exports.signup = catchAsync(async (req, res, next) => {
     index: 0,
   });
 
-  const url = `${req.protocol}://${req.get('host')}/me`;
+  const url = `${req.protocol}://${req.get('host')}/`;
   await new Email(user, url).sendWelcome();
 
   createSendToken(user, 201, res);
@@ -202,12 +202,14 @@ exports.forgotPassword = catchAsync(
 
     const resetToken = user.createPasswordResetToken();
     await user.save({ validateBeforeSave: false });
+    const resetTokenWithSpace =
+      resetToken.slice(0, 32) + ' ' + resetToken.slice(32);
 
     try {
-      const resetURL = `${req.protocol}://${req.get(
-        'host',
-      )}/api/v1/users/resetPassword/${resetToken}`;
-      await new Email(user, resetURL).sendPasswordReset();
+      await new Email(
+        user,
+        resetTokenWithSpace,
+      ).sendPasswordReset();
 
       res.status(200).json({
         status: 'success',
@@ -229,9 +231,13 @@ exports.forgotPassword = catchAsync(
 
 exports.resetPassword = catchAsync(
   async (req, res, next) => {
+    const tokenWithoutSpaces = req.body.token.replace(
+      /[ \n]/g,
+      '',
+    );
     const hashedToken = crypto
       .createHash('sha256')
-      .update(req.body.token)
+      .update(tokenWithoutSpaces)
       .digest('hex');
 
     const user = await User.findOne({

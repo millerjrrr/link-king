@@ -27,6 +27,9 @@ exports.wrongAnswer = async (req, gd) => {
       ? dictionarySize
       : lookUpRank;
 
+  // //Linear progression mode
+  // lookUpRank = gd.footsteprank;
+
   const dicWord = await DicEntry.findOneAndUpdate(
     {
       rank: lookUpRank,
@@ -123,6 +126,10 @@ exports.correctAnswer = async (req, gd) => {
     lookUpRank > dictionarySize
       ? dictionarySize
       : lookUpRank;
+
+  // //Linear progression mode NO LONGER WORKS DUE TO REORDERING
+  // //
+  // lookUpRank = gd.footsteprank;
 
   const dicWord = await DicEntry.findOneAndUpdate(
     {

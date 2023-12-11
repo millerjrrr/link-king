@@ -57,10 +57,10 @@ export const signup = async (
     });
 
     if (res.data.status === 'success')
-      showAlert('success', 'New account created! Log in!');
+      showAlert('success', 'New account created!');
 
     window.setTimeout(() => {
-      location.assign('/login');
+      location.assign('/');
     }, 1500);
   } catch (err) {
     showAlert('error', err.response.data.msg);

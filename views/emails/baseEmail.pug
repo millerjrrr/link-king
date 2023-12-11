@@ -1,41 +1,82 @@
-doctype html
-html
-  head
-    meta(name='viewport', content='width=device-width')
-    meta(http-equiv='Content-Type', content='text/html; charset=UTF-8')
-    title= subject
+mixin border-line(thickness, color)
+    tr
+        td(style='padding: 0')
+            table(width='100%' style=`border-spacing: 0; background-color: ${color}` role='presentation')
+                tr
+                    td(height=thickness style=`background-color: ${color}`)
 
-    include _style
-      
-  body
-    table.body(role='presentation', border='0', cellpadding='0', cellspacing='0')
-      tbody
-        tr
-          td
-          td.container
-            .content
-              // START CENTERED WHITE CONTAINER
-              table.main(role='presentation')
+mixin logo-holder(image)
+    tr
+        td(style='padding: 0')
+            table(width='100%' style='background-color: #1b1b1b; border-spacing: 0' role='presentation')
+                tr
+                    td(style='padding: 0; text-align: center')
+                        a(href='#' target='_blank')
+                            img.logo(src=image alt='' width='450px' border='0')
 
-                // START MAIN AREA
-                tbody
-                  tr
-                    td.wrapper
-                      table(role='presentation', border='0', cellpadding='0', cellspacing='0')
-                        tbody
-                          tr
-                            td
-                              // CONTENT
-                              block content
 
-              // START FOOTER
-              .footer
-                table(role='presentation', border='0', cellpadding='0', cellspacing='0')
-                  tbody
+
+
+doctype transitional
+html( xmlns="http://www.w3.org/1999/xhtml" lang="en")
+    head
+        meta(http-equiv='Content-Type' content='text/html; charset=utf-8')
+        meta(http-equiv='X-UA-Compatible' content='IE=edge')
+        meta(name='viewport' content='width=device-width, initial-scale=1.0')
+        meta(name='color-scheme' content='light dark')
+        meta(name='supported-color-schemes' content='light dark')
+        title= subject
+        
+        include _style
+
+
+        //[if (gte mso 9)|(IE)]><style type="text/css">table {border-collapse: collapse !important;}</style><![endif]
+
+    body(style="margin:0; padding:0; min-width:100%; background-color: #dde0e1")
+
+        //[if (gte mso 9)|(IE)]><style type="text/css">body {background-color: #dde0e1 !important;}body,table,td,p,a {font-family: sans-serif, Arial, Helvitica !important;}</style><![endif]
+
+        center(style='width: 100%; table-layout: fixed; background-color: #dde0e1; padding-bottom: 40px;')
+            div(style='max-width: 600px; background-color: #fafdfe; box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);')
+                div(style='font-size: 0px;color: #fafdfe;line-height: 1px;mso-line-height-rule: exactly;display: none;max-width: 0px;max-height: 0px;opacity: 0;overflow: hidden;mso-hide: all;') This is our preheader text!
+
+                //[if (gte mso 9)|(IE)]><table width ="600" align ="center" style="border-spacing:0; color:#565656;" role="presentation"><tr><td style="padding:0;"><![endif]
+
+                table(align='center' style="border-spacing: 0;color: #565656;font-family: 'Lato', sans-serif, Arial, Helvitica !important;background-color: #fafdfe;margin: 0;padding: 0;width: 100%;max-width: 600px;" role='presentation')
+
+                    // START LOGO
+                    +border-line(5,'#ffffff')
+                    +logo-holder('https://i.ibb.co/6W8Cs79/link-king-header-logo.png')
+                    +border-line(2,'#4b4b4b')
+                    // END LOGO
+
+                    //START EMAIL
                     tr
-                      td.content-block
-                        span.apple-link Link-King, 123 tbc Street, Ireland
-                        br
-                        |  Don't like these emails? 
-                        a(href='#') Unsubscribe
-          //- td  
+                        td(style='padding: 0')
+                            table(width='100%'  style='min-height: 300px; background-color: #2b2b2b; border-spacing: 0; padding: 40px; color: #ffffff' role='presentation')
+                                tr
+                                    td(style='padding: 0; text-align: center')
+                                        // CONTENT
+                                        block content
+                        
+                    // END EMAIL
+
+
+                    // START FOOTER
+                    tr
+                        td(style='padding: 0; background-color: #3b3b3b')
+                            table(width='100%' style='border-spacing: 0' role='presentation')
+                                tr
+                                    td(style='\
+                                    padding: 5px;\
+                                    color: #ffffff;\
+                                    text-align: center;\
+                                    font-size: 12px;\
+                                    ')
+                                        a(href='#' style='text-decoration: none; color: #e8fbfa') unsubscibe
+
+                    +border-line(3,'#2b2b2b')
+                    +logo-holder('https://i.ibb.co/6Y1r2t2/link-king-footer-logo.png')
+                    +border-line(5,'#ffffff')
+
+        //[if (gte mso 9)|(IE)]></td></tr></table><![endif]
