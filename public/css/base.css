@@ -22,7 +22,7 @@ body {
   width: 70%;
   min-width: 87rem;
   /* min-height: calc(100vh + 10em); */
-  min-height: calc(100vh);
+  min-height: 100vh;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -67,6 +67,14 @@ p {
 
 a {
   text-decoration: none;
+}
+
+.leftcolumn {
+  text-align: right;
+}
+
+.rightcolumn {
+  text-align: left;
 }
 
 .alert {

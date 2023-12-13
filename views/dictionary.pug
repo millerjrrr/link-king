@@ -2,38 +2,35 @@ extends base
 
 block head
     style(type='text/css').
-        .top {
-        position: relative;
-        justify-content: top;
-        align-items: top;
-        }
-
         .searchform {
         display: block;
-        font-size: 40px;
-        color: #ffffff;
-        width: auto;
+        font-size: 2.5rem;
+        width:100%;
+        display:flex;
+        justify-content: center;
+        align-items:center;
         }
 
-        .searchform__input {
+        .searchform_input {
         background-color: #000000;
         color: hsl(0, 0%, 100%);
+        width: 22rem;
         border: none;
         outline: none;
-        margin: 10px 0px;
+        margin: 0.5rem 0;
         font-size: 1em;
         text-align: center;
-        border-radius: 10px;
+        border-radius: 0.5rem;
         }
 
         .dictionarytable {
-        font-size: 30px;
-        border-collapse: separate; /* Prevents borders from collapsing */
+        border-collapse: separate;
         border-spacing: 15px;
         }
 
         .searchresults {
-        font-size: 1em;
+        font-size: 2em;
+        max-width:100vw;
         }
 
         .leftcolumn {
@@ -55,14 +52,19 @@ block head
 
         #dictionarynotification {
         font-size: 2rem;
-        /* visibility: hidden; */
+        }
+
+        @media only screen and (max-width: 37.5rem) {
+         .searchresults {
+        font-size: 1em;
+        }
         }
 
 block content
-    main.main.top
+    main.main
         div#dictionarynotification(style="visibility: hidden") add word to learning queue
         div.searchform
-            input#searchdictionary.searchform__input(placeholder='Lookup a word...')
+            input#searchdictionary.searchform_input(placeholder='Lookup a word...')
         div.searchresults
             table#dictionarytable.dictionarytable
                 tbody

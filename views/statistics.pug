@@ -2,13 +2,20 @@ extends base
 
 block head
     style(type='text/css').
-        .cont {
-        display: grid;
+        .center{
+        display: flex;
         justify-content: center;
         align-items: center;
-        grid-template-columns: repeat(3,1fr);
-        width:100%;
         height: 100%;
+        margin: 0;
+        }
+        .cont {
+        display: grid;
+        grid-template-columns: repeat(3,1fr);
+        width:70rem;
+        max-width:100%;
+        height:100%;
+        align-items: center;
         overflow-x: scroll;
         scroll-snap-type: x mandatory;
         }
@@ -16,47 +23,65 @@ block head
         display: none;
         }
 
-        .statsholder {
-        margin: 0.5rem;
+        .panel {
+        display: inline-block;
+        scroll-snap-align: start;
+        margin:0;
         width: 22rem;
+        max-width: 100vw;
+        height:100%;
         -webkit-box-flex: 1;
         -ms-flex: 1;
         flex: 1;
         display: flex;
         flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        }
+
+        .inner_panel{
+        margin: 0.5rem;
+        width: 20rem;
+        height: 32rem;
+        -webkit-box-flex: 1;
+        display: flex;
+        flex-direction: column;
         justify-content: top;
         align-items: center;
-        height: 100%;
-        font-size: 1.2em;
-        color: #ffffff;
-        background-color: hsl(0, 0%, 0%);
-        border-radius: 10px;
+        font-size: 1.2rem;
+        background-color: #000000;
+        border-radius: 0.5rem;
         }
+
+        @media screen and (max-width: 75rem) {
+        .panel{
+        width: 50vw;
+        }
+        }
+
+        @media screen and (max-width: 37.5rem) {
+        .panel{
+        width: 100vw;
+        }
+        }
+
+
+
 
         .tabletitle {
+        margin: 1rem 0 0 0;
         text-align: center;
         font-size: 2em;
-        margin: 10%;
         }
 
-
-
         .statsholderTable {
+        margin:1em;
         vertical-align: middle;
-        font-size: 1.2em;
-        border-spacing: 10px;
+        border-spacing: 0.5em;
         }
 
         .statsholderTable tr {
-        height: 1.5em;
-        }
-
-        .leftcolumn {
-        text-align: right;
-        }
-
-        .rightcolumn {
-        text-align: left;
+        height: 1.2em;
         }
 
 block content
@@ -80,88 +105,91 @@ block content
         
 
 
-    main.main
+    main.main.center
         div.cont
-            div#totalstats.statsholder
-                div.tabletitle Stats Total
-                table.statsholderTable
-                    tr 
-                        td.leftcolumn Rating:
-                        td.rightcolumn= Math.round(usergamedata.rating)
-                    tr 
-                        td.leftcolumn Highest Rating:
-                        td.rightcolumn= Math.round(usergamedata.ratingPeak)
-                    tr 
-                        td.leftcolumn Rated Plays:
-                        td.rightcolumn= usergamedata.ratingPlays
-                    tr 
-                        td.leftcolumn    
-                        td.rightcolumn    
-                    tr 
-                        td.leftcolumn Time Playing:
-                        td.rightcolumn= timeplayingtotal
-                    tr 
-                        td.leftcolumn Steps Taken:
-                        td.rightcolumn= usergamedata.stepsTakenLifetime
-                    tr 
-                        td.leftcolumn Lifetime Pace:
-                        td.rightcolumn= lifetimepace
-                    tr 
-                        td.leftcolumn
-                        td.rightcolumn
-                    tr 
-                        td.leftcolumn Collected Words:
-                        td.rightcolumn= wordscollected
-                    tr 
-                        td.leftcolumn
-                        td.rightcolumn
-                    tr 
-                        td.leftcolumn Longest Streak:
-                        td.rightcolumn= usergamedata.streakRecord
-
-            div#sessionstats.statsholder
-                div.tabletitle Stats Today
-                table.statsholderTable
-                    tr 
-                        td
-                        td
-                    tr 
-                        td
-                        td
-                    tr 
-                        td
-                        td
-                    tr 
-                        td
-                        td
-                    tr 
-                        td.leftcolumn Time Playing:
-                        td.rightcolumn= timeplayingtoday
-                    tr 
-                        td.leftcolumn Steps Taken:
-                        td.rightcolumn= usergamedata.stepsTakenToday
-                    tr 
-                        td.leftcolumn Today's Pace:
-                        td.rightcolumn= todaypace
-                    tr 
-                        td.leftcolumn
-                        td.rightcolumn
-                    tr 
-                        td.leftcolumn Collected Words:
-                        td.rightcolumn= (wordscollected - usergamedata.collectedWordsDayStart)
-                    tr 
-                        td.leftcolumn
-                        td.rightcolumn
-                    tr 
-                        td.leftcolumn Today's Streak:
-                        td.rightcolumn= usergamedata.streakToday
-            div#levelbreakdown.statsholder
-                table.statsholderTable
-                    div.tabletitle Levels Breakdown
-                    each result in levelbreakdown 
+            div.panel
+                div#totalstats.inner_panel
+                    div.tabletitle Stats Total
+                    table.statsholderTable
                         tr 
-                            td.leftcolumn= `Level ${result.level}: `
-                            td.rightcolum= result.frequency
+                            td.leftcolumn Rating:
+                            td.rightcolumn= Math.round(usergamedata.rating)
+                        tr 
+                            td.leftcolumn Highest Rating:
+                            td.rightcolumn= Math.round(usergamedata.ratingPeak)
+                        tr 
+                            td.leftcolumn Rated Plays:
+                            td.rightcolumn= usergamedata.ratingPlays
+                        tr 
+                            td.leftcolumn    
+                            td.rightcolumn    
+                        tr 
+                            td.leftcolumn Time Playing:
+                            td.rightcolumn= timeplayingtotal
+                        tr 
+                            td.leftcolumn Steps Taken:
+                            td.rightcolumn= usergamedata.stepsTakenLifetime
+                        tr 
+                            td.leftcolumn Lifetime Pace:
+                            td.rightcolumn= lifetimepace
+                        tr 
+                            td.leftcolumn
+                            td.rightcolumn
+                        tr 
+                            td.leftcolumn Collected Words:
+                            td.rightcolumn= wordscollected
+                        tr 
+                            td.leftcolumn
+                            td.rightcolumn
+                        tr 
+                            td.leftcolumn Longest Streak:
+                            td.rightcolumn= usergamedata.streakRecord
+
+            div.panel
+                div#sessionstats.inner_panel
+                    div.tabletitle Stats Today
+                    table.statsholderTable
+                        tr 
+                            td
+                            td
+                        tr 
+                            td
+                            td
+                        tr 
+                            td
+                            td
+                        tr 
+                            td
+                            td
+                        tr 
+                            td.leftcolumn Time Playing:
+                            td.rightcolumn= timeplayingtoday
+                        tr 
+                            td.leftcolumn Steps Taken:
+                            td.rightcolumn= usergamedata.stepsTakenToday
+                        tr 
+                            td.leftcolumn Today's Pace:
+                            td.rightcolumn= todaypace
+                        tr 
+                            td.leftcolumn
+                            td.rightcolumn
+                        tr 
+                            td.leftcolumn Collected Words:
+                            td.rightcolumn= (wordscollected - usergamedata.collectedWordsDayStart)
+                        tr 
+                            td.leftcolumn
+                            td.rightcolumn
+                        tr 
+                            td.leftcolumn Today's Streak:
+                            td.rightcolumn= usergamedata.streakToday
+            div.panel
+                div#levelbreakdown.inner_panel
+                    table.statsholderTable
+                        div.tabletitle Levels Breakdown
+                        each result in levelbreakdown 
+                            tr 
+                                td.leftcolumn= `Level ${result.level}: `
+                                td.rightcolum= result.frequency
 
 
             

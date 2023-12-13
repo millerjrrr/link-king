@@ -8,7 +8,6 @@ block head
         #racetrack {
         user-select: none;
         margin-bottom: 0%;
-        /* visibility: hidden; */
         }
 
         #tail {
@@ -18,7 +17,7 @@ block head
         }
 
         #formx {
-        margin: 10px auto;
+        margin: 0.5rem auto;
         position: relative;
         }
 
@@ -29,53 +28,53 @@ block head
         }
 
         #attempt {
-        font-size: 50px;
+        font-size: 3rem;
         background-color: #000000;
-        color: hsl(0, 0%, 100%);
         text-align: center;
-        width: 430px;
+        width: 23rem;
         border: none;
         outline: none;
         margin: 0 0;
         border-radius: 15px;
         }
-        @media only screen and (max-width: 430px) {
-        #attempt {
-            width: 100%;
-        }
-        }
+
+
 
         .point {
         background-color: hsl(0, 0%, 100%);
         position: absolute;
         }
 
-        .consoleBlock {
-        margin-top: 4em;
+        .options_container {
         cursor: pointer;
         width: 100%;
-        display: flex;
-        justify-content: flex-end;
-        align-items: flex-start;
+        height: 5rem;
+        align-items: right;
         }
 
-        .column {
-        margin-top: 100px;
+        .options_column {
+        margin-top: 10rem;
         position: absolute;
-        top: 10%; /* Adjust as needed */
-        right: 20px; /* Adjust as needed */
+        right: 1rem;
+        display: flex;
+        flex-direction: column;
+        
         }
+
 
         .block {
-        border: 1px solid hsl(0, 0%, 100%);
-        border-radius: 15px;
-        width: 90px;
-        height: 90px;
-        margin-bottom: 10px; /* Adjust spacing between squares */
+        border: 1px solid #ffffff;
+        border-radius: 1rem;
+        width: 5.5rem;
+        height: 5.5rem;
+        margin-bottom: 0.5rem;
         display: flex;
         justify-content: center;
         align-items: center;
+        margin-left: auto;
         }
+
+       
 
         .bigAndBold {
         font-size: 2.5em;
@@ -83,10 +82,31 @@ block head
         user-select: none;
         }
 
+        @media only screen and (max-width: 37.5rem) {
+        .options_column {
+        margin-top: 7.5rem!important;
+        right: 0.25rem!important;
+        }
+        .block{
+        border-radius: 0.5rem!important;
+        }
+        .block:not(:first-child) {
+        width: 2.75rem!important;
+        height: 2.75rem!important;
+        margin-bottom: 0.25rem!important;
+        }
+        .o_icon{
+        width: 2rem!important;
+        }
+        .bigAndBold {
+        font-size: 1.25em!important;
+        }
+        }
+
 block content
     main.main.top
-        div.consoleBlock
-            div.column
+        div.options_container
+            div.options_column
                 table#stats.block
                     tr 
                         td.leftcolumn due
@@ -99,14 +119,14 @@ block content
                         td#timeplaying.rightcolumn=data.stats.time
                 div#soundBox.block
                     if(data.sound)
-                        img#sound(src=`/img/soundOn.png`)
+                        img#sound.o_icon(src=`/img/soundOn.png`)
                     else
-                        img#sound(src=`/img/soundOff.png`)
+                        img#sound.o_icon(src=`/img/soundOff.png`)
                 div#blurredBox.block
                     if(data.blurred)
-                        img#blurred(src=`/img/blurredOn.png`)
+                        img#blurred.o_icon(src=`/img/blurredOn.png`)
                     else
-                        img#blurred(src=`/img/blurredOff.png`)
+                        img#blurred.o_icon(src=`/img/blurredOff.png`)
                 div#timer1020Box.block
                     if(data.timer)
                         div#timer1020.bigAndBold 10s
