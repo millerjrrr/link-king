@@ -104,7 +104,6 @@ exports.wrongAnswer = async (req, gd) => {
     if (gd.index > 0) {
       // Update the tail
       gd.tail = [gd.repeats[gd.index].solutions[0]];
-      console.log(gd.tail);
       // Update repeats
       let newFirst = gd.repeats[gd.index];
       gd.repeats.splice(gd.index, 1);

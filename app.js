@@ -6,9 +6,10 @@ const morgan = require('morgan');
 const rateLimit = require('express-rate-limit');
 const helmet = require('helmet');
 const mongoSanitize = require('express-mongo-sanitize');
-// const DOMPurify = require('dompurify');
+const DOMPurify = require('dompurify');
 const hpp = require('hpp');
 const cookieParser = require('cookie-parser');
+const compression = require('compression');
 // ------------------------------------------------------
 
 const globalErrorHandler = require('./controllers/errorController');
@@ -65,7 +66,14 @@ app.use(cookieParser());
 app.use(mongoSanitize());
 
 // Data sanitization against XSS (Cross Site Scripting Attacks)
-// app.use(DOMPurify());
+app.use((req, res, next) => {
+  if (req.body && req.body.userInput) {
+    req.body.userInput = DOMPurify.sanitize(
+      req.body.userInput,
+    );
+  }
+  next();
+});
 
 // Prevent parameter pollution
 app.use(hpp());
@@ -74,6 +82,8 @@ app.use((req, res, next) => {
   req.requestTime = new Date().toISOString();
   next();
 });
+
+app.use(compression());
 
 // ROUTES
 app.use('/', viewRouter);

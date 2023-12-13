@@ -169,8 +169,7 @@ const sendResultAndUpdate = async (correct) => {
       speakText(res.data.data.attempt.target);
     }
   } catch (err) {
-    console.log(err);
-    // showAlert('error', err.response.msg);
+    showAlert('error', err.response.msg);
   }
 };
 

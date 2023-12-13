@@ -14,7 +14,6 @@ export const searchAndUpdate = async (pattern) => {
     table.removeChild(table.firstChild);
     const tbody = document.createElement('tbody');
     table.appendChild(tbody);
-    console.log(res.data.data);
     let i = 0,
       row;
     for (let result of res.data.data.dicEntries) {
