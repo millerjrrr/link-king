@@ -4,7 +4,9 @@
   "description": "Level Up Your Language",
   "main": "server.js",
   "scripts": {
-    "start": "nodemon server.js",
+    "start": "node server.js",
+    "dev": "nodemon server.js",
+    "startprod": "NODE_ENV=production nodemon server.js",
     "startRollup": "npx rollup -c --watch --bundleConfigAsCjs"
   },
   "author": "Jacob Miller",
