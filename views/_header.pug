@@ -1,56 +1,57 @@
 mixin tabHeading(tabname, link)
     if(title===tabname)
-        a.currentTab.nav__el(href=link)= tabname
+        a.currentTab.nav_el.col_el(href=link)= tabname
     else
-        a.nav__el(href=link)= tabname
+        a.nav_el.col_el(href=link)= tabname
         
 mixin tabHeadingIcon(tabname, link, image)
     if(title===tabname)
-        a.nav__el(href=link)
-            img.currentTabIcon(src=`/img/icons/${image}.png`)
+        a.nav_el(href=link)
+            img.nav_icon.currentTabIcon(src=`/img/icons/${image}.png`)
             p= tabname
     else
-        a.nav__el(href=link)
-            img(src=`/img/icons/${image}.png`)
+        a.nav_el(href=link)
+            img.nav_icon(src=`/img/icons/${image}.png`)
             p= tabname
 
 header
-    nav.user_details
-        span.neutral_el.icon_holder
-            img(src='/img/icons/user.png' alt = 'logo' height='48px')
-        if user
-            span.neutral_el(style = "user-select: none")= user.username
-        else
-            +tabHeading("LogIn", '/login')
-            +tabHeading("SignUp", '/signUp')
+    nav
+        nav.user_details
+            span.neutral_el
+                img(src='/img/icons/user.png' alt = 'logo' height='48px')
+            if user
+                span.neutral_el(style = "user-select: none")= user.username
+            else
+                +tabHeading("Log In", '/login')
+                +tabHeading("Sign Up", '/signUp')
         
     nav.navigation_icons
         if(title)
-            a.nav__el(href='/') 
-                img(src='img/icons/home.png')
+            a.nav_el(href='/') 
+                img.nav_icon(src='img/icons/home.png')
                 p Home
         else
-            a.nav__el(href='/')
-                img.currentTabIcon(src='img/icons/home.png')
+            a.nav_el(href='/')
+                img.nav_icon.currentTabIcon(src='img/icons/home.png')
                 p Home
         if user 
             +tabHeadingIcon('Statistics','/statistics','stats')
             +tabHeadingIcon('Console','/console','console')
             +tabHeadingIcon('Dictionary','/dictionary', 'dictionary')
-            a#logoutBtn.nav__el
-                img(src='/img/icons/logout.png')
+            a#logoutBtn.nav_el
+                img.nav_icon(src='/img/icons/logout.png')
                 p Logout
         else 
             //- +tabHeadingIcon('Free Test','/freeTest','test')
-            span.nav__shadow
+            span.nav_shadow
                 div.shadow
                 img(src=`/img/icons/stats.png`)
                 p Statistics
-            span.nav__shadow
+            span.nav_shadow
                 div.shadow
                 img(src=`/img/icons/console.png`)
                 p Console
-            span.nav__shadow
+            span.nav_shadow
                 div.shadow
                 img(src=`/img/icons/dictionary.png`)
                 p Dictionary
@@ -58,4 +59,4 @@ div.logo_container
     img.logo(src='/img/link-king-header-logo.png', alt = 'logo')
 
 if(title!=='Console')
-    div(style='height:12em; position:relative; display:block;')
+    div.filler_block

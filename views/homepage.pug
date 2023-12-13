@@ -4,8 +4,8 @@ mixin aboutBlockL(heading, image, text)
     div.aboutBlockL
         div.aboutBlockTitle.fadeLeft 
             span= heading
-        div.aboutBlockIMG
-            img(src=`/img/screenShots/${image}.png`)
+        div
+            img.aboutBlockIMG(src=`/img/screenShots/${image}.png`)
         div.aboutBlockText.fadeRight
             span= text 
 
@@ -13,34 +13,28 @@ mixin aboutBlockR(heading, image, text)
     div.aboutBlockR
         div.aboutBlockText.fadeLeft
             span= text 
-        div.aboutBlockIMG
-            img(src=`/img/screenShots/${image}.png`)
+        div
+            img.aboutBlockIMG(src=`/img/screenShots/${image}.png`)
         div.aboutBlockTitle.fadeRight
             span= heading
-            
+
 block head
     style(type='text/css').
-        .aboutBlockL {
-        margin-top: 3em;
+        .aboutBlockL,
+        .aboutBlockR {
+        margin: 3rem;
         display: flex;
         justify-content: center;
-        height: 150px;
+        height: 9rem;
         transform: skewX(-2deg) skewY(1deg);
         z-index: 1;
         }
-
         .aboutBlockR {
-        margin-top: 3em;
-        display: flex;
-        justify-content: center;
-        height: 150px;
-        transform: skewX(-2deg) skewY(-1deg);
-        z-index: 1;
+        transform: skewX(-2deg) skewY(-1deg)!important;
         }
-
         .aboutBlockTitle {
         flex: 0.3;
-        font-size: 2em;
+        font-size: 2rem;
         font-weight: bold;
         display: flex;
         justify-content: center;
@@ -48,28 +42,27 @@ block head
         }
 
         .fadeLeft {
+        padding: 0 0.5rem 0 0;
         background: linear-gradient(to right, #1b1b1b, #000000);
         text-align: right;
-        padding: 0 10px 0 0;
         justify-content: right;
         }
 
         .fadeRight {
+        padding: 0 0 0 0.5rem;
         background: linear-gradient(to left, #1b1b1b, #000000);
         text-align: left;
-        padding: 0 0 0 10px;
         justify-content: left;
         }
 
         .aboutBlockIMG {
-        border: 3px solid hsl(0, 0%, 0%);
-        height: 200px;
-        width: 200px;
-        /* border-radius: 15px; */
+        border: 0.2rem solid hsl(0, 0%, 0%);
+        height: 13.25rem;
+        width: 13.25rem;
         display: flex;
         justify-content: center;
         align-items: center;
-        transform: translate(0, -2em);
+        transform: translate(0, -2rem);
         }
 
         .aboutBlockText {
@@ -81,60 +74,40 @@ block head
         align-items: center;
         }
 
-        .main__home {
-        position: relative;
-        -webkit-box-flex: 1;
-        -ms-flex: 1;
-        flex: 1;
-        display: flex;
-        flex-direction: column;
-        justify-content: top;
-        align-items: center;
-        height: 100%;
+        @media screen and (max-width: 87rem) {
+            .aboutBlockL,
+        .aboutBlockR {
+        margin: 1.5rem!important;
+        height: 4.5rem!important;
+        padding: 1rem 0!important;
+        }
+        .aboutBlockIMG {
+        height: 6.5rem!important;
+        width: 6.5rem!important;
+        display: flex!important;
+        transform: translate(0, -1rem)!important;
+        }
+        .aboutBlockTitle {
+        flex: 0.15!important;
+        font-size: 1rem!important;
+        }
+        .aboutBlockText {
+        padding: 0.2rem!important;
+        font-size: 1rem!important;
+        }
+        }
+        @media screen and (max-width: 37.5rem) {
+        .aboutBlockText {
+        font-size: 0.5rem!important;
+        }
         }
 
-        .bigTitle {
-        z-index: 50;
-        margin-top: 10px;
-        /* margin-bottom: 10px; */
-        font-size: 5em;
-        display: inline-block;
-        display: flex;
-        flex-direction: row;
-        position: relative;
-        }
-
-        .upcomingFeatures {
-        position: relative;
-        margin-top: 3em;
-        display: flex;
-        justify-content: top;
-        height: 150px;
-        width: 90%;
-        z-index: 1;
-        border: 2px solid hsl(0, 0%, 100%);
-        border-radius: 15px;
-        height: 150px;
-        align-items: left;
-        padding: 20px 20px 20px 20px;
-        }
-
-        .featuresTitle {
-        font-size: 1.5em;
-        }
 
 block content
-    main.main__home
+    main
         +aboutBlockL("Teaching with Intelligence",'tailored',"Designed for language learners of all levels! The app finds your vocabulary rating, measures your ability, monitors your progression and provides you with a unique learning experience that’s right for you!")
         +aboutBlockR("More Vocabulary Less Grammar", 'vocabulary', "Focus on expanding vocabulary as quickly as possible! Grammer should be learned through imersion in the language, through conversation, movies, reading and other media" )
         +aboutBlockL("Structured Spaced Repetition",'SSR',"Applying a learning model to learning! The app monitors your learning tendencies and presents words to you at regular intervals for optimized repetition.")
         +aboutBlockR("Customizable", 'customizable', "Look up words in our dictionary and easily add them to your learning queue. Simple variations of the same word are omitted to help you avoid unnecessary and unproductive work" )
         +aboutBlockL("Exciting",'exciting',"The clock is running! With PRs on the line this learning game is as exciting as you make it")
         +aboutBlockR("Sound", 'sounds', "Customize sound, vision and timer settings. Familiarize yourself with the sounds of the language and go at your own pace" )
-        
-        //- div.upcomingFeatures
-        //-     p.featuresTitle Upcoming features:
-        //-         div.gridThreeCols
-        //-             p feature
-        //-             p feature
-        //-             p feature

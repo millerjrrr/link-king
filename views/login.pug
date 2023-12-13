@@ -5,11 +5,10 @@ block head
 
 block content
     main.main
-        div#formholder.loginform
-            form#loginform
-                .form__group
-                    input#email.form__input(type='email', placeholder='you@example.com', required)
-                .form__group
-                    input#password.form__input(type='password', placeholder='••••••••', required, minlength='8')
-                .submitentries
-                    button#loginbtn.nav__el.login_font Log In
+        form#loginform.lkform
+            .form_group
+                input#email.form_input(type='email', placeholder='you@example.com', required)
+            .form_group
+                input#password.form_input(type='password', placeholder='••••••••', required, minlength='8')
+            .submitentries
+                button#loginbtn.nav_el.lkform.margin_comp Log In

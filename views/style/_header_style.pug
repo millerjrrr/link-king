@@ -13,6 +13,7 @@ style(type='text/css').
     -ms-flex-pack: justify;
     -webkit-box-align: center;
     -ms-flex-align: center;
+    align-items: center;
     }
     header{
     z-index: 1000;
@@ -24,16 +25,17 @@ style(type='text/css').
     -ms-flex: 1;
     flex: 1;
     background-color: rgba(27, 27, 27, 0.9);
-    align-items: center;
+    //- align-items: center;
     flex-direction: column;
     }
-
+    .filler_block{
+    height:10rem; 
+    position:relative; 
+    display:block;
+    }
     .navigation_icons{
         max-width:70%:
     }
- 
-
-    .user_detals,
     nav {
     display: -webkit-box;
     display: -ms-flexbox;
@@ -42,18 +44,22 @@ style(type='text/css').
     -ms-flex-align: center;
     align-items: center;
     }
-
     .user_details {
     height:100%;
     font-size: 2em;
-    padding: 0 0 0 1em;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    text-align: center;
+    margin-left: 2rem
     }
-
-
     .neutral_el,
-    .nav__el,
-    .nav__el:link
-    .nav__el:visited {
+    .nav_el,
+    .nav_el:link
+    .nav_el:visited {
     flex-direction: row;
     color: #ffffff;
     -webkit-transition: all 0.2s;
@@ -64,20 +70,22 @@ style(type='text/css').
     cursor: pointer;
     font-family: inherit;
     margin-right: 2rem;
+    text-align: center;
+    align-items: center;
     }
-    .nav__el:hover,
-    .nav__el:active {
-    -webkit-transform: translateY(-3px);
-    transform: translateY(-3px);
-    filter: drop-shadow(0px 0px 20px rgba(255, 255, 255));
+    .nav_el:hover,
+    .nav_el:active {
+    -webkit-transform: translateY(-0.25rem);
+    transform: translateY(-0.25rem);
+    filter: drop-shadow(0 0 1.25rem rgba(255, 255, 255));
     z-index: 100;
     }
 
-    .nav__el:focus {
+    .nav_el:focus {
     outline: none;
     }
 
-    .nav__shadow {
+    .nav_shadow {
     color: #8b8b8b;
     -webkit-transition: all 0.2s;
     transition: all 0.2s;
@@ -87,40 +95,56 @@ style(type='text/css').
     cursor: pointer;
     font-family: inherit;
     margin-right: 2rem;
+    text-align: center;
+    align-items: center;
     }
 
     .shadow {
     position: fixed;
-    width: 70px;
-    height: 70px;
+    width: 4.25rem;
+    height: 4.25rem;
     background-color: rgba(27, 27, 27, 0.5);
     }
-
-
-   
-
     .logo {
-    width: 28rem;
+    width: 23rem;
     height: auto;
     }
 
 
     @media screen and (max-width: 87rem) {
-    header, .logo_container{
+    header, .logo_container, .filler_block{
         width: 100% !important;
-        min-width: 20rem !important;
+        min-width: 23rem !important;
+        height: 7rem!important;
     }
-    
+    header{
+        align-items: end!important;
+    }
     .logo{
-        width: 7rem;
-        padding: 5px;
+        width: 7rem!important;
     }
-    
+    .user_details{
+        font-size: 1.5rem!important;
+    }
     }
 
     @media screen and (max-width: 37.5rem) {
+    .nav_shadow,
+    .nav_el{
+        margin-right: 1rem!important;
+        font-size: 0.8rem!important;
+    }
     .user_details{
         flex-direction: column!important;
         font-size: 1rem!important;
+        margin-left: 1rem!important;
+    }
+    .neutral_el,
+    .col_el {
+        margin-right: 0!important;
+        margin-left: 0!important;
+    }
+    .nav_icon{
+        width: 2rem!important;
     }
     }

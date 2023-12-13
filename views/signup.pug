@@ -5,15 +5,14 @@ block head
 
 block content
     main.main
-        div.loginform
-            form#signupform
-                .form__group
-                    input#username.form__input(type='name', placeholder='Your Name', required)
-                .form__group
-                    input#email.form__input(type='email', placeholder='you@example.com', required)
-                .form__group
-                    input#password.form__input(type='password', placeholder='••••••••', required, minlength='8')
-                .form__group
-                    input#passwordConfirm.form__input(type='password', placeholder='••••••••', required, minlength='8')
-                .submitentries
-                    button#signupbtn.nav__el.login_font Sign Up
+        form#signupform.lkform
+            .form_group
+                input#username.form_input(type='name', placeholder='Your Name', required)
+            .form_group
+                input#email.form_input(type='email', placeholder='you@example.com', required)
+            .form_group
+                input#password.form_input(type='password', placeholder='••••••••', required, minlength='8')
+            .form_group
+                input#passwordConfirm.form_input(type='password', placeholder='••••••••', required, minlength='8')
+            .submitentries
+                button#signupbtn.nav_el.lkform.margin_comp Sign Up
