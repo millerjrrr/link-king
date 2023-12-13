@@ -1,10 +1,11 @@
 extends base
 
-mixin listEntry(_id, fontSize, text, opacity)
-    p(id= _id, translate = "no", style=`font-size: ${fontSize}px ; \n opacity: ${opacity}`)=text 
+mixin listEntry(_id, fontSize, text, opacity, classname)
+    p(class= classname, id= _id, translate = "no", style=`font-size: ${fontSize}px ; \n opacity: ${opacity}`)= text 
 
 block head
     style(type='text/css').
+        
         #racetrack {
         user-select: none;
         margin-bottom: 0%;
@@ -13,7 +14,11 @@ block head
         #tail {
         user-select: none;
         margin-top: 0%;
-        overflow: hidden;
+        max-width:100%;
+        }
+        .hide_of{
+        overflow:hidden;
+        white-space: nowrap;
         }
 
         #formx {
@@ -49,6 +54,7 @@ block head
         cursor: pointer;
         width: 100%;
         height: 5rem;
+        min-height:5rem;
         align-items: right;
         }
 
@@ -82,9 +88,17 @@ block head
         user-select: none;
         }
 
+
+
+        @media screen and (max-width: 75rem) {
+        body{
+        height: 100vh;
+        //- overflow: hidden;    
+        }
+        }
         @media only screen and (max-width: 37.5rem) {
         .options_column {
-        margin-top: 7.5rem!important;
+        margin-top: 120px!important;
         right: 0.25rem!important;
         }
         .block{
@@ -101,6 +115,9 @@ block head
         .bigAndBold {
         font-size: 1.25em!important;
         }
+        //- .tails:not(:first-child){
+        //- visibility: hidden!important;
+        //- }
         }
 
 block content
@@ -134,13 +151,13 @@ block content
                         div#timer1020.bigAndBold 20s
         span#racetrack
             -for (let i = 19; i >= 0; --i)
-                +listEntry(`rc${i}`,50*Math.pow(0.8,i),data.raceTrack[i],1)
+                +listEntry(`rc${i}`,50*Math.pow(0.8,i),data.raceTrack[i],1,"")
         form#formx
             input#attempt(autocomplete="off", value='')
             div#border
-        span#tail
+        span#tail.hide_of
             -for (let i = 0; i<=3; ++i)
-                +listEntry(`te${i}`,50*Math.pow(0.8,-i-1),data.tail[i],1 / Math.pow(1.7, i))
+                +listEntry(`te${i}`,50*Math.pow(0.8,-i-1),data.tail[i],1 / Math.pow(1.7, i),"tails")
         span.outlined
             p(style='visibility: hidden', id='solutions')= JSON.stringify(data.attempt.solutions)
             p(style='visibility: hidden', id='tries')= data.tries
