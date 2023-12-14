@@ -1,4 +1,3 @@
-// const axios = require('axios');
 import { showAlert } from './alerts.mjs';
 
 export const login = async (email, password) => {

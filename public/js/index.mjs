@@ -1,4 +1,3 @@
-// const axios = require('axios');
 import {
   login,
   logout,
@@ -11,8 +10,8 @@ import {
   answerAccepted,
   convertMsToTime,
 } from './consoleFunctions.mjs';
-// import { showAlert } from './alerts.mjs';
 import { searchAndUpdate } from './dictionary.mjs';
+import { showPop, showAlert } from './alerts.mjs';
 
 ////////////////////////////////////////////////////////////////////
 // Console elements
@@ -41,7 +40,8 @@ let form = document.getElementById('attempt'),
   perimeter,
   timeplayingval,
   solutions,
-  tries;
+  tries,
+  level;
 // settings variables
 if (timeplaying) timeplayingval = timeplaying.innerHTML * 1; //time management
 if (document.getElementById('solutions'))
@@ -50,6 +50,8 @@ if (document.getElementById('solutions'))
   );
 if (document.getElementById('tries'))
   tries = document.getElementById('tries').innerText;
+if (document.getElementById('level'))
+  level = document.getElementById('level').innerText;
 
 if (form) {
   form.style.borderRadius = '15px';
@@ -118,6 +120,7 @@ const wrongAnswerReturned = () => {
       100,
     );
   } else {
+    showPop('incorrect', level);
     wrongWiggle();
     showBorder();
     clearInterval(intervalTimer);
@@ -163,13 +166,11 @@ const sendResultAndUpdate = async (correct) => {
     time = 0;
     if (res.data.status === 'success') {
       updateRaceTrackAndStats(res.data);
-      solutions = res.data.data.attempt.solutions;
-      tries = res.data.data.tries;
       updateColor();
       speakText(res.data.data.attempt.target);
     }
   } catch (err) {
-    showAlert('error', err.response.msg);
+    showAlert('error', err);
   }
 };
 
@@ -215,6 +216,11 @@ const updateRaceTrackAndStats = (res) => {
     document.getElementById('racetrack').style =
       'visibility:hidden';
   // raceTrack[0].style = 'color: #1b1b1b; font-size: 50px;';
+  solutions = res.data.attempt.solutions;
+  tries = res.data.tries;
+  if (res.data.attempt.level)
+    level = res.data.attempt.level;
+  else level = 'R';
 };
 
 function drawFormBorder() {
@@ -463,6 +469,7 @@ if (form)
       e.preventDefault();
       // If the answer is right
       if (answerAccepted(solutions, form.value)) {
+        showPop('correct', level);
         sendResultAndUpdate(true);
         startTheFormTimer(timeUp);
         clearInterval(sessionTimer);

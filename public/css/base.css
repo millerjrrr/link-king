@@ -102,3 +102,19 @@ a {
 .outlined {
   position: absolute;
 }
+
+.pop {
+  position: absolute;
+  top: 0.25rem;
+  right: 0.25rem;
+  z-index: 9999;
+  font-size: 3rem;
+  font-weight: 400;
+  text-align: center;
+}
+.pop_correct {
+  color: greenyellow;
+}
+.pop_incorrect {
+  color: red;
+}
