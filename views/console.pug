@@ -162,17 +162,16 @@ block content
                         div#timer1020.bigAndBold 10s
                     else
                         div#timer1020.bigAndBold 20s
-        div.console_container
-            span#racetrack
-                -for (let i = 19; i >= 0; --i)
-                    +listEntry(`rc${i}`,Math.pow(0.8,i),data.raceTrack[i],1,"")
-            form#formx
-                input#attempt(autocomplete="off", value='')
-                div#border
-            span#tail.hide_of
-                -for (let i = 0; i<=3; ++i)
-                    +listEntry(`te${i}`,Math.pow(0.8,-i-1),data.tail[i],1 / Math.pow(1.7, i),"tails")
-            span.outlined
-                p(style='visibility: hidden', id='solutions')= JSON.stringify(data.attempt.solutions)
-                p(style='visibility: hidden', id='tries')= data.tries
+        span#racetrack.console_container
+            -for (let i = 19; i >= 0; --i)
+                +listEntry(`rc${i}`,Math.pow(0.8,i),data.raceTrack[i],1,"")
+        form#formx.console_container
+            input#attempt(autocomplete="off", value='')
+            div#border
+        span#tail.hide_of.console_container
+            -for (let i = 0; i<=3; ++i)
+                +listEntry(`te${i}`,Math.pow(0.8,-i-1),data.tail[i],1 / Math.pow(1.7, i),"tails")
+        span.outlined.console_container
+            p(style='visibility: hidden', id='solutions')= JSON.stringify(data.attempt.solutions)
+            p(style='visibility: hidden', id='tries')= data.tries
             
