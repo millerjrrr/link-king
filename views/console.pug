@@ -1,11 +1,13 @@
 extends base
 
 mixin listEntry(_id, fontSize, text, opacity, classname)
-    p(class= classname, id= _id, translate = "no", style=`font-size: ${fontSize}px ; \n opacity: ${opacity}`)= text 
+    p(class= classname, id= _id, translate = "no", style=`font-size: ${fontSize}em ; \n opacity: ${opacity}`)= text 
 
 block head
     style(type='text/css').
-        
+        .console_container{
+        font-size:3rem;
+        }
         #racetrack {
         user-select: none;
         margin-bottom: 0%;
@@ -22,7 +24,7 @@ block head
         }
 
         #formx {
-        margin: 8px 0;
+        margin: 0.5rem 0;
         position: relative;
         }
 
@@ -33,10 +35,10 @@ block head
         }
 
         #attempt {
-        font-size: 50px;
+        font-size: 1em;
         background-color: #000000;
         text-align: center;
-        width: 368px;
+        width: 23rem;
         border: none;
         outline: none;
         margin: 0 0;
@@ -53,15 +55,15 @@ block head
         .options_container {
         cursor: pointer;
         width: 100%;
-        height: 80px;
-        min-height:80px;
+        height: 5rem;
+        min-height:5rem;
         align-items: right;
         }
 
         .options_column {
-        margin-top: 160px;
+        margin-top: 10rem;
         position: absolute;
-        right: 16px;
+        right: 1rem;
         display: flex;
         flex-direction: column;
         
@@ -70,10 +72,10 @@ block head
 
         .block {
         border: 1px solid #ffffff;
-        border-radius: 16px;
-        width: 88px;
-        height: 88px;
-        margin-bottom: 8px;
+        border-radius: 1rem;
+        width: 5.5rem;
+        height: 5.5rem;
+        margin-bottom: 0.5rem;
         display: flex;
         justify-content: center;
         align-items: center;
@@ -83,7 +85,7 @@ block head
        
 
         .bigAndBold {
-        font-size: 40px;
+        font-size: 2.5rem;
         font-weight: bold;
         user-select: none;
         }
@@ -126,6 +128,10 @@ block head
         height: 0!important;
         min-height:0!important;
         }
+        .console_container{
+         font-size: 2.5rem;
+        }
+        }
 
 block content
     main.main.top
@@ -156,16 +162,17 @@ block content
                         div#timer1020.bigAndBold 10s
                     else
                         div#timer1020.bigAndBold 20s
-        span#racetrack
-            -for (let i = 19; i >= 0; --i)
-                +listEntry(`rc${i}`,50*Math.pow(0.8,i),data.raceTrack[i],1,"")
-        form#formx
-            input#attempt(autocomplete="off", value='')
-            div#border
-        span#tail.hide_of
-            -for (let i = 0; i<=3; ++i)
-                +listEntry(`te${i}`,50*Math.pow(0.8,-i-1),data.tail[i],1 / Math.pow(1.7, i),"tails")
-        span.outlined
-            p(style='visibility: hidden', id='solutions')= JSON.stringify(data.attempt.solutions)
-            p(style='visibility: hidden', id='tries')= data.tries
+        div.console_container
+            span#racetrack
+                -for (let i = 19; i >= 0; --i)
+                    +listEntry(`rc${i}`,Math.pow(0.8,i),data.raceTrack[i],1,"")
+            form#formx
+                input#attempt(autocomplete="off", value='')
+                div#border
+            span#tail.hide_of
+                -for (let i = 0; i<=3; ++i)
+                    +listEntry(`te${i}`,Math.pow(0.8,-i-1),data.tail[i],1 / Math.pow(1.7, i),"tails")
+            span.outlined
+                p(style='visibility: hidden', id='solutions')= JSON.stringify(data.attempt.solutions)
+                p(style='visibility: hidden', id='tries')= data.tries
             
