@@ -49,9 +49,13 @@ if (document.getElementById('solutions'))
     document.getElementById('solutions').innerHTML,
   );
 if (document.getElementById('tries'))
-  tries = document.getElementById('tries').innerText;
+  tries = document.getElementById('tries').innerHTML;
 if (document.getElementById('level'))
-  level = document.getElementById('level').innerText;
+  level = document.getElementById('level').innerHTML;
+
+level = level === '' ? 'R' : level;
+
+console.log(tries, level);
 
 if (form) {
   form.style.borderRadius = '15px';

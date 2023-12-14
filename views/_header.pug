@@ -17,12 +17,14 @@ mixin tabHeadingIcon(tabname, link, image)
 header
     nav
         nav.user_details
-            span.neutral_el
-                img(src='/img/icons/user.png' alt = 'logo' height='48px')
             if user
+                span.neutral_el.col_el
+                    img(src='/img/icons/user.png' alt = 'logo' height='48px')
                 span.neutral_el(style = "user-select: none")= user.username
             else
                 +tabHeading("Log In", '/login')
+                span.neutral_el.col_el
+                    img(src='/img/icons/user.png' alt = 'logo' height='48px')
                 +tabHeading("Sign Up", '/signUp')
         
     nav.navigation_icons

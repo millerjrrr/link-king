@@ -44,9 +44,12 @@ export const showPop = (type, level) => {
   };
 
   const changeLevelNumber = () => {
-    if (level !== 'R')
+    if (level !== 'R' && type === 'correct')
       pop.innerHTML = 'L' + (level * 1 + 1);
+    if (level !== 'R' && type !== 'correct')
+      pop.innerHTML = 'L1';
   };
-  window.setTimeout(clearAll, timeOut / 2);
+
+  window.setTimeout(changeLevelNumber, timeOut / 2);
   window.setTimeout(clearAll, timeOut);
 };

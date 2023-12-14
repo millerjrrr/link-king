@@ -27,9 +27,6 @@ exports.wrongAnswer = async (req, gd) => {
       ? dictionarySize
       : lookUpRank;
 
-  // //Linear progression mode
-  // lookUpRank = gd.footsteprank;
-
   const dicWord = await DicEntry.findOneAndUpdate(
     {
       rank: lookUpRank,
@@ -127,10 +124,6 @@ exports.correctAnswer = async (req, gd) => {
       ? dictionarySize
       : lookUpRank;
 
-  // //Linear progression mode NO LONGER WORKS DUE TO REORDERING
-  // //
-  // lookUpRank = gd.footsteprank;
-
   const dicWord = await DicEntry.findOneAndUpdate(
     {
       rank: lookUpRank,
@@ -190,26 +183,4 @@ exports.correctAnswer = async (req, gd) => {
       runValidators: true,
     },
   );
-};
-
-const getDicWordByRating = async (gd) => {
-  const intervalCenter =
-    gd.rating - 50 + Math.random() * 100;
-
-  const doc = await DicEntry.findOne({
-    rating: {
-      $gte: intervalCenter,
-    },
-  });
-
-  if (doc) return doc;
-  else {
-    const result = await DicEntry.findOne({
-      rating: {
-        $lte: intervalCenter,
-      },
-    });
-
-    return result;
-  }
 };
