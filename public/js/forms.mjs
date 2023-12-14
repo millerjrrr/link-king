@@ -19,7 +19,7 @@ export const login = async (email, password) => {
       const forgotP = document.createElement('a');
       forgotP.id = 'forgotP';
       forgotP.innerHTML = 'Forgot Password?';
-      forgotP.className = 'nav__el';
+      forgotP.className = 'form_btn';
       forgotP.href = '/forgot-password';
       document
         .getElementById('formholder')

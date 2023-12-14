@@ -5,17 +5,17 @@ block head
     
 block content
     main.main
-        div.loginform
+        div#formholder.lkform
             form#resetpasswordform
-                .form__group
-                    span#emailfixed.emailattop= email
-                .form__group
+                .form_group
+                    input#email.form_input.emailattop(type='email', placeholder='you@example.com', required, value=email)
+                .form_group
                     span#resetmessage We sent a code to your email!
-                .form__group
-                    input#token.form__input(type='text', placeholder='paste your reset code here', required, minlength='32')
-                .form__group
-                    input#password.form__input(type='password', placeholder='••••••••', required, minlength='8')
-                .form__group
-                    input#passwordConfirm.form__input(type='password', placeholder='••••••••', required, minlength='8')
+                .form_group
+                    input#token.form_input(autocomplete="off", type='text',placeholder='paste your reset code here', required, minlength='32')
+                .form_group
+                    input#password.form_input(autocomplete="off", type='password', placeholder='••••••••', required, minlength='8')
+                .form_group
+                    input#passwordConfirm.form_input(autocomplete="off", type='password', placeholder='••••••••', required, minlength='8')
                 .submitentries
-                    button#resetbtn.nav__el.login_font Update Password
+                    button#resetbtn.form_btn Update Password

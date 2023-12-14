@@ -7,12 +7,12 @@ block content
     main.main
         form#signupform.lkform
             .form_group
-                input#username.form_input(type='name', placeholder='Your Name', required)
+                input#username.form_input(type='name', placeholder='Your Name', required, autocomplete="off")
             .form_group
-                input#email.form_input(type='email', placeholder='you@example.com', required)
+                input#email.form_input(type='email', placeholder='you@example.com', required, autocomplete="off")
             .form_group
-                input#password.form_input(type='password', placeholder='••••••••', required, minlength='8')
+                input#password.form_input(type='password', placeholder='••••••••', required, minlength='8', autocomplete="off")
             .form_group
-                input#passwordConfirm.form_input(type='password', placeholder='••••••••', required, minlength='8')
+                input#passwordConfirm.form_input(type='password', placeholder='••••••••', required, minlength='8', autocomplete="off")
             .submitentries
-                button#signupbtn.nav_el.lkform.margin_comp Sign Up
+                button#signupbtn.form_btn Sign Up

@@ -1,7 +1,9 @@
 style(type='text/css').
     #signupform, 
-    #loginform{
+    #loginform,
+    #forgotpasswordform{
         padding: 1rem 0 0 0;
+        font-size: 2.5rem;
     }
     .lkform {
     text-align: center;
@@ -28,19 +30,35 @@ style(type='text/css').
     }
 
     #resetmessage {
-    font-size: 0.5em;
+    font-size: 0.8em;
     margin: 0px;
     padding: 0px;
     }
-    .margin_comp{
-    margin-left:2rem;
+
+    .form_btn,
+    .form_btn:link
+    .form_btn:visited {
+    flex-direction: row;
+    color: #ffffff;
+    -webkit-transition: all 0.2s;
+    transition: all 0.2s;
+    font-weight: 400;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-family: inherit;
+    text-align: center;
+    align-items: center;
+    font-size:1em;
+    }
+    .form_btn:hover,
+    .form_btn:active {
+    -webkit-transform: translateY(-0.25rem);
+    transform: translateY(-0.25rem);
+    filter: drop-shadow(0 0 1.25rem rgba(255, 255, 255));
+    z-index: 100;
+    }
+    .form_btn:focus {
+    outline: none;
     }
 
-    @media only screen and (max-width: 87rem) {
-    .lkform {
-    font-size: 1.5rem!important;
-    }
-    .margin_comp{
-    margin-left:1rem;
-    }
-    }

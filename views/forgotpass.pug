@@ -5,11 +5,11 @@ block head
     
 block content
     main.main
-        div.loginform
+        div#formholder.lkform
             form#forgotpasswordform
-                .form__group
+                .form_group
                     span#resetmessage Enter your email and we'll send you a code
-                .form__group
-                    input#email.form__input(type='email', placeholder='you@example.com', required)
-                .form__group
-                    button#sendcode.nav__el.login_font Send Code
+                .form_group
+                    input#email.form_input(type='email', placeholder='you@example.com', required, autocomplete="off")
+                .form_group
+                    button#sendcode.form_btn Send Code
