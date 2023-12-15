@@ -62,7 +62,7 @@ export const signup = async (
       location.assign('/');
     }, 1500);
   } catch (err) {
-    showAlert('error', err.response.data.msg);
+    showAlert('error', err);
   }
 };
 
