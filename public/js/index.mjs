@@ -53,10 +53,6 @@ if (document.getElementById('tries'))
 if (document.getElementById('level'))
   level = document.getElementById('level').innerHTML;
 
-level = level === '' ? 'R' : level;
-
-console.log(tries, level);
-
 if (form) {
   form.style.borderRadius = '15px';
   // rect = form.getBoundingClientRect();

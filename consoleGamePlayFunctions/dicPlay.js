@@ -76,7 +76,7 @@ exports.wrongAnswer = async (req, gd) => {
 
   gd.repeats.unshift(newRepeat);
   // Update GameData with new DicWord and DicPlay
-  const doc = await GameData.findOneAndUpdate(
+  await GameData.findOneAndUpdate(
     { user: req.user.id },
     {
       index: 0,

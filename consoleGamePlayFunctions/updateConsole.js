@@ -96,9 +96,11 @@ const updateGDAndReturnData = async (user) => {
   while (queue.length < 20)
     queue.push({ target: '????????' });
 
-  const attempt = queue[0];
+  let attempt = queue[0];
   const raceTrack = queue.map((row) => row.target);
   const tries = gd.index < gd.repeats.length ? 1 : 3;
+  if (attempt.level && gd.index < gd.repeats.length)
+    attempt.level = 0;
 
   return {
     attempt,
