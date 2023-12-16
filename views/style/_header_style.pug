@@ -25,7 +25,6 @@ style(type='text/css').
     -ms-flex: 1;
     flex: 1;
     background-color: rgba(27, 27, 27, 0.9);
-    //- align-items: center;
     flex-direction: column;
     }
     .filler_block{
@@ -121,8 +120,8 @@ style(type='text/css').
     header, .logo_container, .filler_block{
         width: 100% !important;
         min-width: 23rem !important;
-        height: 7rem!important;
-        min-height:7rem!important;
+        height: 7rem;
+        min-height:7rem;
     }
     header{
         align-items: end!important;
@@ -158,5 +157,19 @@ style(type='text/css').
      .shadow {
     width: 4rem;
     height: 2rem;
+    }
+    }
+
+    @media screen and (max-height: 25rem) and (max-width: 25rem){
+    header{
+    visibility: hidden;
+    }
+    .logo{
+        width: 7rem!important;
+    }
+    .logo_container,
+    header, .logo_container, .filler_block{
+    height: 3rem!important;
+    min-height:3rem!important;
     }
     }

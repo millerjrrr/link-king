@@ -53,3 +53,17 @@ export const showPop = (type, level) => {
   window.setTimeout(changeLevelNumber, timeOut / 2);
   window.setTimeout(clearAll, timeOut);
 };
+
+export const hideDicAlert = () => {
+  const el = document.querySelector('.alert');
+  if (el) el.parentElement.removeChild(el);
+};
+// type is 'success' or 'error'
+export const showDicAlert = (type, msg) => {
+  hideAlert();
+  const markup = `<div class="alert alert--${type}">${msg}</div>`;
+  document
+    .querySelector('body')
+    .insertAdjacentHTML('afterbegin', markup);
+  window.setTimeout(hideAlert, 1000);
+};

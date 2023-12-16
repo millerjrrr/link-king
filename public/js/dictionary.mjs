@@ -1,6 +1,6 @@
 // const axios = require('axios');
 import { elt, normalize } from './consoleFunctions.mjs';
-import { showAlert } from './alerts.mjs';
+import { showAlert, showDicAlert } from './alerts.mjs';
 
 export const searchAndUpdate = async (pattern) => {
   const normpattern = normalize(pattern);
@@ -20,7 +20,7 @@ export const searchAndUpdate = async (pattern) => {
     for (let result of res.data.data.dicEntries) {
       row = elt(
         'tr',
-        { id: `row${i}`, class: 'nav__el' },
+        { id: `row${i}`, class: 'nav_el', style: '' },
         elt(
           'td',
           {
@@ -87,12 +87,12 @@ const addWordToQueue = async (e) => {
   });
 
   if (res.data.status === 'success') {
-    showAlert(
+    showDicAlert(
       'success',
       'This word has been added to your queue',
     );
   } else {
-    showAlert(
+    showDicAlert(
       'error',
       'This word is already in your queue',
     );

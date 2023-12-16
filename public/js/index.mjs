@@ -17,7 +17,7 @@ import { showPop, showAlert } from './alerts.mjs';
 // Console elements
 const raceTrack = [],
   tail = [];
-for (i = 0; i < 20; ++i)
+for (i = 0; i < 5; ++i)
   raceTrack.push(document.getElementById(`rc${i}`));
 for (i = 0; i < 4; ++i)
   tail.push(document.getElementById(`te${i}`));
@@ -192,7 +192,7 @@ function wrongWiggle() {
 }
 
 const updateRaceTrackAndStats = (res) => {
-  for (i = 0; i < 20; ++i)
+  for (i = 0; i < 5; ++i)
     raceTrack[i].innerText = res.data.raceTrack[i];
   for (i = 0; i < 4; ++i)
     tail[i].innerText = res.data.tail[i] || '';
