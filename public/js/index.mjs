@@ -665,3 +665,31 @@ if (searchform) {
     responseTimer = setTimeout(searchAndUpdateValue, 500);
   });
 }
+
+///////////////////////////////////////////////////////////////////
+///// Handling Keyboard Visibility for Phones and Tablets
+
+function handleKeyboardVisibility() {
+  const body = document.body;
+
+  // Check if the viewport height changes
+  const initialHeight = window.innerHeight;
+  window.addEventListener('resize', () => {
+    const currentHeight = window.innerHeight;
+
+    // If the height decreases, the keyboard is likely active
+    if (currentHeight < initialHeight) {
+      body.classList.add('keyboard-active');
+      document.documentElement.style.height = '25rem';
+    } else {
+      body.classList.remove('keyboard-active');
+      document.documentElement.style.height = '100%';
+    }
+  });
+}
+
+// Run the function when the document is ready
+document.addEventListener(
+  'DOMContentLoaded',
+  handleKeyboardVisibility,
+);

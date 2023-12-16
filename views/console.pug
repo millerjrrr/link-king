@@ -5,6 +5,11 @@ mixin listEntry(_id, fontSize, text, opacity, classname)
 
 block head
     style(type='text/css').
+        body.keyboard-active {
+        max-height:25rem;
+        background-color: green
+        }
+
         .console_container{
         margin-top: 0.5rem;
         font-size:3rem;
@@ -92,13 +97,16 @@ block head
 
 
         @media screen and (max-width: 75rem) {
-        body{
-        overflow-y: hidden;
-        overflow-x: hidden;
+        html,
+        body,
+        .main{
+        overflow: hidden;
         }
         }
         @media only screen and (max-width: 37.5rem) {
-        html{
+         html,
+        body,
+        .main{
         overflow: hidden;
         }
         .options_column {
