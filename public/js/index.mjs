@@ -125,9 +125,10 @@ const wrongAnswerReturned = () => {
     showBorder();
     clearInterval(intervalTimer);
     clearTimeout(responseTimer);
-    sendResultAndUpdate(false);
-    clearInterval(sessionTimer);
-    form.value = '';
+    sendResultAndUpdate(false).then(() => {
+      clearInterval(sessionTimer);
+      form.value = '';
+    });
   }
 };
 
@@ -470,15 +471,16 @@ if (form)
       // If the answer is right
       if (answerAccepted(solutions, form.value)) {
         showPop('correct', level);
-        sendResultAndUpdate(true);
-        startTheFormTimer(timeUp);
-        clearInterval(sessionTimer);
-        sessionTimer = setInterval(
-          updateSessionTimerDisplay,
-          100,
-        );
-        form.value = '';
-        speakText();
+        sendResultAndUpdate(true).then(() => {
+          startTheFormTimer(timeUp);
+          clearInterval(sessionTimer);
+          sessionTimer = setInterval(
+            updateSessionTimerDisplay,
+            100,
+          );
+          form.value = '';
+          speakText();
+        });
 
         // If the answer is wrong
       } else {
