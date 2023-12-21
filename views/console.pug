@@ -5,23 +5,17 @@ mixin listEntry(_id, fontSize, text, opacity, classname)
 
 block head
     style(type='text/css').
-        body.keyboard-active {
-        max-height:25rem;
-        background-color: green
-        }
-        
         .console_container{
-        margin-top: 0.5rem;
         font-size:3rem;
         }
         #racetrack {
         user-select: none;
-        margin-bottom: 0%;
+        margin-bottom: 0;
         }
 
         #tail {
         user-select: none;
-        margin-top: 0%;
+        margin-top: 0;
         max-width:100%;
         }
         .hide_of{
@@ -30,6 +24,7 @@ block head
         }
 
         #formx {
+        z-index=1000;
         margin: 0.5rem 0;
         position: relative;
         }
@@ -66,7 +61,7 @@ block head
         margin: 0 0.5em;
         }
         .st:not(:last-child){
-            margin-right: 0.3em;
+        margin-right: 0.3em;
         }
         .point {
         background-color: hsl(0, 0%, 100%);
@@ -124,11 +119,13 @@ block head
         .main{
         overflow: hidden;
         }
-        .racetrack {
+        .racetrack, 
+        .hidetails
+        {
         position: fixed;
-        z-index=-1;
+        z-index=1;
         visibility: hidden;
-        
+        top:0;
         }
         .stats_container{
         display: flex;
@@ -161,6 +158,20 @@ block head
         }
         .bigAndBold {
         font-size: 1.25rem!important;
+        }
+        #attempt {
+        width: 16rem!important;
+        }
+        #formx{
+        margin: 0 0!important;
+        z-index: 1000;
+        }
+        body{
+        min-height:0;
+        height:100%;
+        }
+        html {
+        background: #1b1b1b;
         }
         }
 
@@ -202,8 +213,9 @@ block content
             input#attempt(autocomplete="off", value='')
             div#border
         span#tail.hide_of.console_container
-            -for (let i = 0; i<=3; ++i)
-                +listEntry(`te${i}`,Math.pow(0.8,-i-1),data.tail[i],1 / Math.pow(1.7, i),"tails")
+            p(class='tails', id=`te0`, translate = "no", style=`font-size: 1em; \n opacity: ${1/1.7}`)
+            -for (let i = 1; i<=3; ++i)
+                +listEntry(`te${i}`,Math.pow(0.8,-i-1),data.tail[i],1 / Math.pow(1.7, i+1),"tails  hidetails")
         span.outlined.console_container
             p(style='visibility: hidden', id='solutions')= JSON.stringify(data.attempt.solutions)
             p(style='visibility: hidden', id='tries')= data.tries
