@@ -9,7 +9,7 @@ block head
         max-height:25rem;
         background-color: green
         }
-
+        
         .console_container{
         margin-top: 0.5rem;
         font-size:3rem;
@@ -44,15 +44,30 @@ block head
         font-size: 1em;
         background-color: #000000;
         text-align: center;
-        width: 23rem;
+        width: 22rem;
         border: none;
         outline: none;
         margin: 0 0;
         border-radius: 15px;
         }
 
-
-
+        .stats_container{
+        width:100%;
+        display: flex;
+        align-items: right;
+        justify-content: right;
+        }
+        .stats_row, .stat{
+        margin-top: 1rem;
+        display: flex;
+        flex-direction: row;
+        }
+        .stat{
+        margin: 0 0.5em;
+        }
+        .st:not(:last-child){
+            margin-right: 0.3em;
+        }
         .point {
         background-color: hsl(0, 0%, 100%);
         position: absolute;
@@ -65,12 +80,11 @@ block head
         }
 
         .options_column {
-            margin-top: 0.5rem;
+        margin-top: 0.5rem;
         position: absolute;
         right: 1rem;
         display: flex;
         flex-direction: column;
-        
         }
 
 
@@ -81,6 +95,7 @@ block head
         height: 5.5rem;
         margin-bottom: 0.5rem;
         display: flex;
+        flex-direction: column;
         justify-content: center;
         align-items: center;
         margin-left: auto;
@@ -109,53 +124,61 @@ block head
         .main{
         overflow: hidden;
         }
+        .racetrack {
+        position: fixed;
+        z-index=-1;
+        visibility: hidden;
+        
+        }
+        .stats_container{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        }
+        .options_container {
+        z-index: 1000;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        }
         .options_column {
-        right: 0.25rem!important;
+        margin-top: 0.25rem;
+        flex-direction: row!important;
+        position: static!important;
         }
-        .block{
+
+        .block {
         border-radius: 0.5rem!important;
-        }
-        .block:not(:first-child) {
         width: 2.75rem!important;
         height: 2.75rem!important;
         margin-bottom: 0.25rem!important;
+        margin-left: 0.5rem;
+        margin-right: 0.5rem;
         }
+
         .o_icon{
         width: 2rem!important;
         }
         .bigAndBold {
         font-size: 1.25rem!important;
         }
-        #attempt {
-        width: 13rem!important;
-        font-size: 2.5rem!important;
-        }
-        #formx{
-        margin: 0!important;
-        }
-        .options_container {
-        height: 0!important;
-        min-height:0!important;
-        }
-        .console_container{
-        font-size: 2.5rem;
-        }
         }
 
 block content
     main.main.top
+        div.stats_container
+            div.stats_row
+                div.stat
+                    p.st due
+                    p.st#due= data.stats.due
+                div.stat
+                    p.st.small steps
+                    p.st#steps= data.stats.steps
+                div.stat
+                    p.st.small time
+                    p.st#timeplaying= data.stats.time
         div.options_container
             div.options_column
-                table#stats.block
-                    tr 
-                        td.leftcolumn due
-                        td#due.rightcolumn=data.stats.due
-                    tr 
-                        td.leftcolumn steps
-                        td#steps.rightcolumn=data.stats.steps
-                    tr 
-                        td.leftcolumn time
-                        td#timeplaying.rightcolumn=data.stats.time
                 div#soundBox.block
                     if(data.sound)
                         img#sound.o_icon(src=`/img/soundOn.png`)
@@ -172,8 +195,9 @@ block content
                     else
                         div#timer1020.bigAndBold 20s
         span#racetrack.console_container
-            -for (let i = 4; i >= 0; --i)
-                +listEntry(`rc${i}`,Math.pow(0.8,i),data.raceTrack[i],1,"")
+            -for (let i = 4; i >= 1; --i)
+                +listEntry(`rc${i}`,Math.pow(0.8,i),data.raceTrack[i],1,"racetrack")
+            p(id=`rc0`, translate = "no", style=`font-size: 1em; \n opacity: 1`)= data.raceTrack[0]
         form#formx.console_container
             input#attempt(autocomplete="off", value='')
             div#border
