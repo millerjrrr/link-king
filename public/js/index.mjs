@@ -671,27 +671,29 @@ if (searchform) {
 ///////////////////////////////////////////////////////////////////
 ///// Handling Keyboard Visibility for Phones and Tablets
 
-// function handleKeyboardVisibility() {
-//   const body = document.body;
+const applyStyles = () => {
+  document
+    .querySelector('header')
+    .classList.add('apply-styles-A');
+  document
+    .getElementsByClassName('logo_container')[0]
+    .classList.add('apply-styles-B');
+  document
+    .getElementsByClassName('filler_block')[0]
+    .classList.add('apply-styles-B');
+};
 
-//   // Check if the viewport height changes
-//   const initialHeight = window.innerHeight;
-//   window.addEventListener('resize', () => {
-//     const currentHeight = window.innerHeight;
+const removeStyles = () => {
+  document
+    .querySelector('header')
+    .classList.remove('apply-styles-A');
+  document
+    .getElementsByClassName('logo_container')[0]
+    .classList.remove('apply-styles-B');
+  document
+    .getElementsByClassName('filler_block')[0]
+    .classList.remove('apply-styles-B');
+};
 
-//     // If the height decreases, the keyboard is likely active
-//     if (currentHeight < initialHeight) {
-//       body.classList.add('keyboard-active');
-//       document.documentElement.style.height = '25rem';
-//     } else {
-//       body.classList.remove('keyboard-active');
-//       document.documentElement.style.height = '100%';
-//     }
-//   });
-// }
-
-// // Run the function when the document is ready
-// document.addEventListener(
-//   'DOMContentLoaded',
-//   handleKeyboardVisibility,
-// );
+form.addEventListener('click', applyStyles);
+form.addEventListener('blur', removeStyles);
