@@ -681,6 +681,10 @@ const applyStyles = () => {
   document
     .getElementsByClassName('filler_block')[0]
     .classList.add('apply-styles-B');
+  window.scrollTo({
+    top: 0,
+    behavior: 'auto',
+  });
 };
 
 const removeStyles = () => {
@@ -695,5 +699,7 @@ const removeStyles = () => {
     .classList.remove('apply-styles-B');
 };
 
-form.addEventListener('click', applyStyles);
-form.addEventListener('blur', removeStyles);
+if (form) {
+  form.addEventListener('click', applyStyles);
+  form.addEventListener('blur', removeStyles);
+}
