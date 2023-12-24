@@ -462,30 +462,32 @@ function drawFormBorder() {
 ////////////////////////////////////////////////////////////////////
 // Console Functionality
 // 1) Loading the page and drawing the console
-
+let listenForEnter = true;
 //  c) Add the EnterKey functionality
 if (form)
   form.addEventListener('keydown', async (e) => {
     if (e.key == 'Enter') {
       e.preventDefault();
-      // If the answer is right
-      if (answerAccepted(solutions, form.value)) {
-        showPop('correct', level);
-        sendResultAndUpdate(true).then(() => {
-          startTheFormTimer(timeUp);
-          clearInterval(sessionTimer);
-          sessionTimer = setInterval(
-            updateSessionTimerDisplay,
-            100,
-          );
-          form.value = '';
-          speakText();
-        });
+      if (listenForEnter) {
+        // If the answer is right
+        if (answerAccepted(solutions, form.value)) {
+          listenForEnter = false;
+          showPop('correct', level);
+          sendResultAndUpdate(true).then(() => {
+            startTheFormTimer(timeUp);
+            clearInterval(sessionTimer);
+            sessionTimer = setInterval(
+              updateSessionTimerDisplay,
+              100,
+            );
+            form.value = '';
+            listenForEnter = true;
+          });
 
-        // If the answer is wrong
-      } else {
-        wrongAnswerReturned();
-        speakText();
+          // If the answer is wrong
+        } else {
+          wrongAnswerReturned();
+        }
       }
     }
   });
@@ -582,7 +584,6 @@ if (form) {
   drawFormBorder();
   updateColor();
   updateSessionTimerDisplay();
-  speakText(raceTrack[0].innerText);
 }
 
 ////////////////////////////////////////////////////////////////////
@@ -672,6 +673,7 @@ if (searchform) {
 ///// Handling Keyboard Visibility for Phones and Tablets
 
 const applyStyles = () => {
+  speakText(raceTrack[0].innerText);
   document
     .querySelector('header')
     .classList.add('apply-styles-A');

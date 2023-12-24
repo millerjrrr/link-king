@@ -21,6 +21,8 @@ exports.wrongAnswer = async (req, gd) => {
       50 +
       Math.random() * 100,
   );
+  // console.log(lookUpRank);
+
   lookUpRank = lookUpRank < 0 ? 0 : lookUpRank;
   lookUpRank =
     lookUpRank > dictionarySize
@@ -118,6 +120,8 @@ exports.correctAnswer = async (req, gd) => {
       50 +
       Math.random() * 100,
   );
+  // console.log(lookUpRank);
+
   lookUpRank = lookUpRank < 0 ? 0 : lookUpRank;
   lookUpRank =
     lookUpRank > dictionarySize

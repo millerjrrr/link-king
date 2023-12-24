@@ -3,11 +3,9 @@ import { elt, normalize } from './consoleFunctions.mjs';
 import { showAlert, showDicAlert } from './alerts.mjs';
 
 export const searchAndUpdate = async (pattern) => {
-  const normpattern = normalize(pattern);
-
   try {
     const res = await axios.get(
-      `/api/v1/dictionary?pattern=^${normpattern}`,
+      `/api/v1/dictionary?pattern=^${pattern}`,
     );
     const table = document.getElementById(
       'dictionarytable',
