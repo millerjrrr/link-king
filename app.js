@@ -22,6 +22,17 @@ const ticketRouter = require('./routes/ticketRoutes');
 
 const app = express();
 
+app.use((req, res, next) => {
+  const host = req.get('host');
+  if (host === 'linkoking.com') {
+    return res.redirect(
+      301,
+      `https://www.linkoking.com${req.originalUrl}`,
+    );
+  }
+  next();
+});
+
 // Setting the views engine
 app.set('view engine', 'pug');
 app.set('views', path.join(__dirname, 'views'));
