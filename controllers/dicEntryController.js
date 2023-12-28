@@ -1,15 +1,13 @@
 const {
-  DicEntryPersonal,
-  DicEntryBrazil,
-} = require('../models/dicEntryModel');
+  selectorDicEntry,
+} = require('../utils/dictionarySelectors');
 const catchAsync = require('../utils/catchAsync');
 const APIFeatures = require('../utils/apiFeatures');
 
 exports.getAll = catchAsync(async (req, res, next) => {
-  let DicEntry;
-  if (req.user.language.dictionary === 'Personal')
-    DicEntry = DicEntryPersonal;
-  else DicEntry = DicEntryBrazil;
+  const DicEntry = selectorDicEntry(
+    req.user.language.dictionary,
+  );
 
   //EXECUTE QUERY
   const features = new APIFeatures(

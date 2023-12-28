@@ -49,7 +49,7 @@ const userSchema = new mongoose.Schema({
     default: {
       source: 'pt-BR',
       target: 'en-US',
-      dictionary: 'Brazil1',
+      dictionary: 'Brazil',
     },
   },
   gdID: {

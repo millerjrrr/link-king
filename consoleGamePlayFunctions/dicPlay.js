@@ -1,25 +1,20 @@
 const jStat = require('jstat');
 const GameData = require('../models/gameDataModel');
-const {
-  DicEntryPersonal,
-  DicEntryBrazil,
-} = require('../models/dicEntryModel');
-const {
-  TicketPersonal,
-  TicketBrazil,
-} = require('../models/ticketModel');
 const dateToNumberStyleDate = require('../utils/dateToNumberStyleDate');
 const calculateEloRating = require('./calculateEloRating');
+const {
+  selectorDicEntry,
+  selectorTicket,
+} = require('../utils/dictionarySelectors');
 
 exports.wrongAnswer = async (req, gd) => {
-  let DicEntry, Ticket;
-  if (req.user.language.dictionary === 'Personal') {
-    DicEntry = DicEntryPersonal;
-    Ticket = TicketPersonal;
-  } else {
-    DicEntry = DicEntryBrazil;
-    Ticket = TicketBrazil;
-  }
+  const DicEntry = selectorDicEntry(
+    req.user.language.dictionary,
+  );
+  const Ticket = selectorTicket(
+    req.user.language.dictionary,
+  );
+
   const newUserRating = calculateEloRating.loser(
     gd.dicWord.rating,
     gd.rating,
@@ -82,8 +77,6 @@ exports.wrongAnswer = async (req, gd) => {
     select: 'target solutions',
   });
 
-  console.log(ticket);
-
   // Modify the structure of the retrieved documents
   const newRepeat = {
     id: ticket._id,
@@ -121,12 +114,9 @@ exports.wrongAnswer = async (req, gd) => {
 };
 
 exports.correctAnswer = async (req, gd) => {
-  let DicEntry; //Ticket not required
-  if (req.user.language.dictionary === 'Personal') {
-    DicEntry = DicEntryPersonal;
-  } else {
-    DicEntry = DicEntryBrazil;
-  }
+  const DicEntry = selectorDicEntry(
+    req.user.language.dictionary,
+  );
 
   const newUserRating = calculateEloRating.winner(
     gd.rating,

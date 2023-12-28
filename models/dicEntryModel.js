@@ -48,5 +48,5 @@ exports.DicEntryPersonal = mongoose.model(
 exports.DicEntryBrazil = mongoose.model(
   'DicEntryBrazil',
   dicEntrySchema,
-  'Dictionary (Brazil1)',
+  'Dictionary (Brazil)',
 );

@@ -56,7 +56,7 @@ const gameDataSchema = new mongoose.Schema({
   },
   dictionary: {
     type: String,
-    default: 'Personal',
+    default: 'Brazil',
   },
   footsteprank: {
     type: Number,

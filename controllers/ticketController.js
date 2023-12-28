@@ -3,25 +3,19 @@
 const mongoose = require('mongoose');
 const GameData = require('../models/gameDataModel');
 const {
-  DicEntryPersonal,
-  DicEntryBrazil,
-} = require('../models/dicEntryModel');
-const {
-  TicketPersonal,
-  TicketBrazil,
-} = require('../models/ticketModel');
+  selectorDicEntry,
+  selectorTicket,
+} = require('../utils/dictionarySelectors');
 const catchAsync = require('../utils/catchAsync');
 const dateToNumberStyleDate = require('../utils/dateToNumberStyleDate');
 
 exports.createOne = catchAsync(async (req, res) => {
-  let DicEntry, Ticket;
-  if (req.user.language.dictionary === 'Personal') {
-    DicEntry = DicEntryPersonal;
-    Ticket = TicketPersonal;
-  } else {
-    DicEntry = DicEntryBrazil;
-    Ticket = TicketBrazil;
-  }
+  const DicEntry = selectorDicEntry(
+    req.user.language.dictionary,
+  );
+  const Ticket = selectorTicket(
+    req.user.language.dictionary,
+  );
 
   const dicWord = await DicEntry.findOne({
     target: req.body.target,
@@ -74,12 +68,9 @@ exports.createOne = catchAsync(async (req, res) => {
 });
 
 exports.levelTotals = catchAsync(async (req, res) => {
-  let Ticket;
-  if (req.user.language.dictionary === 'Personal') {
-    Ticket = TicketPersonal;
-  } else {
-    Ticket = TicketBrazil;
-  }
+  const Ticket = selectorTicket(
+    req.user.language.dictionary,
+  );
 
   const usergdID = new mongoose.Types.ObjectId(
     req.user.gdID,

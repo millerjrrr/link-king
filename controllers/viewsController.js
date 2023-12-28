@@ -3,25 +3,18 @@ const catchAsync = require('../utils/catchAsync');
 const APIFeatures = require('../utils/apiFeatures');
 const GameData = require('../models/gameDataModel');
 const {
-  DicEntryPersonal,
-  DicEntryBrazil,
-} = require('../models/dicEntryModel');
-const {
-  TicketPersonal,
-  TicketBrazil,
-} = require('../models/ticketModel');
+  selectorDicEntry,
+  selectorTicket,
+} = require('../utils/dictionarySelectors');
 
 exports.homePage = (req, res) => {
   res.status(200).render('homepage');
 };
 
 exports.statistics = catchAsync(async (req, res) => {
-  let Ticket;
-  if (req.user.language.dictionary === 'Personal') {
-    Ticket = TicketPersonal;
-  } else {
-    Ticket = TicketBrazil;
-  }
+  const Ticket = selectorTicket(
+    req.user.language.dictionary,
+  );
 
   const usergamedata = await GameData.findOne({
     _id: req.user.gdID,
@@ -70,12 +63,9 @@ exports.console = catchAsync(async (req, res) => {
 });
 
 exports.dictionary = catchAsync(async (req, res) => {
-  let DicEntry; //Ticket not required
-  if (req.user.language.dictionary === 'Personal') {
-    DicEntry = DicEntryPersonal;
-  } else {
-    DicEntry = DicEntryBrazil;
-  }
+  const DicEntry = selectorDicEntry(
+    req.user.language.dictionary,
+  );
 
   const features = new APIFeatures(
     DicEntry.find(),

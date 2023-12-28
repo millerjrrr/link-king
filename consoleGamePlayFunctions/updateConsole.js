@@ -1,8 +1,7 @@
 const GameData = require('../models/gameDataModel');
 const {
-  TicketPersonal,
-  TicketBrazil,
-} = require('../models/ticketModel');
+  selectorTicket,
+} = require('../utils/dictionarySelectors');
 const AppError = require('../utils/appError');
 const catchAsync = require('../utils/catchAsync');
 const dateToNumberStyleDate = require('../utils/dateToNumberStyleDate');
@@ -25,12 +24,9 @@ exports.loadConsolePage = catchAsync(async (req, res) => {
 });
 
 const newDayUpdate = async (user) => {
-  let Ticket;
-  if (user.language.dictionary === 'Personal') {
-    Ticket = TicketPersonal;
-  } else {
-    Ticket = TicketBrazil;
-  }
+  const Ticket = selectorTicket(
+    req.user.language.dictionary,
+  );
 
   const filter = {
     userGDProfile: user.gdID,
@@ -52,8 +48,6 @@ const newDayUpdate = async (user) => {
     .sort('level')
     .lean(); // Use lean() to get plain JavaScript objects instead of Mongoose documents
 
-  console.log(dueToday);
-
   // Modify the structure of the retrieved documents
   const modifiedResults = dueToday.map((ticket) => ({
     id: ticket._id,
@@ -61,8 +55,6 @@ const newDayUpdate = async (user) => {
     solutions: ticket.dicEntry.solutions,
     level: ticket.level,
   }));
-
-  console.log(modifiedResults);
 
   const gd = await GameData.findOneAndUpdate(
     { _id: user.gdID },

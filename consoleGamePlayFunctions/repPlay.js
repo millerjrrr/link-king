@@ -1,17 +1,13 @@
 const GameData = require('../models/gameDataModel');
 const {
-  TicketPersonal,
-  TicketBrazil,
-} = require('../models/ticketModel');
+  selectorTicket,
+} = require('../utils/dictionarySelectors');
 const dateToNumberStyleDate = require('../utils/dateToNumberStyleDate');
 
 exports.correctAnswer = async (req, gd) => {
-  let Ticket;
-  if (req.user.language.dictionary === 'Personal') {
-    Ticket = TicketPersonal;
-  } else {
-    Ticket = TicketBrazil;
-  }
+  const Ticket = selectorTicket(
+    req.user.language.dictionary,
+  );
 
   const streakTodayPlus =
     gd.streakCurrent >= gd.streakToday ? 1 : 0;
@@ -109,12 +105,9 @@ exports.correctAnswer = async (req, gd) => {
 };
 
 exports.wrongAnswer = async (req, gd) => {
-  let Ticket;
-  if (req.user.language.dictionary === 'Personal') {
-    Ticket = TicketPersonal;
-  } else {
-    Ticket = TicketBrazil;
-  }
+  const Ticket = selectorTicket(
+    req.user.language.dictionary,
+  );
   // Update if attempt is inside repeats
   if (gd.index < gd.repeats.length) {
     if (gd.index > 0) {
