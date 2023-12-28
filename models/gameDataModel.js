@@ -56,7 +56,7 @@ const gameDataSchema = new mongoose.Schema({
   },
   dictionary: {
     type: String,
-    default: 'personal',
+    default: 'Personal',
   },
   footsteprank: {
     type: Number,
@@ -111,7 +111,7 @@ const gameDataSchema = new mongoose.Schema({
 const GameData = mongoose.model(
   'GameData',
   gameDataSchema,
-  'gameData',
+  'User Game Data',
 );
 
 module.exports = GameData;

@@ -1,9 +1,16 @@
-const DicEntry = require('../models/dicEntryModel');
+const {
+  DicEntryPersonal,
+  DicEntryBrazil,
+} = require('../models/dicEntryModel');
 const catchAsync = require('../utils/catchAsync');
 const APIFeatures = require('../utils/apiFeatures');
-const AppError = require('../utils/appError');
 
 exports.getAll = catchAsync(async (req, res, next) => {
+  let DicEntry;
+  if (req.user.language.dictionary === 'Personal')
+    DicEntry = DicEntryPersonal;
+  else DicEntry = DicEntryBrazil;
+
   //EXECUTE QUERY
   const features = new APIFeatures(
     DicEntry.find(),

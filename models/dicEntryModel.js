@@ -39,10 +39,14 @@ const dicEntrySchema = new mongoose.Schema({
   },
 });
 
-const DicEntry = mongoose.model(
-  'DicEntry',
+exports.DicEntryPersonal = mongoose.model(
+  'DicEntryPersonal',
   dicEntrySchema,
-  'Dictionary',
+  'Dictionary (Personal)',
 );
 
-module.exports = DicEntry;
+exports.DicEntryBrazil = mongoose.model(
+  'DicEntryBrazil',
+  dicEntrySchema,
+  'Dictionary (Brazil1)',
+);

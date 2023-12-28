@@ -1,19 +1,30 @@
 const mongoose = require('mongoose');
-const DicEntry = require('../models/dicEntryModel');
 const catchAsync = require('../utils/catchAsync');
 const APIFeatures = require('../utils/apiFeatures');
 const GameData = require('../models/gameDataModel');
-const Ticket = require('../models/ticketModel');
+const {
+  DicEntryPersonal,
+  DicEntryBrazil,
+} = require('../models/dicEntryModel');
+const {
+  TicketPersonal,
+  TicketBrazil,
+} = require('../models/ticketModel');
 
 exports.homePage = (req, res) => {
   res.status(200).render('homepage');
 };
 
 exports.statistics = catchAsync(async (req, res) => {
-  const user = new mongoose.Types.ObjectId(req.user.id);
+  let Ticket;
+  if (req.user.language.dictionary === 'Personal') {
+    Ticket = TicketPersonal;
+  } else {
+    Ticket = TicketBrazil;
+  }
 
   const usergamedata = await GameData.findOne({
-    user,
+    _id: req.user.gdID,
   }).select(
     '-_id -user -kfactor -repeats -index -tail -dicPlay -dicWord -lastPlayed -dictionary -footsteprank -__v',
   );
@@ -21,7 +32,7 @@ exports.statistics = catchAsync(async (req, res) => {
   const levelbreakdown = await Ticket.aggregate([
     {
       $match: {
-        user,
+        userGDProfile: req.user.gdID,
       },
     },
     {
@@ -43,7 +54,7 @@ exports.statistics = catchAsync(async (req, res) => {
   ]);
 
   const wordscollected = await Ticket.countDocuments({
-    user,
+    userGDProfile: req.user.gdID,
   });
 
   res.status(200).render('statistics', {
@@ -59,6 +70,13 @@ exports.console = catchAsync(async (req, res) => {
 });
 
 exports.dictionary = catchAsync(async (req, res) => {
+  let DicEntry; //Ticket not required
+  if (req.user.language.dictionary === 'Personal') {
+    DicEntry = DicEntryPersonal;
+  } else {
+    DicEntry = DicEntryBrazil;
+  }
+
   const features = new APIFeatures(
     DicEntry.find(),
     req.query,

@@ -1,3 +1,4 @@
+const mongoose = require('mongoose');
 const { promisify } = require('util');
 const jwt = require('jsonwebtoken');
 const User = require('../models/userModel');
@@ -49,22 +50,26 @@ const createSendToken = (user, statusCode, res) => {
 };
 
 exports.signup = catchAsync(async (req, res, next) => {
-  const user = await User.create({
+  let user = await User.create({
     username: req.body.username,
     email: req.body.email,
     password: req.body.password,
     passwordConfirm: req.body.passwordConfirm,
   });
 
-  GameData.create({
+  const gd = await GameData.create({
     user: user._id,
-    dueToday: [],
-    repeats: [],
-    index: 0,
   });
 
-  const url = `${req.protocol}://${req.get('host')}/`;
-  await new Email(user, url).sendWelcome();
+  const gdID = await new mongoose.Types.ObjectId(gd._id);
+  user = await User.findOneAndUpdate(
+    { _id: user.id },
+    { gdID },
+    { new: true },
+  );
+
+  //const url = `${req.protocol}://${req.get('host')}/`;
+  // await new Email(user, url).sendWelcome();
 
   createSendToken(user, 201, res);
 });

@@ -44,6 +44,18 @@ const userSchema = new mongoose.Schema({
     default: true,
     select: false,
   },
+  language: {
+    type: Object,
+    default: {
+      source: 'pt-BR',
+      target: 'en-US',
+      dictionary: 'Brazil1',
+    },
+  },
+  gdID: {
+    type: mongoose.Schema.ObjectId,
+    select: true,
+  },
 });
 
 // This middleware encrypts the password and is very important!

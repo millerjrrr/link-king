@@ -1,8 +1,18 @@
 const GameData = require('../models/gameDataModel');
-const Ticket = require('../models/ticketModel');
+const {
+  TicketPersonal,
+  TicketBrazil,
+} = require('../models/ticketModel');
 const dateToNumberStyleDate = require('../utils/dateToNumberStyleDate');
 
 exports.correctAnswer = async (req, gd) => {
+  let Ticket;
+  if (req.user.language.dictionary === 'Personal') {
+    Ticket = TicketPersonal;
+  } else {
+    Ticket = TicketBrazil;
+  }
+
   const streakTodayPlus =
     gd.streakCurrent >= gd.streakToday ? 1 : 0;
 
@@ -20,8 +30,8 @@ exports.correctAnswer = async (req, gd) => {
       gd.index + 1 === gd.repeats.length;
 
     // Update game data
-    const doc = await GameData.findOneAndUpdate(
-      { user: req.user.id },
+    await GameData.findOneAndUpdate(
+      { _id: req.user.gdID },
       {
         dicPlay,
         tail: gd.tail,
@@ -76,7 +86,7 @@ exports.correctAnswer = async (req, gd) => {
     const dicPlay = gd.dueToday.length === 0;
     // Update game data
     await GameData.findOneAndUpdate(
-      { user: req.user.id },
+      { _id: req.user.gdID },
       {
         dicPlay,
         dueToday: gd.dueToday,
@@ -99,6 +109,12 @@ exports.correctAnswer = async (req, gd) => {
 };
 
 exports.wrongAnswer = async (req, gd) => {
+  let Ticket;
+  if (req.user.language.dictionary === 'Personal') {
+    Ticket = TicketPersonal;
+  } else {
+    Ticket = TicketBrazil;
+  }
   // Update if attempt is inside repeats
   if (gd.index < gd.repeats.length) {
     if (gd.index > 0) {
@@ -111,8 +127,8 @@ exports.wrongAnswer = async (req, gd) => {
       // Update the index
     }
     // Update game data
-    const doc = await GameData.findOneAndUpdate(
-      { user: req.user.id },
+    await GameData.findOneAndUpdate(
+      { _id: req.user.gdID },
       {
         index: 0,
         streakCurrent: 0,
@@ -150,7 +166,7 @@ exports.wrongAnswer = async (req, gd) => {
     gd.dueToday.shift();
     // Update game data
     await GameData.findOneAndUpdate(
-      { user: req.user.id },
+      { _id: req.user.gdID },
       {
         index: 0,
         streakCurrent: 0,

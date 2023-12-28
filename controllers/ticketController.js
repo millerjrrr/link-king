@@ -1,22 +1,38 @@
+// Used for the dictionary tab - IMPORTANT
+
 const mongoose = require('mongoose');
 const GameData = require('../models/gameDataModel');
-const DicEntry = require('../models/dicEntryModel');
-const Ticket = require('../models/ticketModel');
+const {
+  DicEntryPersonal,
+  DicEntryBrazil,
+} = require('../models/dicEntryModel');
+const {
+  TicketPersonal,
+  TicketBrazil,
+} = require('../models/ticketModel');
 const catchAsync = require('../utils/catchAsync');
 const dateToNumberStyleDate = require('../utils/dateToNumberStyleDate');
 
-exports.createOne = catchAsync(async (req, res, next) => {
+exports.createOne = catchAsync(async (req, res) => {
+  let DicEntry, Ticket;
+  if (req.user.language.dictionary === 'Personal') {
+    DicEntry = DicEntryPersonal;
+    Ticket = TicketPersonal;
+  } else {
+    DicEntry = DicEntryBrazil;
+    Ticket = TicketBrazil;
+  }
+
   const dicWord = await DicEntry.findOne({
     target: req.body.target,
   });
 
   // Updating the userrating will be implemented later
   // const newUserRating = calculateEloRating.winner(gd.rating, gd.dicWord.rating, gd.kfactor);
-  const userId = req.user.id;
 
   const ticket = await Ticket.findOneAndUpdate(
     {
-      user: userId,
+      userGDProfile: req.user.gdID,
       dicEntry: dicWord.id,
     },
     {
@@ -41,7 +57,7 @@ exports.createOne = catchAsync(async (req, res, next) => {
   };
 
   await GameData.findOneAndUpdate(
-    { user: userId },
+    { _id: req.user.gdID },
     { $addToSet: { dueToday: dueTodayPush } },
     { new: true, upsert: true },
   )
@@ -55,16 +71,24 @@ exports.createOne = catchAsync(async (req, res, next) => {
         status: 'error',
       });
     });
-  // next();
 });
 
-exports.levelTotals = catchAsync(async (req, res, next) => {
-  const userId = new mongoose.Types.ObjectId(req.user.id);
+exports.levelTotals = catchAsync(async (req, res) => {
+  let Ticket;
+  if (req.user.language.dictionary === 'Personal') {
+    Ticket = TicketPersonal;
+  } else {
+    Ticket = TicketBrazil;
+  }
+
+  const usergdID = new mongoose.Types.ObjectId(
+    req.user.gdID,
+  );
 
   const results = await Ticket.aggregate([
     {
       $match: {
-        user: userId,
+        userGDProfile: usergdID,
       }, // Filter the documents based on the criteria
     },
     {

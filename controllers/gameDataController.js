@@ -6,9 +6,8 @@ const repPlay = require('../consoleGamePlayFunctions/repPlay');
 exports.attemptHandler = catchAsync(
   async (req, res, next) => {
     const gd = await GameData.findOne({
-      user: req.user.id,
+      _id: req.user.gdID,
     });
-
     // Correct answer + Dictionary Play
     if (req.body.correct && gd.dicPlay)
       await dicPlay.correctAnswer(req, gd);
@@ -29,7 +28,7 @@ exports.updateGameSettings = catchAsync(
   async (req, res, next) => {
     await GameData.findOneAndUpdate(
       {
-        user: req.user.id,
+        _id: req.user.gdID,
       },
       {
         sound: req.body.sound,

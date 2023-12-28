@@ -1,11 +1,25 @@
 const jStat = require('jstat');
 const GameData = require('../models/gameDataModel');
-const DicEntry = require('../models/dicEntryModel');
-const Ticket = require('../models/ticketModel');
+const {
+  DicEntryPersonal,
+  DicEntryBrazil,
+} = require('../models/dicEntryModel');
+const {
+  TicketPersonal,
+  TicketBrazil,
+} = require('../models/ticketModel');
 const dateToNumberStyleDate = require('../utils/dateToNumberStyleDate');
 const calculateEloRating = require('./calculateEloRating');
 
 exports.wrongAnswer = async (req, gd) => {
+  let DicEntry, Ticket;
+  if (req.user.language.dictionary === 'Personal') {
+    DicEntry = DicEntryPersonal;
+    Ticket = TicketPersonal;
+  } else {
+    DicEntry = DicEntryBrazil;
+    Ticket = TicketBrazil;
+  }
   const newUserRating = calculateEloRating.loser(
     gd.dicWord.rating,
     gd.rating,
@@ -52,7 +66,7 @@ exports.wrongAnswer = async (req, gd) => {
 
   const ticket = await Ticket.findOneAndUpdate(
     {
-      user: req.user.id,
+      userGDProfile: req.user.gdID,
       dicEntry: gd.dicWord.id,
     },
     {
@@ -64,9 +78,11 @@ exports.wrongAnswer = async (req, gd) => {
       new: true,
     },
   ).populate({
-    path: 'dicEntry',
+    path: 'dicEntry', //potential issue
     select: 'target solutions',
   });
+
+  console.log(ticket);
 
   // Modify the structure of the retrieved documents
   const newRepeat = {
@@ -79,7 +95,7 @@ exports.wrongAnswer = async (req, gd) => {
   gd.repeats.unshift(newRepeat);
   // Update GameData with new DicWord and DicPlay
   await GameData.findOneAndUpdate(
-    { user: req.user.id },
+    { _id: req.user.gdID },
     {
       index: 0,
       repeats: gd.repeats.slice(0, 5),
@@ -105,6 +121,13 @@ exports.wrongAnswer = async (req, gd) => {
 };
 
 exports.correctAnswer = async (req, gd) => {
+  let DicEntry; //Ticket not required
+  if (req.user.language.dictionary === 'Personal') {
+    DicEntry = DicEntryPersonal;
+  } else {
+    DicEntry = DicEntryBrazil;
+  }
+
   const newUserRating = calculateEloRating.winner(
     gd.rating,
     gd.dicWord.rating,
@@ -163,7 +186,7 @@ exports.correctAnswer = async (req, gd) => {
   gd.tail.unshift(gd.dicWord.target);
   // Update GameData with new DicWord and DicPlay
   await GameData.findOneAndUpdate(
-    { user: req.user.id },
+    { _id: req.user.gdID },
     {
       dicPlay: true,
       dicWord: modifiedResult,

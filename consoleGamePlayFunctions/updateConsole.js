@@ -1,22 +1,23 @@
 const GameData = require('../models/gameDataModel');
-const Ticket = require('../models/ticketModel');
+const {
+  TicketPersonal,
+  TicketBrazil,
+} = require('../models/ticketModel');
 const AppError = require('../utils/appError');
 const catchAsync = require('../utils/catchAsync');
 const dateToNumberStyleDate = require('../utils/dateToNumberStyleDate');
 
-exports.sendGameState = catchAsync(
-  async (req, res, next) => {
-    const data = await updateGDAndReturnData(req.user.id);
+exports.sendGameState = catchAsync(async (req, res) => {
+  const data = await updateGDAndReturnData(req.user);
 
-    res.status(200).json({
-      status: 'success',
-      data,
-    });
-  },
-);
+  res.status(200).json({
+    status: 'success',
+    data,
+  });
+});
 
 exports.loadConsolePage = catchAsync(async (req, res) => {
-  let data = await updateGDAndReturnData(req.user.id);
+  let data = await updateGDAndReturnData(req.user);
   res.status(200).render('console', {
     title: 'Console',
     data,
@@ -24,15 +25,24 @@ exports.loadConsolePage = catchAsync(async (req, res) => {
 });
 
 const newDayUpdate = async (user) => {
+  let Ticket;
+  if (user.language.dictionary === 'Personal') {
+    Ticket = TicketPersonal;
+  } else {
+    Ticket = TicketBrazil;
+  }
+
   const filter = {
-    user,
+    userGDProfile: user.gdID,
     dueDate: {
       $lte: dateToNumberStyleDate(Date.now()),
     },
   };
 
   const collectedWordsDayStart =
-    await Ticket.countDocuments({ user });
+    await Ticket.countDocuments({
+      userGDProfile: user.gdID,
+    });
 
   const dueToday = await Ticket.find(filter)
     .populate({
@@ -42,6 +52,8 @@ const newDayUpdate = async (user) => {
     .sort('level')
     .lean(); // Use lean() to get plain JavaScript objects instead of Mongoose documents
 
+  console.log(dueToday);
+
   // Modify the structure of the retrieved documents
   const modifiedResults = dueToday.map((ticket) => ({
     id: ticket._id,
@@ -50,8 +62,10 @@ const newDayUpdate = async (user) => {
     level: ticket.level,
   }));
 
+  console.log(modifiedResults);
+
   const gd = await GameData.findOneAndUpdate(
-    { user },
+    { _id: user.gdID },
     {
       dueToday: modifiedResults,
       repeats: [],
@@ -77,7 +91,7 @@ const newDayUpdate = async (user) => {
 
 const updateGDAndReturnData = async (user) => {
   let gd = await GameData.findOne({
-    user,
+    _id: user.gdID,
   });
 
   if (!gd)
