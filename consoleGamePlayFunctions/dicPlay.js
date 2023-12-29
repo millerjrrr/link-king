@@ -1,6 +1,6 @@
-const jStat = require('jstat');
 const GameData = require('../models/gameDataModel');
 const dateToNumberStyleDate = require('../utils/dateToNumberStyleDate');
+const rankSelector = require('../utils/rankSelector');
 const calculateEloRating = require('./calculateEloRating');
 const {
   selectorDicEntry,
@@ -22,21 +22,7 @@ exports.wrongAnswer = async (req, gd) => {
   ); //rating management
   const kfactor = gd.kfactor === 20 ? 20 : gd.kfactor - 1; //rating management
 
-  // New DicWord by Rating
-  const dictionarySize = 3173; //NEEDS TO BE MAINTAINED
-  let lookUpRank = Math.floor(
-    jStat.normal.cdf(newUserRating, 1200, 400) *
-      dictionarySize -
-      50 +
-      Math.random() * 100,
-  );
-  // console.log(lookUpRank);
-
-  lookUpRank = lookUpRank < 0 ? 0 : lookUpRank;
-  lookUpRank =
-    lookUpRank > dictionarySize
-      ? dictionarySize
-      : lookUpRank;
+  const lookUpRank = await rankSelector(gd, newUserRating);
 
   const dicWord = await DicEntry.findOneAndUpdate(
     {
@@ -85,6 +71,9 @@ exports.wrongAnswer = async (req, gd) => {
     level: ticket.level,
   };
 
+  const footsteprankInc =
+    gd.playingMode === 'progressive' ? 1 : 0;
+
   gd.repeats.unshift(newRepeat);
   // Update GameData with new DicWord and DicPlay
   await GameData.findOneAndUpdate(
@@ -97,7 +86,7 @@ exports.wrongAnswer = async (req, gd) => {
       tail: [gd.dicWord.solutions[0]],
       $inc: {
         ratingPlays: 1, //rating management
-        footsteprank: 1,
+        footsteprank: footsteprankInc,
         stepsTakenToday: 1,
         stepsTakenLifetime: 1,
         timePlayingToday: req.body.time,
@@ -125,21 +114,7 @@ exports.correctAnswer = async (req, gd) => {
   ); //rating management
   const kfactor = gd.kfactor === 20 ? 20 : gd.kfactor - 1; //rating management
 
-  // New DicWord by Rating
-  const dictionarySize = 3173; //NEEDS TO BE MAINTAINED
-  let lookUpRank = Math.floor(
-    jStat.normal.cdf(newUserRating, 1200, 400) *
-      dictionarySize -
-      50 +
-      Math.random() * 100,
-  );
-  // console.log(lookUpRank);
-
-  lookUpRank = lookUpRank < 0 ? 0 : lookUpRank;
-  lookUpRank =
-    lookUpRank > dictionarySize
-      ? dictionarySize
-      : lookUpRank;
+  const lookUpRank = await rankSelector(gd, newUserRating);
 
   const dicWord = await DicEntry.findOneAndUpdate(
     {
@@ -173,6 +148,9 @@ exports.correctAnswer = async (req, gd) => {
       ? gd.ratingPeak
       : newUserRating; // rating management
 
+  const footsteprankInc =
+    gd.playingMode === 'progressive' ? 1 : 0;
+
   gd.tail.unshift(gd.dicWord.target);
   // Update GameData with new DicWord and DicPlay
   await GameData.findOneAndUpdate(
@@ -183,7 +161,7 @@ exports.correctAnswer = async (req, gd) => {
       tail: gd.tail.slice(0, 4),
       $inc: {
         ratingPlays: 1, //rating management
-        footsteprank: 1,
+        footsteprank: footsteprankInc,
         streakCurrent: 1,
         streakToday: streakTodayPlus,
         streakRecord: streakRecordPlus,

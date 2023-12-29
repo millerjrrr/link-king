@@ -60,7 +60,7 @@ const gameDataSchema = new mongoose.Schema({
   },
   footsteprank: {
     type: Number,
-    default: 2,
+    default: 1,
   },
   timePlayingLifetime: {
     type: Number,
@@ -105,6 +105,11 @@ const gameDataSchema = new mongoose.Schema({
   blurred: {
     type: Boolean,
     default: false,
+  },
+  playingMode: {
+    type: String,
+    enum: ['ratings', 'progressive'],
+    default: 'progressive',
   },
 });
 

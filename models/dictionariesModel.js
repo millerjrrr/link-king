@@ -13,8 +13,6 @@ const dictionarySchema = new mongoose.Schema({
       true,
       'A dictionary entry must have a source language',
     ],
-    unique: true,
-    trim: true,
   },
   target: {
     type: String,
@@ -22,8 +20,10 @@ const dictionarySchema = new mongoose.Schema({
       true,
       'A dictionary entry must have a target language',
     ],
-    unique: true,
-    trim: true,
+  },
+  size: {
+    type: Number,
+    required: [true, 'A dictionary entry must have a size'],
   },
 });
 
