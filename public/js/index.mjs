@@ -41,7 +41,8 @@ let form = document.getElementById('attempt'),
   timeplayingval,
   solutions,
   tries,
-  level;
+  level,
+  speechLang;
 // settings variables
 if (timeplaying) timeplayingval = timeplaying.innerHTML * 1; //time management
 if (document.getElementById('solutions'))
@@ -52,6 +53,9 @@ if (document.getElementById('tries'))
   tries = document.getElementById('tries').innerHTML;
 if (document.getElementById('level'))
   level = document.getElementById('level').innerHTML;
+if (document.getElementById('speechLang'))
+  speechLang =
+    document.getElementById('speechLang').innerHTML;
 
 if (form) {
   form.style.borderRadius = '15px';
@@ -150,10 +154,10 @@ const updateColor = () => {
   updateBorderColor();
 };
 
-function speakText(text) {
+function speakText(text, language = 'pt-BR') {
   if (soundControl.src.match(`/img/soundOn.png`)) {
     const utterance = new SpeechSynthesisUtterance(text);
-    utterance.lang = 'pt-BR';
+    utterance.lang = language;
     speechSynthesis.speak(utterance);
   }
 }
@@ -166,9 +170,12 @@ const sendResultAndUpdate = async (correct) => {
     );
     time = 0;
     if (res.data.status === 'success') {
-      updateRaceTrackAndStats(res.data);
+      updateRaceTrackAndStats(res.data); // update a language variable
       updateColor();
-      speakText(res.data.data.attempt.target);
+      speakText(
+        res.data.data.attempt.target,
+        res.data.data.speechLang,
+      ); // RETURN TO HERE
     }
   } catch (err) {
     showAlert('error', err);
@@ -198,6 +205,7 @@ const updateRaceTrackAndStats = (res) => {
   for (i = 0; i < 4; ++i)
     tail[i].innerText = res.data.tail[i] || '';
   //updatestats
+  speechLang = res.data.speechLang;
   due.innerText = res.data.stats.due;
   steps.innerText = res.data.stats.steps;
   timeplaying.innerText = `${Math.floor(
@@ -673,7 +681,7 @@ if (searchform) {
 ///// Handling Keyboard Visibility for Phones and Tablets
 
 const applyStyles = () => {
-  speakText(raceTrack[0].innerText);
+  speakText(raceTrack[0].innerText, speechLang);
   document
     .querySelector('header')
     .classList.add('apply-styles-A');

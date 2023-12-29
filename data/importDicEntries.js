@@ -1,7 +1,9 @@
 const fs = require('fs');
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
-const DicEntry = require('../models/dicEntryModel');
+const {
+  DicEntryBrazil,
+} = require('../models/dicEntryModel');
 
 dotenv.config({ path: './config.env' });
 
@@ -17,14 +19,13 @@ mongoose
 
 //READ CSV FILE AND CONVERT TO JSON
 const string = fs.readFileSync(
-  'data/newWords(withRating).csv',
+  'data/brazilDictionary.csv',
   'utf8',
 );
 const array = string
   .split('\n')
   .map((row) => row.split(','));
 const list = [];
-let rank = 10000;
 array.forEach((row) => {
   if (row[1].includes(';', 0) && !row[1].includes('; ', 0))
     throw new Error(
@@ -34,13 +35,13 @@ array.forEach((row) => {
   list.push({
     target: row[0],
     solutions: row[1].split('; '),
-    rating: row[2],
-    rank,
+    rank: row[2],
+    rating: row[3],
   });
-  rank += 1;
 });
 
 const importData = async () => {
+  let DicEntry = DicEntryBrazil;
   try {
     await DicEntry.create(list);
     console.log('Data successfully created!');

@@ -58,10 +58,6 @@ exports.statistics = catchAsync(async (req, res) => {
   });
 });
 
-exports.console = catchAsync(async (req, res) => {
-  res.status(200).render('homepage');
-});
-
 exports.dictionary = catchAsync(async (req, res) => {
   const DicEntry = selectorDicEntry(
     req.user.language.dictionary,

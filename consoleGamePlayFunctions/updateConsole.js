@@ -24,10 +24,7 @@ exports.loadConsolePage = catchAsync(async (req, res) => {
 });
 
 const newDayUpdate = async (user) => {
-  const Ticket = selectorTicket(
-    req.user.language.dictionary,
-  );
-
+  const Ticket = selectorTicket(user.language.dictionary);
   const filter = {
     userGDProfile: user.gdID,
     dueDate: {
@@ -39,7 +36,6 @@ const newDayUpdate = async (user) => {
     await Ticket.countDocuments({
       userGDProfile: user.gdID,
     });
-
   const dueToday = await Ticket.find(filter)
     .populate({
       path: 'dicEntry',
@@ -121,5 +117,6 @@ const updateGDAndReturnData = async (user) => {
       steps: gd.stepsTakenToday,
       time: gd.timePlayingToday,
     },
+    speechLang: user.language.target,
   };
 };

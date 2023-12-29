@@ -44,10 +44,10 @@ const gameDataSchema = new mongoose.Schema({
   dicWord: {
     type: Object,
     default: {
-      id: '655cb33efc432b6a6fac86f4',
-      target: 'queda',
-      solutions: ['fall'],
-      rating: 1200,
+      id: '658da979d693ce462c4999bf',
+      target: 'welcome',
+      solutions: ['bem-vindo'],
+      rating: 490,
     },
   },
   lastPlayed: {
