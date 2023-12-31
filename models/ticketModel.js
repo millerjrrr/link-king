@@ -32,15 +32,22 @@ const ticketSchema = (dictionary) =>
 const ticketSchemaPersonal = ticketSchema(
   'DicEntryPersonal',
 );
-const ticketSchemaBrazil = ticketSchema('DicEntryBrazil');
-
 exports.TicketPersonal = mongoose.model(
   'TicketPersonal',
   ticketSchemaPersonal,
   'Tickets (Personal)',
 );
+
+const ticketSchemaBrazil = ticketSchema('DicEntryBrazil');
 exports.TicketBrazil = mongoose.model(
   'TicketBrazil',
   ticketSchemaBrazil,
   'Tickets (Brazil)',
+);
+
+const ticketSchemaPortBeg = ticketSchema('DicEntryPortBeg');
+exports.TicketPortBeg = mongoose.model(
+  'TicketPortBeg',
+  ticketSchemaPortBeg,
+  'Tickets (PortBeg)',
 );

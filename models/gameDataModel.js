@@ -44,10 +44,10 @@ const gameDataSchema = new mongoose.Schema({
   dicWord: {
     type: Object,
     default: {
-      id: '658da979d693ce462c4999bf',
-      target: 'welcome',
-      solutions: ['bem-vindo'],
-      rating: 490,
+      id: '6591a5db39eacae30ac6265b',
+      target: 'Óla',
+      solutions: ['Hello'],
+      rating: 1200,
     },
   },
   lastPlayed: {
@@ -56,11 +56,11 @@ const gameDataSchema = new mongoose.Schema({
   },
   dictionary: {
     type: String,
-    default: 'Brazil',
+    default: 'PortBeg',
   },
   footsteprank: {
     type: Number,
-    default: 1,
+    default: 2,
   },
   timePlayingLifetime: {
     type: Number,

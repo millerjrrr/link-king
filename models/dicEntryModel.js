@@ -50,3 +50,9 @@ exports.DicEntryBrazil = mongoose.model(
   dicEntrySchema,
   'Dictionary (Brazil)',
 );
+
+exports.DicEntryPortBeg = mongoose.model(
+  'DicEntryPortBeg',
+  dicEntrySchema,
+  'Dictionary (PortBeg)',
+);

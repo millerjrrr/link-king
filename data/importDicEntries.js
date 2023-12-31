@@ -2,7 +2,7 @@ const fs = require('fs');
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 const {
-  DicEntryBrazil,
+  DicEntryPortBeg,
 } = require('../models/dicEntryModel');
 
 dotenv.config({ path: './config.env' });
@@ -19,7 +19,7 @@ mongoose
 
 //READ CSV FILE AND CONVERT TO JSON
 const string = fs.readFileSync(
-  'data/brazilDictionary.csv',
+  'data/portBegDic.csv',
   'utf8',
 );
 const array = string
@@ -36,12 +36,12 @@ array.forEach((row) => {
     target: row[0],
     solutions: row[1].split('; '),
     rank: row[2],
-    rating: row[3],
+    rating: 1200,
   });
 });
 
 const importData = async () => {
-  let DicEntry = DicEntryBrazil;
+  let DicEntry = DicEntryPortBeg;
   try {
     await DicEntry.create(list);
     console.log('Data successfully created!');

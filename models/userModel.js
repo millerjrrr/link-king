@@ -47,9 +47,9 @@ const userSchema = new mongoose.Schema({
   language: {
     type: Object,
     default: {
-      source: 'pt-BR',
-      target: 'en-US',
-      dictionary: 'Brazil',
+      source: 'en-US',
+      target: 'pt-BR',
+      dictionary: 'PortBeg',
     },
   },
   gdID: {
