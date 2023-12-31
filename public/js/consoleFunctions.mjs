@@ -27,10 +27,7 @@ export const normalize = (inputString) => {
     .replace(/[áéíóúàèìòùâêîôûãõñç]/gi, function (matched) {
       return accentsMap[matched];
     })
-    .replace(
-      /['"!@#$%¨&*\[\]\(\)_\-`´\{\}^~<,>.:;?/\+\-\=]/g,
-      '',
-    );
+    .replace(/[^a-zA-Z0-9]/g, '');
 };
 
 export const normAndRemoveSpace = (inputString) => {
